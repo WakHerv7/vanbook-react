@@ -1,0 +1,14 @@
+.content {
+  font-size: 0.8rem;
+  overflow: hidden;
+  max-height: 0px;
+  padding-top: .7rem;
+  color: #667085;
+  transition: all 1s cubic-bezier(0, 2, 0, 2);
+}
+
+.content.show {
+  height: auto;
+  max-height: 9999px;
+  transition: all 1s cubic-bezier(0, 2, 0, 2);
+}

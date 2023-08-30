@@ -1,0 +1,22 @@
+select.commonSelectInput {
+    width: 100%;
+    padding: 10px 10px;
+    margin: 0 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.gray_bg {
+    background: #eee;
+    border: 1px solid #eee;
+}
+
+.commonSelectInputLabel {
+    font-weight: 600;
+    /* color: white; */
+    line-height: 1.2rem;
+}

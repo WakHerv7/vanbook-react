@@ -1,0 +1,32 @@
+
+
+
+input[type=text].commonTextInput,
+input[type=email].commonTextInput,
+input[type=tel].commonTextInput,
+input[type=password].commonTextInput {
+    width: 100%;
+    padding: 10px 10px;
+    margin: 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    /* background: #eee; */
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.gray_bg {
+    background: #eee;
+    border: 1px solid #eee;
+}
+
+.commonTextInputLabel {
+    /* color: white; */
+    font-weight: 600;
+    line-height: 1.2rem;
+}
+/* .commonTextInputLabel span{
+    color: red;
+} */
