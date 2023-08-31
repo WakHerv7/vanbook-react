@@ -95,7 +95,7 @@ function AccountTypesList(props) {
       </tr>
     );
   } else if (accTypesStatus === "succeeded") {
-    renderedAccountTypes = accTypes.map((accType, index) => (
+    renderedAccountTypes = Array.isArray(accTypes) && accTypes.map((accType, index) => (
       <tr key={index} className="table_row_w border border-b-slate-300">
         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
           {index}
