@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ITEMS_URL = process.env.REACT_APP_API_URL+'/school_student_registrations';
@@ -108,7 +108,7 @@ const studentRegistrationsSlice = createSlice({
                     return;
                 }
                 const { id } = action.payload;
-                const updatedIndex = state.studentRegistrations.findIndex(a => a.id == id);
+                const updatedIndex = state.studentRegistrations.findIndex(a => a.id === id);
                 state.studentRegistrations[updatedIndex] = action.payload;
             })
             .addCase(deleteStudentRegistration.fulfilled, (state, action) => {

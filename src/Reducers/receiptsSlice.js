@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, /*nanoid,*/ createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ITEMS_URL = process.env.REACT_APP_API_URL+'/receipts';
@@ -160,7 +160,7 @@ const receiptsSlice = createSlice({
                     return;
                 }
                 const { id } = action.payload;
-                const updatedIndex = state.receipts.findIndex(a => a.id == id);
+                const updatedIndex = state.receipts.findIndex(a => a.id === id);
                 state.receipts[updatedIndex] = action.payload;
             })
             .addCase(updateSomeReceipts.fulfilled, (state, action) => {

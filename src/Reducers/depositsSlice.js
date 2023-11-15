@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, /*nanoid,*/ createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ITEMS_URL = process.env.REACT_APP_API_URL+'/deposits';
@@ -116,7 +116,7 @@ const depositsSlice = createSlice({
                     return;
                 }
                 const { id } = action.payload;
-                const updatedIndex = state.deposits.findIndex(a => a.id == id);
+                const updatedIndex = state.deposits.findIndex(a => a.id === id);
                 state.deposits[updatedIndex] = action.payload;
             })
             .addCase(updateSomeDeposits.fulfilled, (state, action) => {

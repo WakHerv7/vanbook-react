@@ -51,7 +51,6 @@ const rootReducer = combineReducers({
   debtors: debtorsReducer,
   deposits:depositsReducer,
   invoices:invoicesReducer,
-  invoices:invoicesReducer,
   receivedPayments: receivedPaymentsReducer,
   bills:billsReducer,
   paidBills: paidBillsReducer,

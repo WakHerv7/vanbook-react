@@ -90,7 +90,7 @@ const Footer = () => {
       <div className="py-6">
         <div className="w-[85%] mx-auto text-[#98A2B3] flex justify-between">
           <span className="text-[.9rem]">
-            © 2022 Untitled UI. All rights reserved.
+            © 2023 Tech64. All rights reserved.
           </span>
 
           <div className="flex gap-4">

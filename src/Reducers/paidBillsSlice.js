@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, /*nanoid,*/ createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ITEMS_URL = process.env.REACT_APP_API_URL+'/receive_payments';
@@ -116,7 +116,7 @@ const paidBillsSlice = createSlice({
                     return;
                 }
                 const { id } = action.payload;
-                const updatedIndex = state.paidBills.findIndex(a => a.id == id);
+                const updatedIndex = state.paidBills.findIndex(a => a.id === id);
                 state.paidBills[updatedIndex] = action.payload;
             })
             .addCase(updateSomePaidBills.fulfilled, (state, action) => {

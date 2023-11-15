@@ -156,18 +156,16 @@ const Testimonials = () => {
       {/* Swiper end */}
 
       <div className="w-[85%] mx-auto pt-[10rem] pb-16">
-        <div className="flex flex-col text-center gap-4">
-          <span className="text-[#6941C6] py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[.9rem]">
+        <div className="flex flex-col text-center gap-4 ">
+          <span className="text-[#2E2F5B] font-semibold py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[.9rem]">
             Features
           </span>
-          <span className="mb-3 font-medium text-[1.5rem] text-[#101828]">
-            Cutting-edge features for advanced analytics
+          <span className="-mb-1 font-medium text-[2rem] text-[#101828] capitalize">
+            Cutting-edge finance management Features
           </span>
 
-          <span className="text-[#667085] text-[.9rem]">
-            Powerful, self-serve product and growth analytics to help you
-            convert, engage, and <br /> retain more users. Trusted by over 4,000
-            startups.
+          <span className="text-[#667085] text-[1.1rem] mb-8">
+            A powerful, self-serve management platform for managing your school finances.
           </span>
         </div>
 
@@ -176,14 +174,14 @@ const Testimonials = () => {
         </div>
 
         <div className="flex flex-col sm:gap-y-4 md:flex-row items-center py-16">
-          <div className="flex flex-col gap-3 text-center flex-1">
+          <div className="flex flex-col gap-3 text-center flex-1 min-h-[180px] md:justify-between md:gap-0 ">
             <div className="mx-auto w-[40px] rounded-[50%] p-3 bg-[#F9F5FF]">
               <img src={mail} alt="" width={30} height={40} />
             </div>
             <span className="text-[#101828] text-[1rem]">
               Share team inboxes
             </span>
-            <span className="text-[#667085] text-[.9rem]">
+            <span className="text-[#667085] text-[.9rem] md:px-4">
               Our shared team inboxes keep everyone on the same page and in the
               loop.
             </span>
@@ -194,12 +192,12 @@ const Testimonials = () => {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-3 text-center flex-1">
+          <div className="flex flex-col gap-3 text-center flex-1 min-h-[180px] md:justify-between md:gap-0 ">
             <div className="mx-auto w-[40px] rounded-[50%] p-3 bg-[#F9F5FF]">
               <img src={zap} alt="" width={30} height={40} />
             </div>
             <span>Deliver instant answers</span>
-            <span className="text-[#667085] text-[.9rem]">
+            <span className="text-[#667085] text-[.9rem] md:px-4">
               An all-in-one customer service platform that helps you balance
               everything.
             </span>
@@ -210,14 +208,14 @@ const Testimonials = () => {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-3 text-center flex-1">
+          <div className="flex flex-col gap-3 text-center flex-1 min-h-[180px] md:justify-between md:gap-0 ">
             <div className="mx-auto w-[40px] rounded-[50%] p-3 bg-[#F9F5FF]">
               <img src={bar} alt="" width={30} height={40} />
             </div>
             <span>Manage your team with reports</span>
-            <span className="text-[#667085] text-[.9rem]">
+            <span className="text-[#667085] text-[.9rem] md:px-4 md:text-[.82rem] lg:text-[.9rem] ">
               Measure what matters with Untitled’s easy-to-use reports. You can
-              filter, export, and drilldown on the <br /> data in a couple
+              filter, export, and drilldown on the data in a couple
               clicks.
             </span>
 
