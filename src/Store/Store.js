@@ -11,12 +11,7 @@ import schoolStudentsReducer from "../Reducers/schoolStudentsSlice";
 import studentRegistrationsReducer from "../Reducers/studentRegistrationsSlice";
 import schoolPaymentConfigsReducer from "../Reducers/schoolPaymentConfigsSlice";
 import personsReducer from "../Reducers/personsSlice";
-import debtorsReducer from "../Reducers/debtorsSlice";
-import depositsReducer from "../Reducers/depositsSlice";
-import invoicesReducer from "../Reducers/invoicesSlice";
-import receivedPaymentsReducer from "../Reducers/receivedPaymentsSlice";
-import billsReducer from "../Reducers/billsSlice";
-import paidBillsReducer from "../Reducers/paidBillsSlice";
+
 // import storage from 'redux-persist/lib/storage';
 import storageSession from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
@@ -26,12 +21,18 @@ const persistConfig = {
   key: "root",
   storage: storageSession,
   blacklist: [
-    "accounttypes", "accounts", "items",
-    "schoolClasses", "schoolStudents", "studentRegistrations",
-    "schoolPaymentConfigs", "itemTypes", "persons",
-    "personRoles", "paymentMethods", "receipts",
-    "debtors", "deposits", "invoices", "receivedPayments",
-    "bills", "paidBills"
+    "accounttypes",
+    "accounts",
+    "items",
+    "schoolClasses",
+    "schoolStudents",
+    "studentRegistrations",
+    "schoolPaymentConfigs",
+    "itemTypes",
+    "persons",
+    "personRoles",
+    "paymentMethods",
+    "receipts",
   ],
 };
 
@@ -48,13 +49,6 @@ const rootReducer = combineReducers({
   personRoles: personRolesReducer,
   paymentMethods: paymentMethodsReducer,
   receipts: receiptsReducer,
-  debtors: debtorsReducer,
-  deposits:depositsReducer,
-  invoices:invoicesReducer,
-  receivedPayments: receivedPaymentsReducer,
-  bills:billsReducer,
-  paidBills: paidBillsReducer,
-  
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

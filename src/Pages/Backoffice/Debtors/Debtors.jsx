@@ -1,11 +1,7 @@
-import {React, useState, useRef, useEffect }from 'react';
+import {React, useState }from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {FiChevronLeft } from "react-icons/fi";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import { useSelector, useDispatch }from 'react-redux';
-import OneDebtorModal from './OneDebtorModal.jsx';
-import { selectAllDebtors,  getDebtorsStatus, getDebtorsError, fetchDebtors }from '../../../Reducers/debtorsSlice';
-
 const listItems = [
     {value:"Item",text:"Element"},
     {value:"Item",text:"Element"},
@@ -13,68 +9,9 @@ const listItems = [
     {value:"Item",text:"Element"}
 ];
 
-function Debtors(props) {
-    const dispatch = useDispatch();    
+function Debtors(props) {    
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [idToOpen, setIdToOpen] = useState(null);
-    // --------------------------------------------------------
-    const myDebtors = useSelector(selectAllDebtors);
-    const debtorsStatus = useSelector(getDebtorsStatus);
-    const debtorsError = useSelector(getDebtorsError);
-    useEffect(() => {
-        if (debtorsStatus === 'idle') {
-            dispatch(fetchDebtors())            
-        }
-        else if (debtorsStatus === 'succeeded') {
-            console.log("======================")
-            console.log("myDebtors:",myDebtors)
-            console.log("======================")
-        }
-    }, [debtorsStatus, dispatch])
-    // --------------------------------------------------------
-    // --------------------------------------------------------
-    const handleModalOpen = (id) => {  
-        if (modalOpen) {
-            setIdToOpen(null)
-            setModalOpen(false)
-        }
-        else {
-            setIdToOpen(id)
-            setModalOpen(true)
-        }
-    }
-    // --------------------------------------------------------
-
-
-
-    let renderedDebtors;
-    if (debtorsStatus === 'loading') {
-        renderedDebtors = <tr><td>...</td></tr>;
-    } else if (debtorsStatus === 'succeeded') {
-        renderedDebtors = Array.isArray(myDebtors) && myDebtors.map((debtor, index) => (
-        <tr key={index}>
-            <td onClick={()=>handleModalOpen(debtor.id)} className="text-gray-900 underline cursor-pointer font-light px-6 py-4 whitespace-nowrap">
-                {debtor.name}
-            </td>
-            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {debtor.role}
-            </td>
-            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {debtor.address}
-            </td>
-            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {debtor.schoolClass}
-            </td>
-            <td className=" text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
-                {debtor.balance_due}
-            </td>                            
-        </tr>
-    ))
-    } else if (debtorsStatus === 'failed') {
-        renderedDebtors = {debtorsError};
-    }
-
 
     return (
         <>
@@ -87,7 +24,7 @@ function Debtors(props) {
                         <span className="myprimarytextcolor">Back</span>
                     </Link>
 
-                    {/* <div className="select_container flex gap-5 items-center">
+                    <div className="select_container flex gap-5 items-center">
                         <span className="myprimarytextcolor">Type</span>
 
                         <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
@@ -98,7 +35,8 @@ function Debtors(props) {
                                 })                                
                             }
                         </select>
-                    </div> */}
+
+                    </div>
 
                     {/* <div className="flex myprimarytextcolor">
                         Date: 2023/02/03
@@ -111,7 +49,7 @@ function Debtors(props) {
                         <h1 className='text-[30px] myprimarytextcolor'>Debtors</h1>                                
                     </div>
                     <div className="flex gap-5">
-                        {/* <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4">
                             <div className="flex flex-col gap-1">
                                 <label className='myprimarytextcolor'>Class</label>
                                 <select className={`commonSelectInput outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>
@@ -127,9 +65,9 @@ function Debtors(props) {
                                 <label className='myprimarytextcolor'>Date</label>
                                 <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
                             </div>                                    
-                        </div> */}
+                        </div>
                         <div className="flex flex-col gap-4">
-                            {/* <div className="flex flex-col gap-1">
+                            <div className="flex flex-col gap-1">
                                 <label className='myprimarytextcolor'>Extract</label>
                                 <select className={`commonSelectInput outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>
                                     <option disabled value="dflt">{`Select from the list`}</option>        
@@ -139,7 +77,7 @@ function Debtors(props) {
                                         })                                
                                     }
                                 </select>
-                            </div> */}
+                            </div>
                             
                             <div className="flex gap-7">
                                 <div className="flex flex-col gap-1">
@@ -164,27 +102,34 @@ function Debtors(props) {
                     <thead className="bg-white border-b">
                         <tr>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Name
+                            #
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Status
+                            S/N
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Address
+                            Student's name
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Class
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Receipt No.
+                        </th>
+                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Amount paid
+                        </th>
+                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Amount owed
-                        </th>                            
+                        </th>
+                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Date
+                        </th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        {renderedDebtors}
-
-                        {/* <tr className="bg-gray-100 border-b">
+                        <tr className="bg-gray-100 border-b">
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 ~
@@ -255,7 +200,7 @@ function Debtors(props) {
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             ~
                             </td>
-                        </tr> */}
+                        </tr>
                     </tbody>
                     </table>
                 </div>
@@ -314,21 +259,6 @@ function Debtors(props) {
             </div>
 
         </div>
-
-        {
-            modalOpen ?
-            <>
-                <OneDebtorModal 
-                handleModalOpen={handleModalOpen}
-                modalOpen={modalOpen}
-                debtorId ={idToOpen}
-                />
-                
-            </>
-            :
-            <></>
-        }
-
         </>
     );
 }

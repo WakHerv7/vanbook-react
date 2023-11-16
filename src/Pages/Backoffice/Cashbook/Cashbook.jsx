@@ -39,7 +39,7 @@ function Cashbook(props) {
     if (receiptsStatus === 'loading') {
         renderedReceipts = <tr><td>...</td></tr>;
     } else if (receiptsStatus === 'succeeded') {
-        renderedReceipts = receipts && receipts.map((receipt, index) => (
+        renderedReceipts = receipts.map((receipt, index) => (
             <tr key={index} className="bg-gray-100 border-b">
                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {receipt.date}
@@ -51,15 +51,14 @@ function Cashbook(props) {
                     {receipt.person_name}
                 </td>                             */}
                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <>{receipt.total_amount_paid}</>
-                {/* {myAccounts?.filter(ma => ma.id == receipt.payment_method_id)[0]?.name == 'Bank' ?
+                {myAccounts?.filter(ma => ma.id == receipt.deposit_account_id)[0]?.name == 'Bank' ?
                     <>{receipt.total_amount_paid}</>
                     :
                     <></>
-                    } */}
+                    }
                 </td>
                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">                    
-                    {myAccounts?.filter(ma => ma.id == receipt.payment_method_id)[0]?.name == 'Cash' ?
+                    {myAccounts?.filter(ma => ma.id == receipt.deposit_account_id)[0]?.name == 'Cash' ?
                     <>{receipt.total_amount_paid}</>
                     :
                     <></>

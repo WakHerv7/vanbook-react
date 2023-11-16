@@ -63,7 +63,7 @@ function AddStudentRegistrationModal({handleModalOpen, modalOpen}) {
             "gender": studentRegistrationGender,
             "new_student": studentRegistrationNewStudent,
             "school_class_id": studentRegistrationClass,
-            // "status": "incomplete",
+            "status": "incomplete",
             "registration_number": "RN2023"+Math.ceil(Math.random()*1000000),
             // "place": studentRegistrationAddress,
             // "class_parent_id": issubstudentRegistrationof ? Number(studentRegistrationParent) : null,
@@ -121,8 +121,7 @@ function AddStudentRegistrationModal({handleModalOpen, modalOpen}) {
 
     return (
         <div>
-            <div className={`modal_container_wh ${modalOpen ? '': 'displayNone'}`}>
-                <div className="modal_bg_screen" onClick={()=>closeModal()}></div>
+            <div className={`modal_dark_screen_w ${modalOpen ? '': 'displayNone'}`}>
                 <div className={`modal_content_box_w px-5 py-3`}>
                     <div className="flex flex-col items-center w-full justify-center pt-2">
                         <h1 className={`text-[24px] font-bold myprimarytextcolor`}>STUDENT REGISTRATION FORM</h1>                        

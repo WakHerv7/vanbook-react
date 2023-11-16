@@ -13,7 +13,7 @@ const DemoCTA2 = () => {
             <button
                 className='bg-[#2E2F5B] text-white py-2 px-5 rounded-lg text-[.9rem] font-medium'
             >
-                <Link to="/signup">
+                <Link to="#">
                     Get started
                 </Link>
             </button>

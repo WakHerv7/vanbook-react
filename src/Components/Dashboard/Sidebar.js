@@ -94,7 +94,7 @@ const SideBar = ({sidebarOpen, setSidebarOpen}) => {
                             <span className={`sidebar_menu_item_text ${sidebarOpen ? "block" : "hidden"}`}>Feedback</span>
                         </Link>
                         {/* /dashboard/settings */}
-                        <Link to={'/dashboard/settings'} className="sidebar_menu_item relative flex items-center gap-5 text-white">
+                        <Link to={'#'} className="sidebar_menu_item relative flex items-center gap-5 text-white">
                             <span className="w-7">
                                 <FiSettings size={24} color={"white"}/>
                             </span>

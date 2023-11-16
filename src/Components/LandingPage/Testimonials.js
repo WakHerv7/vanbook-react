@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import DemoCTA2 from "./DemoCTA2";
 import reviewer1 from "../../Assets/reviewer1.png";
 import reviewer2 from "../../Assets/reviewer2.png";
@@ -10,17 +10,24 @@ import zap from "../../Assets/zap.png";
 import avatar from "../../Assets/Avatar.png";
 import devices from "../../Assets/Devices.png";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { Swiper, SwiperSlide } from "swiper/react";
-
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 // Import Swiper styles
 import "swiper/css/bundle";
 import "swiper/css/pagination";
 
 // import required modules
-import { Pagination, Navigation, Autoplay } from "swiper";
+import { Pagination, Navigation, Autoplay, Scrollbar, A11y } from "swiper";
 import { Link } from "react-router-dom";
 
 const Testimonials = () => {
+  const [swipeIndex, setSwipeIndex] = useState(0);
+  // const swiperRef = useRef();
+
+  // const swiper = useSwiper();
+  const prevRef = useRef();
+  const nextRef = useRef();
+
   const data = [
     {
       image: reviewer1,
@@ -73,11 +80,29 @@ const Testimonials = () => {
     color: "#ffffff",
   };
 
+  const SwiperButtonPrev = ({ idx, onClick }) => {
+    // const swiper = useSwiper();
+    return <button
+            className={`cursor-pointer rounded-lg border bg-transparent ${idx==0 ? 'opacity-5':'opacity-100' }`} 
+            onClick={onClick}>
+              <BsArrowLeftCircle size={35}/>
+            </button>;
+  };
+
+  const SwiperButtonNext = ({  idx, onClick }) => {
+    // const swiper = useSwiper();
+    return <button
+            className={`cursor-pointer rounded-lg border bg-transparent ${idx==5 ? 'opacity-5':'opacity-100' }`} 
+            onClick={onClick}>
+              <BsArrowRightCircle size={35}/>
+            </button>;
+  };
+
   return (
     <section>
       <div className="flex flex-col md:flex-row items-center justify-between md:w-[85%] mx-auto py-16">
         <div>
-          <h2 className="text-[#101828] text-[1.8rem] mb-[1rem]">
+          <h2 className="text-[#101828] text-[1.7rem] mb-[1rem] text-center">
             Don’t just take our word for it
           </h2>
           <p className="text-[#475467] text-[1rem] text-center md:text-left mb-[1rem]">
@@ -86,7 +111,7 @@ const Testimonials = () => {
         </div>
 
         <div className="flex items-center">
-          <DemoCTA2 />
+          {/* <DemoCTA2 /> */}
         </div>
       </div>
 
@@ -95,8 +120,19 @@ const Testimonials = () => {
         <Swiper
           spaceBetween={40}
           slidesPerView={1}
-          modules={[Pagination, Navigation, Autoplay]}
+          onSwiper={(swiper) => {
+            nextRef.current = swiper;
+            prevRef.current = swiper;
+          }}
+
+          // modules={[Pagination, Navigation, Autoplay, Scrollbar, A11y]}
+
+          onSlideChange={(swiper) => setSwipeIndex(swiper.realIndex)}
+          // onSwiper={(swiper) => console.log(swiper)}
+          /*using the refs instead of className*/
+          // navigation
           pagination={{ clickable: true }}
+          
           // navigation
           autoplay={{ delay: 3000 }}
           breakpoints={{
@@ -124,7 +160,8 @@ const Testimonials = () => {
         >
           {data.map((item, index) => {
             return (
-              <SwiperSlide>
+              // <div>
+              <SwiperSlide key={Math.floor(Math.random()*1000)}>
                 <div
                   style={{
                     backgroundImage: `url(${item.image})`,
@@ -136,7 +173,7 @@ const Testimonials = () => {
                     paddingTop: `12rem`,
                   }}
                 >
-                  <div style={cardStyle} key={index}>
+                  <div style={cardStyle}>
                     <img
                       src={stars}
                       alt=""
@@ -149,15 +186,21 @@ const Testimonials = () => {
                   </div>
                 </div>
               </SwiperSlide>
+              // </div>
             );
           })}
         </Swiper>
+        <div className="flex gap-5 w-full mt-10">
+          <SwiperButtonPrev idx={swipeIndex} onClick={() => prevRef.current.slidePrev()}></SwiperButtonPrev>
+          <SwiperButtonNext idx={swipeIndex} onClick={() => nextRef.current.slideNext()}></SwiperButtonNext>          
+        </div>
+        
       </div>
       {/* Swiper end */}
 
       <div className="w-[85%] mx-auto pt-[10rem] pb-16">
-        <div className="flex flex-col text-center gap-4 ">
-          <span className="text-[#2E2F5B] font-semibold py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[.9rem]">
+        <div className="flex flex-col text-center gap-4">
+        <span className="text-[#2E2F5B] font-semibold py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[.9rem]">
             Features
           </span>
           <span className="-mb-1 font-medium text-[2rem] text-[#101828] capitalize">
@@ -227,15 +270,15 @@ const Testimonials = () => {
         </div>
 
         <div className="py-16 border-t border-b text-center">
-          <span className="text-[2.2rem] text-[#101828]">
+          <span className="text-[2.2rem] sm:text-[20px] text-[#101828]">
             I highly recommend Vanbook to any educational institution <br />{" "}
             looking to simplify their financial management
           </span>
 
           <div className="text-center flex flex-col gap-2 pt-12">
             <img src={avatar} alt="" width={100} className="mx-auto" />
-            <span className="text-[#101828] text-[1.3rem]">Adeola Adeoye</span>
-            <span className="text-[#667085] text-[1.3rem]">
+            <span className="text-[#101828] text-[1.3rem] sm:text-[1rem]">Adeola Adeoye</span>
+            <span className="text-[#667085] text-[1.3rem] sm:text-[1rem]">
               Accountant, DeClair’s Academy
             </span>
           </div>

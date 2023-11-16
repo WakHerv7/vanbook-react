@@ -26,7 +26,7 @@ function Bill(props) {
                     </Link>
 
                     <div className="select_container flex gap-5 items-center">
-                        <span className="myprimarytextcolor">Customer job</span>
+                        <span className="myprimarytextcolor">Vendor</span>
 
                         <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
                             <option disabled value="dflt">{`Select from the list`}</option>        
@@ -53,20 +53,44 @@ function Bill(props) {
 
                     </div>
 
+                    <div className="select_container flex gap-5 items-center">
+                        <span className="myprimarytextcolor">Branch</span>
+
+                        <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
+                            <option disabled value="dflt">{`Select from the list`}</option>        
+                            {
+                                listItems.map((val, ind) => {
+                                    return <option value={val.value}>{val.text}</option>
+                                })                                
+                            }
+                        </select>
+
+                    </div>
                 </div>
                 
                 <div className="flex justify-between my-5">
                     <div className="flex flex-col gap-5">
-                        <h1 className='text-[30px] myprimarytextcolor'>Bill</h1>                                
+                        <h1 className='text-[30px] myprimarytextcolor'>BILL</h1>
+                        <div className="flex flex-col gap-1">
+                            <label className='myprimarytextcolor'>Bill due</label>
+                            <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
+                        </div>
                     </div>
                     <div className="flex gap-5">
                         <div className="flex flex-col gap-5">
                             <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Bill Date</label>
+                                <label className='myprimarytextcolor'>Date</label>
                                 <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Bill No.</label>
+                                <label className='myprimarytextcolor'>Receipt Num</label>
+                                <input type="text" name="dateInput" id="receiptNumInputId" className="outline-none py-2 px-2 rounded-md" placeholder='0000'/>
+                            </div>
+                            
+                        </div>
+                        <div className="flex flex-col gap-5">
+                        <div className="flex flex-col gap-1">
+                                <label className='myprimarytextcolor'>Class</label>
                                 <select className={`commonSelectInput outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>
                                     <option disabled value="dflt">{`Select from the list`}</option>        
                                     {
@@ -77,13 +101,10 @@ function Bill(props) {
                                 </select>
                             </div>
                             
-                        </div>
-                        <div className="flex flex-col gap-5">
                             <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Bill Date</label>
-                                <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
+                                <label className='myprimarytextcolor'>Amount</label>
+                                <input type="text" name="dateInput" id="receiptNumInputId" className="outline-none py-2 px-2 rounded-md" placeholder='0000'/>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -221,17 +242,8 @@ function Bill(props) {
                     </div>
 
                     <div className="flex gap-20">
-                        <div className="flex flex-col text-right">
-                            <span className="myprimarytextcolor">Total</span>
-                            <span className="myprimarytextcolor">Payments applied</span>
-                            <span className="myprimarytextcolor">Balance due</span>
-                        </div>
-                        <div className="flex flex-col text-right">
-                            <span className="myprimarytextcolor">0.00</span>
-                            <span className="myprimarytextcolor">0.00</span>
-                            <span className="myprimarytextcolor">0.00</span>
-                        </div>
-                        
+                        <span className="myprimarytextcolor">Total</span>
+                        <span className="myprimarytextcolor">0.00</span>
                     </div>
                 </div>
                 <div className="flex justify-end mt-5 px-1 gap-5">
@@ -246,8 +258,6 @@ function Bill(props) {
                     </button>
                 </div>
             </div>
-
-
 
         </div>
         </>

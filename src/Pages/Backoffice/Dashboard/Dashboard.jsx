@@ -23,7 +23,8 @@ function Dashboard(props) {
                         </div>
                         <div className="flex gap-3">
                             <div className="flex items-center gap-4 pl-3">
-                                <Link reloadDocument to ={'/dashboard/persons/students'} className="dashboard_box">
+                                <Link to={'#'} className="dashboard_box">
+                                {/* <Link reloadDocument to ={'/dashboard/persons/students'} className="dashboard_box"> */}
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
                                                 <FiEdit3 size={'20'} color={'#41436a'}/>
@@ -34,7 +35,8 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
-                                <Link reloadDocument to={'/dashboard/new-receipt'} className="dashboard_box">
+                                <Link to={'#'} className="dashboard_box">
+                                {/* <Link reloadDocument to={'/dashboard/create_receipt'} className="dashboard_box"> */}
                                     <div className="horiz_line_mask_right"></div>
                                     <div className="vertical_arrow_stick"></div>
                                     <div className="flex">
@@ -55,7 +57,8 @@ function Dashboard(props) {
                         </div>
                         <div className="flex gap-3">
                             <div className="flex items-center gap-4 pl-3">
-                                <Link reloadDocument to={'/dashboard/received-payments'} className="dashboard_box">
+                                <Link to={'#'} className="dashboard_box">
+                                {/* <Link reloadDocument to={'/dashboard/receive_payment'} className="dashboard_box"> */}
                                     <div className="horiz_line_mask_left"></div>
                                     <div className="box_top_arrow">
                                         <HiOutlineArrowNarrowDown size={'35'} color={'#41436a'}/>
@@ -70,7 +73,8 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
-                                <Link reloadDocument to={'/dashboard/cashbook'} className="dashboard_box">
+                                <Link to={'#'} className="dashboard_box">
+                                {/* <Link reloadDocument to={'/dashboard/cashbook'} className="dashboard_box"> */}
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
                                                 <HiOutlineBookOpen size={'20'} color={'#41436a'}/>
@@ -81,7 +85,8 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
-                                <Link reloadDocument to={'/dashboard/debtors'} className="dashboard_box">
+                                <Link to={'#'} className="dashboard_box">
+                                {/* <Link reloadDocument to={'/dashboard/debtors'} className="dashboard_box"> */}
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
                                                 <BsCashCoin size={'20'} color={'#41436a'}/>
@@ -92,7 +97,8 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
-                                <Link reloadDocument to={'/dashboard/deposits'} className="dashboard_box">
+                                <Link to={'#'} className="dashboard_box">
+                                {/* <Link reloadDocument to={'/dashboard/deposit'} className="dashboard_box"> */}
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
                                                 <IoCashOutline size={'20'} color={'#41436a'}/>
@@ -110,7 +116,7 @@ function Dashboard(props) {
                         </div>
                         <div className="flex gap-3">
                             <div className="flex items-center gap-4 pl-3">
-                                <Link reloadDocument to={'/dashboard/new-bill'} className="dashboard_box">
+                                <Link reloadDocument to={'/dashboard/invoice'} className="dashboard_box">
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
                                                 <BsReceipt size={'20'} color={'#41436a'}/>
@@ -121,14 +127,14 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
-                                <Link to={'/dashboard/paid-bills'} className="dashboard_box">
+                                <div className="dashboard_box">
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
                                                 <HiOutlineCash size={'20'} color={'#41436a'}/>
                                             </div>
                                         </div>
-                                        <span className='myprimarytextcolor'>Paid bills</span>
-                                </Link>
+                                        <span className='myprimarytextcolor'>Pay bill</span>
+                                </div>
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>

@@ -35,7 +35,7 @@ function StaffList(props) {
     const personsError = useSelector(getPersonsError);
     useEffect(() => {
         if (personsStatus === 'idle') {
-            dispatch(fetchPersonsByRole("402"))            
+            dispatch(fetchPersonsByRole(402))            
         }
     }, [personsStatus, dispatch])
 
@@ -88,9 +88,6 @@ function StaffList(props) {
             </td>
             <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                 {person.role.name}
-            </td>
-            <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                {person.account_balance}
             </td>
             
             <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

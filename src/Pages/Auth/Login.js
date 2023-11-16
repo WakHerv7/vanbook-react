@@ -65,7 +65,7 @@ const Login = () => {
           Sign in
         </button> */}
         <Link
-          to="/dashboard"
+          to="/onboarding2"
           className='flex items-center justify-center h-[2.5rem] bg-[#41436a] rounded-lg text-white'
         >
           Sign in

@@ -81,7 +81,7 @@ function SchoolClassesList(props) {
     if (schoolClassesStatus === 'loading') {
         renderedSchoolClasses = <tr><td>...</td></tr>;
     } else if (schoolClassesStatus === 'succeeded') {
-        renderedSchoolClasses = Array.isArray(schoolClasses) && schoolClasses.map((schoolClass, index) => (
+        renderedSchoolClasses = schoolClasses.map((schoolClass, index) => (
         <tr key={index} className="table_row_w border border-b-slate-300">
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index}</td>
             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

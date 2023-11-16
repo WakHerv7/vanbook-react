@@ -19,7 +19,7 @@ const Features = () => {
       text: "Sync with your bank  so your books are always accurate and up to date",
     },
     {
-      image: cuate,
+      image: cuate2,
       heading: "Claim everything",
       text: "Claim every of your entitlement at  tax time with your expense receipts stored and sorted in Vanbook",
     },
@@ -29,8 +29,8 @@ const Features = () => {
       text: "All-in-one accounting platform that helps you balance everything regarding your business finances",
     },
     {
-      image: cuate2,
-      heading: "Manage your business with reports",
+      image: cuate,
+      heading: "Manage business with reports",
       text: "Measure what matters with Vanbook easy-to-use reports, You can filter, export and drilldown on the data you need.",
     },
     {

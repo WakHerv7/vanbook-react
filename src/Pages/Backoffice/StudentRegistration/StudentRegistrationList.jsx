@@ -2,7 +2,7 @@ import {React, useState, useEffect }from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {FiChevronLeft, FiPlus } from "react-icons/fi";
 import { AiOutlineEdit } from "react-icons/ai";
-// import { BsThreeDots } from "react-icons/bs";
+import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 import AddStudentRegistrationModal from './AddStudentRegistration/AddStudentRegistrationModal.jsx';

@@ -37,10 +37,6 @@ function SchoolPaymentConfigsList(props) {
     useEffect(() => {
         if (schoolPaymentConfigsStatus === 'idle') {
             dispatch(fetchSchoolPaymentConfigs())            
-        } else if(schoolPaymentConfigsStatus == 'succeded')
-        {
-            console.log("schoolPaymentConfigs : ");
-            console.log(schoolPaymentConfigs);
         }
     }, [schoolPaymentConfigsStatus, dispatch])
 

@@ -1,4 +1,4 @@
-import { createSlice, /*nanoid,*/ createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ACCOUNT_TYPES_URL = process.env.REACT_APP_API_URL+'/account_types';
@@ -112,7 +112,7 @@ const accountTypesSlice = createSlice({
                     return;
                 }
                 const { id } = action.payload;
-                const updatedIndex = state.accountTypes.findIndex(at => at.id === id);
+                const updatedIndex = state.accountTypes.findIndex(at => at.id == id);
                 state.accountTypes[updatedIndex] = action.payload;
                 // const accTypes = state.accountTypes.filter(at => at.id !== id);
                 // state.accountTypes = [...accTypes, action.payload];

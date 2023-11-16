@@ -43,23 +43,16 @@ function AddSchoolPaymentConfigModal({handleModalOpen, modalOpen}) {
         handleModalOpen();    
     }
     const submitNewSchoolPaymentConfig = () => {
-        // let concernedClassesIds = [];
-
-        // schoolConcernedClasses.map((scc, idx) => {
-        //     concernedClassesIds = [...concernedClassesIds, scc.id];
-        // });
- 
         const toSubmit = {
             "name": schoolPaymentConfigName,
-            "slug": schoolPaymentConfigName,
-            "registration_fees_new_student": parseInt(schoolRegistrationNewStudent),
-            "registration_fees_old_student": parseInt(schoolRegistrationOldStudent),
-            "school_fees_new_student": parseInt(schoolTrainingNewStudent),
-            "school_fees_old_student": parseInt(schoolTrainingOldStudent),
+            "registration_fees_new_student": schoolRegistrationNewStudent,
+            "registration_fees_old_student": schoolRegistrationOldStudent,
+            "school_fees_new_student": schoolTrainingNewStudent,
+            "school_fees_old_student": schoolTrainingOldStudent,
             "classes": schoolConcernedClasses,
         }
         console.log("toSubmit: ", toSubmit)
-        if ( schoolPaymentConfigName && schoolConcernedClasses.length > 0 &&  schoolRegistrationOldStudent && schoolRegistrationNewStudent
+        if ( schoolPaymentConfigName && schoolConcernedClasses.length>0 &&  schoolRegistrationOldStudent && schoolRegistrationNewStudent
             && schoolTrainingOldStudent && schoolTrainingNewStudent) 
         {
             dispatch_and_resetform(toSubmit)
@@ -77,7 +70,7 @@ function AddSchoolPaymentConfigModal({handleModalOpen, modalOpen}) {
         setSchoolTrainingNewStudent()
         setActiveApplyBtn(false)
         closeModal()
-        // navigate(0);
+        navigate(0);
     }
     useEffect(() => {
         // console.log("schoolConcernedClasses: ", schoolConcernedClasses)
@@ -96,32 +89,20 @@ function AddSchoolPaymentConfigModal({handleModalOpen, modalOpen}) {
     //     console.log("schoolConcernedClasses: ", schoolConcernedClasses)
     // }, [schoolConcernedClasses])
 
-    const handleClass = (oneClass, checked) => {
-        let classes = schoolConcernedClasses
-        if (checked){            
-            classes = [...classes, {'id':oneClass.id, 'name':oneClass.name, 'slug':oneClass.slug}]
+    const handleClass = (classId, checked) => {
+        if (checked){
+            let classes = schoolConcernedClasses
+            classes = [...classes, classId]
             setSchoolConcernedClasses(classes)
         } else {
-            classes = schoolConcernedClasses.filter(classItem => classItem.id != oneClass.id)
+            let classes = schoolConcernedClasses.filter(cid => cid != classId)
             setSchoolConcernedClasses(classes)
-        }
-
-        let paymentConfigName = classes[0]['slug'];
-        classes.map((scc, idx) => {
-            if (idx > 0) {
-                paymentConfigName = paymentConfigName + "_"+scc.slug;
-            }            
-        });
-
-        setSchoolPaymentConfigName(paymentConfigName);
-        
-        console.log("setSchoolPaymentConfigName");
+        }        
     }
 
     return (
         <div>
-            <div className={`modal_container_wh ${modalOpen ? '': 'displayNone'}`}>
-                <div className="modal_bg_screen" onClick={()=>closeModal()}></div>
+            <div className={`modal_dark_screen_w ${modalOpen ? '': 'displayNone'}`}>
                 <div className={`modal_content_box_w px-5 py-3`}>
                     <div className="flex flex-col items-center w-full justify-center pt-2">
                         <h1 className={`text-[24px] font-bold myprimarytextcolor`}>New School Payment Configuration</h1>
@@ -133,10 +114,10 @@ function AddSchoolPaymentConfigModal({handleModalOpen, modalOpen}) {
                         </div>
                         <div className="flex mt-3 gap-10 w-full">
                             <div className="flex flex-col gap-5 w-full">
-                                {/* <div className="flex flex-col gap-1">
+                                <div className="flex flex-col gap-1">
                                     <label className='myprimarytextcolor'>Config Name</label>
                                     <input type="text" onChange={(e)=>setSchoolPaymentConfigName(e.target.value)} name="schoolClass_name" id="receiptNumInputId" className="outline-none py-2 px-2 rounded-md border border-[#41436a]" placeholder='eg.: Config class 1 to 3'/>
-                                </div> */}
+                                </div>
                                 <div className="flex flex-col w-full">
                                     <h2 className={`text-[18px] myprimarytextcolor`}>Concerned classes</h2>
                                     <ul className="flex flex-wrap gap-10 list-none mt-2 pl-3">
@@ -146,7 +127,7 @@ function AddSchoolPaymentConfigModal({handleModalOpen, modalOpen}) {
                                                 <li key={index} className="">                                    
                                                     <label htmlFor={`account_category_${value.id}`} className="container_checkbo_select_w">
                                                         {value.name}
-                                                        <input onChange={(e)=>handleClass(value, e.target.checked)} ref={(el) => (myRefs.current[index] = el)} type="checkbox" name="account_type" id={`account_category_${value.id}`}/>
+                                                        <input onChange={(e)=>handleClass(value.id, e.target.checked)} ref={(el) => (myRefs.current[index] = el)} type="checkbox" name="account_type" id={`account_category_${value.id}`}/>
                                                         <span className="checkmark_checkbo_select_w"></span>
                                                     </label>
                                                 </li>                                     

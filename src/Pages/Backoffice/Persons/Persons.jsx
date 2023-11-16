@@ -10,7 +10,7 @@ function Persons(props) {
 
             <div>
                 <div className="flex py-3 justify-between items-center gap-10  border border-b-slate-300">
-                    <Link to={""} onClick={"/dashboard"} className="flex gap-1 items-center">
+                    <Link to={""} className="flex gap-1 items-center">
                         <FiChevronLeft size={20} color={"#white"}/>
                         <span className="myprimarytextcolor">Back</span>
                     </Link>

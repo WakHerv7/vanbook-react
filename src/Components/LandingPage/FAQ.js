@@ -61,7 +61,7 @@ const FAQ = () => {
         </div>
         <div className="w-full md:w-[60%] mx-auto my-8 pb-4">
           {data.map((item, i) => (
-            <div className="py-4 border-b">
+            <div className="py-4 border-b" key={i}>
               <div
                 className="text-[#101828] text-[.9rem] font-medium flex justify-between items-center cursor-pointer"
                 onClick={() => toggle(i)}
@@ -93,7 +93,7 @@ const FAQ = () => {
           </p>
 
           <button className="bg-[#2E2F5B] text-white py-3 px-5 rounded-lg text-[.9rem] font-medium">
-            <Link to="/signup">Get in touch</Link>
+            <Link to="/contact-us">Get in touch</Link>
           </button>
         </div>
       </div>

@@ -68,7 +68,7 @@ function EditAccountTypeModal({accTypeId, handleEditModalOpen, editModalOpen}) {
 
     return (
         <div>
-            <div className={`modal_container_wh ${editModalOpen ? '': 'displayNone'}`}>
+            <div className={`modal_dark_screen_w ${editModalOpen ? '': 'displayNone'}`}>
                 <div className={`modal_content_box_w px-5 py-3`}>
                     <div className="flex flex-col items-center w-full justify-center pt-2">
                         <h1 className={`text-[24px] font-bold myprimarytextcolor`}>Edit Account Type</h1>

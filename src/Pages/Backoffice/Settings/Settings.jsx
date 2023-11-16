@@ -84,11 +84,6 @@ function Dashboard(props) {
                                 <Link reloadDocument to={'/dashboard/payment_methods'} className="dashboard_box">
                                     <span className='text-xl text-center font-bold myprimarytextcolor'>Payment methods</span>
                                 </Link>
-                            </div>
-                            <div className="flex items-center gap-4 pl-3 mb-5">
-                                <Link reloadDocument to={'/dashboard/invoices'} className="dashboard_box">
-                                    <span className='text-xl text-center font-bold myprimarytextcolor'>Invoice</span>
-                                </Link>
                             </div>                      
                         </div>
                     </div>

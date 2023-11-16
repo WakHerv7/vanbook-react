@@ -40,7 +40,7 @@ const categoryList = [
 function AccountTypesList(props) {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [idToEdit, setIdToEdit] = useState(null);
@@ -95,7 +95,7 @@ function AccountTypesList(props) {
       </tr>
     );
   } else if (accTypesStatus === "succeeded") {
-    renderedAccountTypes = Array.isArray(accTypes) && accTypes.map((accType, index) => (
+    renderedAccountTypes = accTypes.map((accType, index) => (
       <tr key={index} className="table_row_w border border-b-slate-300">
         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
           {index}
@@ -151,7 +151,7 @@ function AccountTypesList(props) {
           <div className="flex px-10 py-3 justify-between gap-10  border border-b-slate-300">
             <Link
               to={""}
-              onClick={() => navigate(-1)}
+              
               className="flex gap-1 items-center"
             >
               <FiChevronLeft size={20} color={"#white"} />

@@ -1,4 +1,4 @@
-import { createSlice, /*nanoid,*/ createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ITEMS_URL = process.env.REACT_APP_API_URL+'/receipts';
@@ -15,15 +15,6 @@ const initialState = {
 export const fetchReceipts = createAsyncThunk('receipts/fetchReceipts', async () => {
     try {
         const response = await axios.get(ITEMS_URL)
-        return [...response.data];
-    } catch (err) {
-        return err.message;
-    }
-})
-
-export const fetchReceiptsUndeposited = createAsyncThunk('receipts/fetchReceiptsUndeposited', async () => {
-    try {
-        const response = await axios.get(`${ITEMS_URL}/undeposited/`)
         return [...response.data];
     } catch (err) {
         return err.message;
@@ -119,19 +110,6 @@ const receiptsSlice = createSlice({
                 state.status = 'failed'
                 state.error = action.error.message
             })
-            .addCase(fetchReceiptsUndeposited.pending, (state, action) => {
-                state.status = 'loading'
-            })
-            .addCase(fetchReceiptsUndeposited.fulfilled, (state, action) => {
-                state.status = 'succeeded'                
-                // Add any fetched receipts to the array
-                
-                state.receipts = action.payload
-            })
-            .addCase(fetchReceiptsUndeposited.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.error.message
-            }) 
             .addCase(fetchReceiptsPaymentNotReceived.pending, (state, action) => {
                 state.status = 'loading'
             })
@@ -160,7 +138,7 @@ const receiptsSlice = createSlice({
                     return;
                 }
                 const { id } = action.payload;
-                const updatedIndex = state.receipts.findIndex(a => a.id === id);
+                const updatedIndex = state.receipts.findIndex(a => a.id == id);
                 state.receipts[updatedIndex] = action.payload;
             })
             .addCase(updateSomeReceipts.fulfilled, (state, action) => {

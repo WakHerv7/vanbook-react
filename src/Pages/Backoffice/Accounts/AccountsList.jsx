@@ -89,7 +89,7 @@ function AccountsList(props) {
     if (accountsStatus === 'loading') {
         renderedAccounts = <tr><td>...</td></tr>;
     } else if (accountsStatus === 'succeeded') {
-        renderedAccounts = Array.isArray(accounts) && accounts.map((account, index) => (
+        renderedAccounts = accounts.map((account, index) => (
         <tr key={index} className="table_row_w border border-b-slate-300">
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{account.number}</td>
             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

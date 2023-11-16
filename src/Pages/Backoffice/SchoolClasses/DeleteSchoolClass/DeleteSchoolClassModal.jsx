@@ -30,7 +30,7 @@ function DeleteAccountTypeModal({schoolClassId, handleDeleteModalOpen, deleteMod
 
     return (
         <div>
-            <div className={`modal_container_wh ${deleteModalOpen ? '': 'displayNone'}`}>
+            <div className={`modal_dark_screen_w ${deleteModalOpen ? '': 'displayNone'}`}>
                 <div className={`modal_content_box_w px-5 py-3`}>
                     <div className="flex flex-col items-center w-full justify-center pt-2">
                         <h1 className={`text-[24px] font-bold myprimarytextcolor`}>Delete Account "{schoolClassName}"</h1>

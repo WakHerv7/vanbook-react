@@ -89,11 +89,8 @@ function StudentsList(props) {
                 {genderList[studentRegistration.gender]}
             </td>
             <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                {studentRegistration.account_balance}
-            </td>
-            {/* <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                 {studentRegistration.status}
-            </td> */}
+            </td>
             <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 
                 <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(studentRegistration.id)}>

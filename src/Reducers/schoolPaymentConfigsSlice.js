@@ -1,4 +1,4 @@
-import { createSlice, /*nanoid,*/ createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const ITEMS_URL = process.env.REACT_APP_API_URL+'/school_payment_configs';
@@ -90,7 +90,7 @@ const schoolPaymentConfigsSlice = createSlice({
                     return;
                 }
                 const { id } = action.payload;
-                const updatedIndex = state.schoolPaymentConfigs.findIndex(a => a.id === id);
+                const updatedIndex = state.schoolPaymentConfigs.findIndex(a => a.id == id);
                 state.schoolPaymentConfigs[updatedIndex] = action.payload;
             })
             .addCase(deleteSchoolPaymentConfig.fulfilled, (state, action) => {

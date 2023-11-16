@@ -9,6 +9,7 @@ function TextInput({
   placeholderText,
   requiredValue,
   noGrayBg,
+  outlineNone,
 }) {
   return (
     <div>
@@ -17,7 +18,9 @@ function TextInput({
         <span>{requiredValue ? "*" : ""}</span>
       </label>
       <input
-        className={`commonTextInput ${noGrayBg ? "" : "gray_bg"}`}
+        className={`commonTextInput ${noGrayBg ? "" : "gray_bg"} ${
+          outlineNone ? "outline-none" : " "
+        }`}
         type={typeText ? typeText : "text"}
         id={nameText}
         name={nameText}

@@ -100,7 +100,7 @@ function ItemsList(props) {
                 N{item.rate}
             </td>
             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                ~
+                N~
             </td>
             <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 
@@ -200,7 +200,7 @@ function ItemsList(props) {
                             Account
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Price 
+                            Cost 
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Balance
