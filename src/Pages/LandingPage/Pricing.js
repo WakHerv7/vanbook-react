@@ -8,33 +8,42 @@ const Pricing = () => {
       figure: "N50,000",
       details: "Basic features for up to 3 users.",
       featureInfo: "Everything in starter plus...",
-      feature1: "Access to basic features",
-      feature2: "Basic reporting and analytics",
-      feature3: "Up to 3 individuals",
-      feature4: "20GB individual data for each user",
-      feature5: "Basic chat and email support",
+      features: [
+        "Access to basic features",
+        "Basic reporting and analytics",
+        "Up to 3 individuals",
+        "20GB individual data for each user",
+        "Basic chat and email support",
+      ],
+      
     },
     {
       type: "Business plan",
       figure: "N100,000",
       details: "Business plan for up to 5 users",
       featureInfo: "Everything in Basic plus...",
-      feature1: "Access to basic features",
-      feature2: "Basic reporting and analytics",
-      feature3: "Up to 5 individuals",
-      feature4: "20GB individual data for each user",
-      feature5: "Basic chat and email support",
+      features: [
+        "Access to basic features",
+        "Basic reporting and analytics",
+        "Up to 5 individuals",
+        "20GB individual data for each user",
+        "Basic chat and email support",
+      ],
+      
     },
     {
       type: "Enterprise plan",
       figure: "N150,000",
       details: "Limited to 6 users and access to technical support",
       featureInfo: "Everything in Business plus...",
-      feature1: "Access to basic features",
-      feature2: "Basic reporting and analytics",
-      feature3: "Up to 6 individuals",
-      feature4: "20GB individual data for each user",
-      feature5: "Basic chat and email support",
+      features: [
+        "Access to basic features",
+        "Basic reporting and analytics",
+        "Up to 6 individuals",
+        "20GB individual data for each user",
+        "Basic chat and email support",
+      ],
+      
     },
   ];
   return (
@@ -93,40 +102,14 @@ const Pricing = () => {
                 </span>
 
                 <ul className="mt-4">
-                  <li className="flex gap-3 items-center py-2">
+                {item.features.map((feature) => (
+                  <li key={feature.id} className="flex gap-3 items-center py-2">
                     <AiOutlineCheckCircle className="text-[#2E2F5B] text-[20px]" />
                     <span className="text-[#475467] text-[.9rem]">
-                      {item.feature1}
+                      {feature}
                     </span>
                   </li>
-
-                  <li className="flex gap-3 items-center py-2">
-                    <AiOutlineCheckCircle className="text-[#2E2F5B] text-[20px]" />
-                    <span className="text-[#475467] text-[.9rem]">
-                      {item.feature2}
-                    </span>
-                  </li>
-
-                  <li className="flex gap-3 items-center py-2">
-                    <AiOutlineCheckCircle className="text-[#2E2F5B] text-[20px]" />
-                    <span className="text-[#475467] text-[.9rem]">
-                      {item.feature3}
-                    </span>
-                  </li>
-
-                  <li className="flex gap-3 items-center py-2">
-                    <AiOutlineCheckCircle className="text-[#2E2F5B] text-[20px]" />
-                    <span className="text-[#475467] text-[.9rem]">
-                      {item.feature4}
-                    </span>
-                  </li>
-
-                  <li className="flex gap-3 items-center py-2">
-                    <AiOutlineCheckCircle className="text-[#2E2F5B] text-[20px]" />
-                    <span className="text-[#475467] text-[.9rem]">
-                      {item.feature5}
-                    </span>
-                  </li>
+                ))}
                 </ul>
               </div>
             </div>

@@ -8,7 +8,16 @@ module.exports = {
       lg: "976px",
       xl: "1440px",
     },
-    extend: {},
+    extend: {
+      colors: {
+        "vanbook-primary": '#2E2F5B',
+        "vanbook": {
+          "100": '#2E2F5B33',
+          "300": '#2E2F5B55',
+          "500": '#2E2F5B',
+        }
+      },
+    },
   },
   plugins: [],
 };

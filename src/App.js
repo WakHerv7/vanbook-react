@@ -15,12 +15,13 @@ import SchoolClassesList from "./Pages/Backoffice/SchoolClasses/SchoolClassesLis
 import SchoolStudentsList from "./Pages/Backoffice/SchoolStudents/SchoolStudentsList.jsx";
 import SchoolPaymentConfigsList from "./Pages/Backoffice/SchoolPaymentConfigs/SchoolPaymentConfigsList.jsx";
 import StudentRegistration from "./Pages/Backoffice/StudentRegistration/StudentRegistrationList.jsx";
-
+//
+import UsersList from "./Pages/Backoffice/Users/Users.jsx";
 import Persons from "./Pages/Backoffice/Persons/Persons.jsx";
 import Students from "./Pages/Backoffice/Persons/Students/StudentsList.jsx";
 import Staff from "./Pages/Backoffice/Persons/Staff/StaffList.jsx";
 import Customers from "./Pages/Backoffice/Persons/Customers/CustomersList.jsx";
-
+//
 import OneReceipt from "./Pages/Backoffice/Receipts_old/OneReceipt";
 // import CreateReceipt from "./Pages/Backoffice/Receipts/CreateReceipt.jsx";
 import ReceiptsList from "./Pages/Backoffice/Receipt/ReceiptsList.jsx";
@@ -46,7 +47,7 @@ import Debtors from "./Pages/Backoffice/Debtors/Debtors.jsx";
 import Dashboard from "./Pages/Backoffice/Dashboard/Dashboard.jsx";
 
 import Settings from "./Pages/Backoffice/Settings/Settings.jsx";
-
+import RequireAuth from "./Pages/Auth/RequireAuth.js";
 import Layout from "./Components/Dashboard/Layout";
 
 function App() {
@@ -58,7 +59,8 @@ function App() {
           <Route exact path="/login" element={<Login />}/>
           <Route exact path="/signup" element={<SignUp />}/>
           <Route exact path="/onboarding" element={<Stepper />}/>
-
+          
+          <Route element={<RequireAuth/>}>
           <Route exact path="dashboard" element={<Layout/>}>
             <Route index element={<Dashboard />}/>
             <Route exact path="accounts" element={<AccountsList />}/>
@@ -68,6 +70,8 @@ function App() {
             <Route exact path="person_roles" element={<PersonRolesList />}/>
             <Route exact path="payment_methods" element={<PaymentMethodsList />}/>
             
+            <Route exact path="users" element={<UsersList/>}/>
+
             <Route exact path="school_classes" element={<SchoolClassesList />}/>
             <Route exact path="school_students" element={<SchoolStudentsList />}/>
             <Route exact path="school_payment_configs" element={<SchoolPaymentConfigsList />}/>
@@ -110,6 +114,8 @@ function App() {
               <Route exact path="customers" element={<Customers />}/>
             </Route>
           </Route>
+          </Route>
+
         </Routes>
       </Router>
     </>

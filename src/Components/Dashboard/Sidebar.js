@@ -9,11 +9,31 @@ import { MdOutlineAssignment, MdOutlineLogout } from "react-icons/md";
 import { TbCalendarStats } from "react-icons/tb";
 import { VscFeedback } from "react-icons/vsc";
 
+import { useDispatch } from 'react-redux'
+import { logOut } from '../../Api/Auth/authSlice';
+import { useSignoutMutation } from '../../Api/Auth/authApiSlice';
+import { useNavigate } from 'react-router-dom';
+
 const SideBar = ({sidebarOpen, setSidebarOpen}) => {
     
+    const [signout, { isLoading }] = useSignoutMutation()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     // let sidebarOpen = false;
     const toggleSidebarMenu = () => {
         setSidebarOpen(!sidebarOpen);
+    }
+
+    const handleLogout = async (e) => {
+        e.preventDefault()
+        try {
+            const resp = await signout().unwrap()
+            dispatch(logOut())
+            navigate('/login')
+        } catch (err) {
+            console.log(JSON.stringify(err)); 
+        }
     }
 
     return (
@@ -100,7 +120,7 @@ const SideBar = ({sidebarOpen, setSidebarOpen}) => {
                             </span>
                             <span className={`sidebar_menu_item_text ${sidebarOpen ? "block" : "hidden"}`}>Settings</span>
                         </Link>                            
-                        <Link to={'#'} className=" sidebar_menu_item relative flex items-center gap-6 text-white">
+                        <Link to={'#'} onClick={handleLogout} className=" sidebar_menu_item relative flex items-center gap-6 text-white">
                             <span className="w-6 flip_H">
                                 <MdOutlineLogout size={24} color={"white"}/>
                             </span>
