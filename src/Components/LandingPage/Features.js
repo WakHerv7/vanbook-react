@@ -43,7 +43,7 @@ const Features = () => {
   return (
     <section className="bg-[#F9FAFB] w-full md:mt-[-8rem] z-1 relative">
       <div className="w-[85%] mx-auto pt-[6rem] pb-[5rem]">
-        <div className="flex flex-col text-center pb-8">
+        <div id="overview_section" className="flex flex-col text-center pb-8">
 
           <span className="mb-3 font-medium text-[2rem] text-[#101828]">
             All you need to run your finances effectively

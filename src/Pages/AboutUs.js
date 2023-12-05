@@ -19,8 +19,15 @@ import fisayoAvt from "../Assets/fisayoAvt.svg";
 import mapbg from "../Assets/Mapwrap.png";
 import Alert from "../Components/LandingPage/Alert";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 function AboutUs() {
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behaviour: 'smooth'})
+  }, [])
+
+
   return (
     <div>
       <Alert />
@@ -73,7 +80,7 @@ function AboutUs() {
         </div>
       </section>
       <section className="bg-[#F9FAFB] py-[48px]">
-        <div className="values-container flex flex-col max-w-[90%] mx-[auto]">
+        <div id="our_values_section" className="values-container flex flex-col max-w-[90%] mx-[auto]">
           <div className="text-center">
             <p className="font-[400] text-[16px] leading-[24px] text-[#2E2F5B]">
               Our values
@@ -153,7 +160,7 @@ function AboutUs() {
       {/*  */}
       <section>
         <div className="meet-team-container my-[104px] max-w-[90%] mx-[auto]">
-          <div className="text-center">
+          <div id="our_team_section" className="text-center">
             <h2 className="text-[#101828] font-[400] text-[24px] leading-[32.4px] ">
               Meet our team
             </h2>

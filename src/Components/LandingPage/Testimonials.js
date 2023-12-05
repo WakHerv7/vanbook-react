@@ -83,25 +83,25 @@ const Testimonials = () => {
   const SwiperButtonPrev = ({ idx, onClick }) => {
     // const swiper = useSwiper();
     return <button
-            className={`cursor-pointer rounded-lg border bg-transparent ${idx==0 ? 'opacity-5':'opacity-100' }`} 
-            onClick={onClick}>
-              <BsArrowLeftCircle size={35}/>
-            </button>;
+      className={`cursor-pointer rounded-lg border bg-transparent ${idx == 0 ? 'opacity-5' : 'opacity-100'}`}
+      onClick={onClick}>
+      <BsArrowLeftCircle size={35} />
+    </button>;
   };
 
-  const SwiperButtonNext = ({  idx, onClick }) => {
+  const SwiperButtonNext = ({ idx, onClick }) => {
     // const swiper = useSwiper();
     return <button
-            className={`cursor-pointer rounded-lg border bg-transparent ${idx==5 ? 'opacity-5':'opacity-100' }`} 
-            onClick={onClick}>
-              <BsArrowRightCircle size={35}/>
-            </button>;
+      className={`cursor-pointer rounded-lg border bg-transparent ${idx == 5 ? 'opacity-5' : 'opacity-100'}`}
+      onClick={onClick}>
+      <BsArrowRightCircle size={35} />
+    </button>;
   };
 
   return (
-    <section>
+    <section >
       <div className="flex flex-col md:flex-row items-center justify-between md:w-[85%] mx-auto py-16">
-        <div>
+        <div id="testimonial_section">
           <h2 className="text-[#101828] text-[1.7rem] mb-[1rem] text-center">
             Don’t just take our word for it
           </h2>
@@ -132,7 +132,7 @@ const Testimonials = () => {
           /*using the refs instead of className*/
           // navigation
           pagination={{ clickable: true }}
-          
+
           // navigation
           autoplay={{ delay: 3000 }}
           breakpoints={{
@@ -161,7 +161,7 @@ const Testimonials = () => {
           {data.map((item, index) => {
             return (
               // <div>
-              <SwiperSlide key={Math.floor(Math.random()*1000)}>
+              <SwiperSlide key={Math.floor(Math.random() * 1000)}>
                 <div
                   style={{
                     backgroundImage: `url(${item.image})`,
@@ -192,19 +192,19 @@ const Testimonials = () => {
         </Swiper>
         <div className="flex gap-5 w-full mt-10">
           <SwiperButtonPrev idx={swipeIndex} onClick={() => prevRef.current.slidePrev()}></SwiperButtonPrev>
-          <SwiperButtonNext idx={swipeIndex} onClick={() => nextRef.current.slideNext()}></SwiperButtonNext>          
+          <SwiperButtonNext idx={swipeIndex} onClick={() => nextRef.current.slideNext()}></SwiperButtonNext>
         </div>
-        
+
       </div>
       {/* Swiper end */}
 
       <div className="w-[85%] mx-auto pt-[10rem] pb-16">
-        <div className="flex flex-col text-center gap-4">
-        <span className="text-[#2E2F5B] font-semibold py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[.9rem]">
+        <div id="feature_section" className="flex flex-col text-center gap-4">
+          <span className="text-[#2E2F5B] font-semibold py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[.9rem]">
             Features
           </span>
           <span className="-mb-1 font-medium text-[2rem] text-[#101828] capitalize">
-            Cutting-edge finance management Features
+            Cutting-edge finance management Platform
           </span>
 
           <span className="text-[#667085] text-[1.1rem] mb-8">
@@ -257,7 +257,7 @@ const Testimonials = () => {
             </div>
             <span>Manage your team with reports</span>
             <span className="text-[#667085] text-[.9rem] md:px-4 md:text-[.82rem] lg:text-[.9rem] ">
-              Measure what matters with Untitled’s easy-to-use reports. You can
+              Measure what matters with Vanbook’s easy-to-use reports. You can
               filter, export, and drilldown on the data in a couple
               clicks.
             </span>

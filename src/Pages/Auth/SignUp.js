@@ -4,9 +4,17 @@ import logo from "../../Assets/tech64Logo.svg";
 import GoogleAuth from "../../Components/GoogleAuth";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { useEffect } from "react";
 
 const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState();
+
+  useEffect (() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+  }, []);
+
+
 
   return (
     <section>

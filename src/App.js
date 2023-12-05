@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Login from "./Pages/Auth/Login";
 import SignUp from "./Pages/Auth/SignUp";
@@ -46,6 +46,15 @@ import ContactUs from "./Pages/ContactUs";
 import JoinWaitList from "./Pages/JoinWaitList";
 
 function App() {
+
+  useEffect(() => {
+     document.querySelectorAll('a').forEach(element => {
+      element.addEventListener('click', e => {
+        e.preventDefault()
+      })
+     })
+  }, [])
+  
   return (
     <>
       <Router>

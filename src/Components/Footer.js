@@ -2,6 +2,7 @@ import { AiOutlineTwitter, AiFillLinkedin } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import logo from "../Assets/tech64Logo.svg";
+import { HashLink } from "react-router-hash-link";
 
 const Footer = () => {
   return (
@@ -32,24 +33,21 @@ const Footer = () => {
             <div className="text-[.9rem] leading-8 w-1/2">
               <span className="text-[#98A2B3]">Product</span>
               <div className="text-[#667085] font-medium flex flex-col">
-                <Link to="#">Overview</Link>
-                <Link to="#">Features</Link>
-                <Link to="#" className="flex gap-2">
+                <HashLink to="/#overview_section">Overview</HashLink>
+                <HashLink to="/#feature_section">Features</HashLink>
+                <HashLink to="/#testimonial_section" className="flex gap-2">
                   Testimonials
-                  {/* <span className="bg-[#ECFDF3] px-2 rounded-lg text-[.7rem]">
-                    New
-                  </span> */}
-                </Link>
+                </HashLink>
                 <Link to="#">Pricing</Link>
               </div>
             </div>
             <div className="text-[.9rem] leading-8 w-1/2">
               <span className="text-[#98A2B3]">Company</span>
               <div className="text-[#667085] font-medium flex flex-col">
-                <Link to="#">About us</Link>
-                <Link to="#">Our values</Link>
-                <Link to="#">Meet Our team</Link>
-                <Link to="#">Sign up for free trial</Link>
+                <Link to="/about-us">About us</Link>
+                <HashLink to="/about-us#our_values_section">Our values</HashLink>
+                <HashLink to="/about-us#our_team_section">Meet Our team</HashLink>
+                <Link to="/signup">Sign up for free</Link>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Features from "../Components/LandingPage/Features";
 import Footer from "../Components/Footer";
 import Header from "../Components/LandingPage/Header";
@@ -10,6 +10,11 @@ import FAQ from "../Components/LandingPage/FAQ";
 import Alert from "../Components/LandingPage/Alert";
 
 const Home = () => {
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behaviour: 'smooth' })
+  }, [])
+
   return (
     <div>
       <Alert />
