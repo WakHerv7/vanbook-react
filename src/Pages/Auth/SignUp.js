@@ -9,9 +9,10 @@ import { useEffect } from "react";
 const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState();
 
-  useEffect (() => {
+
+  useEffect(() => {
     // 👇️ scroll to top on page load
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, []);
 
 
@@ -19,7 +20,9 @@ const SignUp = () => {
   return (
     <section>
       <nav className="h-[70px] flex items-center pl-12">
-        <img src={logo} alt="" />
+        <a href="/">
+          <img src={logo} alt="tech64 logo" className="cursor-pointer" />
+        </a>
       </nav>
 
       <div className="w-[65%] border mx-auto flex my-8 rounded">
