@@ -83,7 +83,6 @@ function Bill(props) {
                                 <label className='myprimarytextcolor'>Bill Date</label>
                                 <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
                             </div>
-
                         </div>
                     </div>
                 </div>

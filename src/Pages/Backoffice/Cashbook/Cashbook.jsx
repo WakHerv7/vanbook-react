@@ -1,11 +1,11 @@
-import {React, useState, useRef, useEffect }from 'react';
+import {React, useState, useEffect }from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {FiChevronLeft, FiPlus } from "react-icons/fi";
+import { RiDeleteBinLine } from "react-icons/ri";
 import { useSelector, useDispatch }from 'react-redux';
-import {FiChevronLeft } from "react-icons/fi";
-import { AiOutlineCalendar } from "react-icons/ai";
-import { selectAllReceipts,  getReceiptsStatus, getReceiptsError, fetchReceipts } from '../../../Reducers/receiptsSlice';
-import { selectAllAccounts, selectAllTypedAccounts, getAccountsStatus, getAccountsError, fetchAccounts, fetchAccountsByType }from '../../../Reducers/accountsSlice';
-
+import "./cashbook-style.css";
+// import OneCashbookItemModal from './OneCashbookItemModal.jsx';
+import { selectAllCashbook,  getCashbookStatus, getCashbookError, fetchCashbook }from '../../../Reducers/cashbookSlice.js';
 const listItems = [
     {value:"Item",text:"Element"},
     {value:"Item",text:"Element"},
@@ -14,70 +14,102 @@ const listItems = [
 ];
 
 function Cashbook(props) {    
-    const dispatch = useDispatch();
+    const dispatch = useDispatch();    
     const navigate = useNavigate();
-
-    const receipts = useSelector(selectAllReceipts);
-    const receiptsStatus = useSelector(getReceiptsStatus);
-    const receiptsError = useSelector(getReceiptsError);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [idToOpen, setIdToOpen] = useState(null);
+    const [totalDebitAmount, setTotalDebitAmount] = useState(0);
+    const [totalCreditAmount, setTotalCreditAmount] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [totalCashAmount, setTotalCashAmount] = useState(0);
+    const [balanceCf, setBalanceCf] = useState(0);
+    // --------------------------------------------------------
+    const myCashbook = useSelector(selectAllCashbook);
+    const cashbookStatus = useSelector(getCashbookStatus);
+    const cashbookError = useSelector(getCashbookError);
     useEffect(() => {
-        if (receiptsStatus === 'idle') {
-            dispatch(fetchReceipts())            
+        if (cashbookStatus === 'idle') {
+            dispatch(fetchCashbook())            
         }
-    }, [receiptsStatus, dispatch])
+        else if (cashbookStatus === 'succeeded') {
+            console.log("======================")
+            console.log("myCashbook:",myCashbook)
+            console.log("======================")
 
-    const myAccounts = useSelector(selectAllTypedAccounts);
-    const accountsStatus = useSelector(getAccountsStatus);
-    const accountsError = useSelector(getAccountsError);
-    useEffect(() => {
-        if (accountsStatus === 'idle') {
-            dispatch(fetchAccountsByType(103))            
-        }
-    }, [accountsStatus, dispatch])
-
-    let renderedReceipts;
-    if (receiptsStatus === 'loading') {
-        renderedReceipts = <tr><td>...</td></tr>;
-    } else if (receiptsStatus === 'succeeded') {
-        renderedReceipts = receipts && receipts.map((receipt, index) => (
-            <tr key={index} className="bg-gray-100 border-b">
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {receipt.date}
-                </td>
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {receipt.items_list}
-                </td>
-                {/* <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {receipt.person_name}
-                </td>                             */}
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <>{receipt.total_amount_paid}</>
-                {/* {myAccounts?.filter(ma => ma.id == receipt.payment_method_id)[0]?.name == 'Bank' ?
-                    <>{receipt.total_amount_paid}</>
-                    :
-                    <></>
-                    } */}
-                </td>
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">                    
-                    {myAccounts?.filter(ma => ma.id == receipt.payment_method_id)[0]?.name == 'Cash' ?
-                    <>{receipt.total_amount_paid}</>
-                    :
-                    <></>
+            let total = 0;
+            let totalDebit = 0;
+            let totalCredit = 0;
+            let totalDebitCash = 0;
+            let totalCreditCash = 0;
+            myCashbook.map((cashbookItem, index) =>{
+                total += parseInt(cashbookItem.amount)
+                if (cashbookItem.is_debit == true) {
+                    totalDebit += parseInt(cashbookItem.amount)
+                    if (cashbookItem.payment_method == "cash") {
+                        totalDebitCash += parseInt(cashbookItem.amount)
                     }
-                </td>
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {/* {receipt.total_amount} */}
-                </td>
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {/* {receipt.total_amount_paid} */}
-                </td>
-                {/* <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <RiDeleteBinLine size={18} color={"#41436a"}/>
-                </td> */}
-            </tr>
+                } else {
+                    totalCredit += parseInt(cashbookItem.amount)
+                    if (cashbookItem.payment_method == "cash") {
+                        totalCreditCash += parseInt(cashbookItem.amount)
+                    }
+                }
+            })
+            setTotalCashAmount(totalDebitCash - totalCreditCash);
+            setTotalAmount(total);
+            setTotalDebitAmount(totalDebit);
+            setTotalCreditAmount(totalCredit);
+            setBalanceCf(totalDebit - totalCredit);
+        }
+    }, [cashbookStatus, dispatch])
+    // --------------------------------------------------------
+    // --------------------------------------------------------
+    const handleModalOpen = (id) => {  
+        if (modalOpen) {
+            setIdToOpen(null)
+            setModalOpen(false)
+        }
+        else {
+            setIdToOpen(id)
+            setModalOpen(true)
+        }
+    }
+    // --------------------------------------------------------
+    const capitalizeText = (str) => {  
+        return str.charAt(0).toUpperCase() + str.slice(1)
+    }
+
+
+    let renderedCashbook;
+    if (cashbookStatus === 'loading') {
+        renderedCashbook = <tr><td>...</td></tr>;
+    } else if (cashbookStatus === 'succeeded') {
+        renderedCashbook = myCashbook.map((cashbookItem, index) => (
+        <tr key={index} onClick={()=>handleModalOpen(cashbookItem.id)} className="table_row_w cursor-pointer">
+            <td className="text-gray-900  cursor-pointer font-light px-6 py-4 whitespace-nowrap">
+                {cashbookItem.date.split("T")[0]}
+            </td>
+            <td className="cashbook-item-description text-gray-900 font-light px-6 py-4">
+                <span className="font-medium">{cashbookItem.description}</span>
+                <br/>
+                {cashbookItem.content}
+            </td>
+            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {cashbookItem.is_debit ? cashbookItem.payment_method == "bank" ? cashbookItem.amount.toLocaleString('en-US') : '' : ''}
+            </td>
+            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {cashbookItem.is_debit ? cashbookItem.payment_method == "cash" ? cashbookItem.amount.toLocaleString('en-US') : '' : ''}
+            </td>            
+            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {!cashbookItem.is_debit ? cashbookItem.payment_method == "bank" ? cashbookItem.amount.toLocaleString('en-US') : '' : ''}
+            </td>
+            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {!cashbookItem.is_debit ? cashbookItem.payment_method == "cash" ? cashbookItem.amount.toLocaleString('en-US') : '' : ''}
+            </td>                           
+        </tr>
     ))
-    } else if (receiptsStatus === 'failed') {
-        renderedReceipts = {receiptsError};
+    } else if (cashbookStatus === 'failed') {
+        renderedCashbook = {cashbookError};
     }
 
 
@@ -87,30 +119,52 @@ function Cashbook(props) {
 
             <div>
                 <div className="flex py-3 justify-between items-center gap-10  border border-b-slate-300">
-                    <a href="#" className="flex gap-1 items-center">
+                    <Link to={""} onClick={() => navigate(-1)} className="flex gap-1 items-center">
                         <FiChevronLeft size={20} color={"#white"}/>
                         <span className="myprimarytextcolor">Back</span>
-                    </a>
+                    </Link>
 
-                    {/* <div className="select_container flex gap-5 items-center">
-                        <span className="myprimarytextcolor">Type</span>
+                    <div className="select_container flex gap-5 items-center">
+                        <span className="myprimarytextcolor">Bank</span>
 
                         <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
                             <option disabled value="dflt">{`Select from the list`}</option>        
                             {
                                 listItems.map((val, ind) => {
-                                    return <option value={val.value}>{val.text}</option>
+                                    return <option key={ind} value={val.value}>{val.text}</option>
                                 })                                
                             }
                         </select>
 
-                    </div> */}
-
-                    <div className="flex myprimarytextcolor gap-3 items-center">
-                        <AiOutlineCalendar size={20}/>
-                        {new Date().toISOString().substring(0, 10)}
                     </div>
-                    
+
+                    <div className="select_container flex gap-5 items-center">
+                        <span className="myprimarytextcolor">Template</span>
+
+                        <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
+                            <option disabled value="dflt">{`Select from the list`}</option>        
+                            {
+                                listItems.map((val, ind) => {
+                                    return <option key={ind} value={val.value}>{val.text}</option>
+                                })                                
+                            }
+                        </select>
+
+                    </div>
+
+                    <div className="select_container flex gap-5 items-center">
+                        <span className="myprimarytextcolor">Currency</span>
+
+                        <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
+                            <option disabled value="dflt">{`Select from the list`}</option>        
+                            {
+                                listItems.map((val, ind) => {
+                                    return <option key={ind} value={val.value}>{val.text}</option>
+                                })                                
+                            }
+                        </select>
+
+                    </div>
                 </div>
                 
                 <div className="flex justify-between mt-5 mb-7">
@@ -118,59 +172,32 @@ function Cashbook(props) {
                         <h1 className='text-[30px] myprimarytextcolor'>Cashbook</h1>
                         <div className="flex flex-col gap-1">
                             <label className='myprimarytextcolor'>Available balance:</label>
-                            <span className='myprimarytextcolor text-xl'>N 1,235,486.45</span>
+                            <span className='myprimarytextcolor font-medium text-[20px]'># {balanceCf.toLocaleString('en-US')}</span>
                         </div>
                     </div>
-                    <div className="flex gap-5">
-                        <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 mb-5">
+                        <div className="flex flex-col gap-1 items-end">
+                            <label className='myprimarytextcolor'>Balance b/f</label>
+                            <h1 className='text-[20px] myprimarytextcolor'>#000</h1>
+                        </div>
+                        <div className="flex gap-7">
                             <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Balance b/f</label>
-                                <input type="text" name="dateInput" id="receiptNumInputId" className="outline-none py-2 px-2 rounded-md" placeholder='0000'/>
+                                <label className='myprimarytextcolor'>From</label>
+                                <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
                             </div>
-                            {/* <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Branch</label>
-                                <select className={`commonSelectInput outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>
-                                    <option disabled value="dflt">{`Select from the list`}</option>        
-                                    {
-                                        listItems.map((val, ind) => {
-                                            return <option value={val.value}>{val.text}</option>
-                                        })                                
-                                    }
-                                </select>
-                            </div> */}
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            {/* <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Class</label>
-                                <select className={`commonSelectInput outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>
-                                    <option disabled value="dflt">{`Select from the list`}</option>        
-                                    {
-                                        listItems.map((val, ind) => {
-                                            return <option value={val.value}>{val.text}</option>
-                                        })                                
-                                    }
-                                </select>
-                            </div> */}
-                            
-                            <div className="flex gap-7">
-                                <div className="flex flex-col gap-1">
-                                    <label className='myprimarytextcolor'>From</label>
-                                    <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <label className='myprimarytextcolor'>To</label>
-                                    <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
-                                </div>
+                            <div className="flex flex-col gap-1">
+                                <label className='myprimarytextcolor'>To</label>
+                                <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
                             </div>
-                            {/* <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Amount</label>
-                                <input type="text" name="dateInput" id="receiptNumInputId" className="outline-none py-2 px-2 rounded-md" placeholder='0000'/>
-                            </div> */}
                         </div>
+                        {/* <div className="flex flex-col gap-1">
+                            <label className='myprimarytextcolor'>Amount</label>
+                            <input type="text" name="dateInput" id="receiptNumInputId" className="outline-none py-2 px-2 rounded-md" placeholder='0000'/>
+                        </div> */}
                     </div>
                 </div>
 
-                <div className="table_container rounded-xl border-solid border-2 border-gray-300 overflow-hidden">
+                <div className="table_container rounded-xl overflow-hidden">
                     <table className="w-full">
                     <thead className="bg-white border-b">
                     <tr>
@@ -185,8 +212,6 @@ function Cashbook(props) {
                             </th>
                             <th colSpan="2" scope="col" className="text-md border-b font-medium myprimarytextcolor px-6 py-4 text-left">
                                 Credit
-                            </th>
-                            <th rowSpan="2" scope="col" className="text-sm border-l font-medium myprimarytextcolor px-6 py-4 text-left">                            
                             </th>
                         </tr>
                         <tr>
@@ -205,108 +230,46 @@ function Cashbook(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {renderedReceipts}
-                        {/* <tr className="bg-gray-100 border-b">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                SN20230103
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                EBUKA JOHNSON
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Form 1
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                1st term School fees
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Bank
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                70000
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Insolvent
-                            </td>
-                        </tr>
-                        <tr className="bg-white border-b">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                SN20230103
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                EBUKA JOHNSON
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Form 1
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                1st term School fees
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Bank
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                70000
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Insolvent
-                            </td>
-                        </tr>
-                        <tr className="bg-gray-100 border-b">
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">3</td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                SN20230103
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                EBUKA JOHNSON
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Form 1
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                1st term School fees
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Bank
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                70000
-                            </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Insolvent
-                            </td>
-                        </tr> */}
+                        {renderedCashbook}
                     </tbody>
                     </table>
                 </div>
 
-                <div className="flex justify-end mt-5 px-1">
-                    {/* <div className="flex flex-col gap-1">
-                        <label className='myprimarytextcolor'>Customer message</label>
+                <div className="flex justify-end mt-5 px-1 mb-10">
+
+                    <div className="flex gap-20 mb-10">
+                        <div className="flex flex-col gap-3 text-right font-medium">
+                            <span className="myprimarytextcolor">Total Cash:</span>
+                            <span className="myprimarytextcolor">Total Income:</span>
+                            <span className="myprimarytextcolor">Total Expenses:</span>
+                            <span className="myprimarytextcolor">Balance c/f:</span>
+                        </div>
+                        <div className="flex flex-col  gap-3 text-right font-medium">
+                            <span className="myprimarytextcolor">{totalCashAmount.toLocaleString('en-US')}</span>
+                            <span className="myprimarytextcolor">{totalDebitAmount.toLocaleString('en-US')}</span>
+                            <span className="myprimarytextcolor">{totalCreditAmount.toLocaleString('en-US')}</span>
+                            <span className="myprimarytextcolor">{balanceCf.toLocaleString('en-US')}</span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                {/* <div className="flex justify-between mt-5 px-1">
+                    <div className="flex flex-col gap-1">
+                        <label className='myprimarytextcolor'>Memo</label>
                         <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
                             <option disabled value="dflt">{`Select from the list`}</option>        
                             {
                                 listItems.map((val, ind) => {
-                                    return <option value={val.value}>{val.text}</option>
+                                    return <option key={ind} value={val.value}>{val.text}</option>
                                 })                                
                             }
                         </select>
-                    </div> */}
+                    </div>
 
                     <div className="flex gap-20">
-                        <div className="flex flex-col text-right">
-                            <span className="myprimarytextcolor">Total Cash:</span>
-                            <span className="myprimarytextcolor">Total Expenses:</span>
-                            <span className="myprimarytextcolor">Balance c/f:</span>
-                        </div>
-                        <div className="flex flex-col text-right">
-                            <span className="myprimarytextcolor">0.00</span>
-                            <span className="myprimarytextcolor">0.00</span>
-                            <span className="myprimarytextcolor">0.00</span>
-                        </div>
-                        
+                        <span className="myprimarytextcolor">Total</span>
+                        <span className="myprimarytextcolor">{totalAmount}</span>
                     </div>
                 </div>
                 <div className="flex justify-end mt-5 px-1 gap-5">
@@ -319,10 +282,23 @@ function Cashbook(props) {
                     <button className="outline-none  bg-white border-1 border-[#41436a] rounded-md text-[#41436a] text-sm px-3 py-2">
                         Clear
                     </button>
-                </div>
+                </div> */}
             </div>
 
         </div>
+        {/* {
+            modalOpen ?
+            <>
+                <OneCashbookItemModal 
+                handleModalOpen={handleModalOpen}
+                modalOpen={modalOpen}
+                cashbookItemId ={idToOpen}
+                />
+                
+            </>
+            :
+            <></>
+        } */}
         </>
     );
 }

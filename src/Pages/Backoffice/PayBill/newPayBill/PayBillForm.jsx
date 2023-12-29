@@ -11,7 +11,7 @@ import PaymentDepositLine from "./outstandingTransactions/OutstandingTransaction
 
 // import { updateDeposit, addNewDeposit, fetchDepositById, selectDepositById, selectAllDeposits,  getDepositsStatus, getDepositsError, fetchDeposits }from '../../../../Reducers/depositsSlice';
 
-import { updatePaidBill, addNewPaidBill, fetchPaidBillById, selectPaidBillById,selectAllPaidBills,  getPaidBillsStatus, getPaidBillsError, fetchPaidBills }from '../../../../Reducers/paidBillsSlice';
+import { updateBillPayment, addNewBillPayment, fetchBillPaymentById, selectBillPaymentById,selectAllBillPayments,  getBillPaymentsStatus, getBillPaymentsError, fetchBillPayments }from '../../../../Reducers/billPaymentsSlice';
 
 import { selectAllReceipts,  getReceiptsStatus, getReceiptsError, fetchReceipts, fetchReceiptsUndeposited } from '../../../../Reducers/receiptsSlice';
 import { selectAllAccounts, selectAllTypedAccounts, getAccountsStatus, getAccountsError, fetchAccounts, fetchAccountsByType }from '../../../../Reducers/accountsSlice';
@@ -165,12 +165,12 @@ function PayBillForm(props) {
     }, [personsStatus, dispatch])
 
     //---------------------------------------------------------
-    const myPayBill = useSelector((state) => selectPaidBillById(state, Number(id)));
-    const paidBillStatus = useSelector(getPaidBillsStatus);
-    const paidBillError = useSelector(getPaidBillsError);
+    const myPayBill = useSelector((state) => selectBillPaymentById(state, Number(id)));
+    const paidBillStatus = useSelector(getBillPaymentsStatus);
+    const paidBillError = useSelector(getBillPaymentsError);
     useEffect(() => {
         if (paidBillStatus === 'idle' && id) {
-            dispatch(fetchPaidBillById({ id: Number(id) })).unwrap()          
+            dispatch(fetchBillPaymentById({ id: Number(id) })).unwrap()          
         }
         else if (paidBillStatus === 'succeeded' && Array.isArray(myPayBill) && myPayBill) {
             // console.log("myReceipt : ", myReceipt);                        
@@ -187,48 +187,42 @@ function PayBillForm(props) {
     }, [receiptsStatus, dispatch])
     //---------------------------------------------------------
 
-    // const handleSelectedItem = (item, index=null) => {
-    //     let rl = fundDepositLines;
-    //     rl[index] = item
-    //     // setFundDepositLines(rl);
-    // };
-
 
     const submitNewDeposit = () => {
         let pdls= [...paymentDepositLines];
-        let receive_payment_lines = [];
+        let bill_payment_lines = [];
         pdls.map(elt => {
-            let receive_payment_line_input = {
-                "date": depositDate,
-                "number": String(elt.paymentLine.currentLine.number),
-                "person_id": Number(elt.paymentLine.person.id),
-                "person_role_id": Number(elt.paymentLine.person.roleId),
-                "due_date": depositDate,
-                "original_amount": Number(elt.paymentLine.currentLine.total_amount),
-                "open_balance": Number(elt.paymentLine.currentLine.balance_due),
+            let bill_payment_line_input = {
+                // "payment_date": depositDate,
+                // "number": String(elt.paymentLine.currentLine.number),
+                // "person_id": Number(elt.paymentLine.person.id),
+                // "person_role_id": Number(elt.paymentLine.person.roleId),
+                // "due_date": depositDate,
+                // "original_amount": Number(elt.paymentLine.currentLine.total_amount),
+                // "open_balance": Number(elt.paymentLine.currentLine.balance_due),
                 "amount_paid": Number(elt.paymentLine.paymentAmount),
-                "transaction_type": elt.paymentLine.paymentType.toLowerCase(),
+                "transaction_type": "pay_bill",
                 "transaction_id": Number(elt.paymentLine.paymentId),
             };
-            receive_payment_lines.push(receive_payment_line_input);
+            bill_payment_lines.push(bill_payment_line_input);
         });
         
         let toSubmit = {
             "number": String(randomNum),            
-            "person_id": Number(person.id),
-            "person_role_id": Number(person.person_role_id),
+            // "person_id": Number(person.id),
+            // "person_role_id": Number(person.person_role_id),
             "payment_date": depositDate,
-            "deposit_account_id": selectedAccount.id,
+            "pay_from_account_id": selectedAccount.id,
             "payment_method_id": isNaN(Number(paymentMethodId)) ? null : Number(paymentMethodId),
             "ref_nb": refNb, 
-            "transaction_type": 'payment',
+            "transaction_type": 'pay_bill',
             "total_amount": parseInt(totalAmount),
             "description": memo,
-            "receive_payment_lines": receive_payment_lines,            
+            "pay_bill_lines": bill_payment_lines,            
         }
         console.log("toSubmit: ", toSubmit)
         
-        if ( person && selectedAccount && depositDate) {
+        if ( paymentMethodId && selectedAccount && depositDate) {
             dispatch_and_resetform(toSubmit)
         }
     }
@@ -237,18 +231,18 @@ function PayBillForm(props) {
         if(myPayBill?.id){
             toSubmit['id'] = myPayBill?.id;
             dispatch(
-                updatePaidBill(toSubmit)
+                updateBillPayment(toSubmit)
             ).unwrap()
         } else {
             dispatch(
-                addNewPaidBill(toSubmit)
+                addNewBillPayment(toSubmit)
             ).unwrap()
         }
 
         // dispatch(
         //     addNewDeposit(toSubmit)
         // ).unwrap()
-        // redirectRef.current.href = "/dashboard/deposits";
+        // redirectRef.current.href = "/dashboard/bill-payments";
         // redirectRef.current.click();
     }
 
@@ -288,14 +282,14 @@ function PayBillForm(props) {
                         <h1 className='text-[30px] myprimarytextcolor'>Pay Bill</h1>
                         <div className="flex gap-10">
                             <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Paid by</label>
-                                {myPersons?                                
+                                <label className='myprimarytextcolor'>Pay from</label>
+                                {myAccounts?                                
                                 <SelectSearch
-                                itemPlaceholder = {'Select a name'}
+                                itemPlaceholder = {'Select an account'}
                                 selectedItem = {null}
-                                itemsList={myPersons}
+                                itemsList={myAccounts}
                                 itemHasRole={false}
-                                handleSelected={setPerson}
+                                handleSelected={setSelectedAccount}
                                 />
                                 :
                                 <></>
@@ -311,7 +305,7 @@ function PayBillForm(props) {
                         
                         <div className="flex flex-col items-end">
                             <label className='myprimarytextcolor'>Amount Paid</label>
-                            <h1 className='text-[25px] myprimarytextcolor'>#{totalAmount}</h1>
+                            <h1 className='text-[25px] myprimarytextcolor'>#{totalAmount.toLocaleString('en-US')}</h1>
                         </div> 
                         
                         <div className="flex gap-5 mb-5">                                                       
@@ -320,29 +314,6 @@ function PayBillForm(props) {
                                 <input type="date" value={depositDate} onChange={(e)=>setDepositDate(e.target.value)}
                                  name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md h-[40px] w-[200px]"/>
                             </div>
-
-                            <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Deposit To</label>
-                                {myAccounts?                                
-                                <SelectSearch
-                                itemPlaceholder = {'Select an account'}
-                                selectedItem = {null}
-                                itemsList={myAccounts}
-                                itemHasRole={false}
-                                handleSelected={setSelectedAccount}
-                                />
-                                :
-                                <></>
-                                }
-                            </div>
-
-                            {/* <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Amount Received</label>
-                                <div className="flex p-[10px] rounded-lg bg-white min-w-[150px]">{totalAmount}</div>
-                            </div>  */}
-                            
-                        </div>
-                        <div className="flex gap-5 w-full">
                             <div className="flex flex-col gap-1">
                                 <label className='myprimarytextcolor w-fit'>Payment method</label> 
                                 <select value={paymentMethodId} onChange={(e)=>(setPaymentMethodId(Number(e.target.value)))} className={`commonSelectInput outline-none h-[40px] min-w-[200px] w-full px-2 rounded-md`} name={""} >
@@ -354,6 +325,14 @@ function PayBillForm(props) {
                                     }
                                 </select>
                             </div>
+
+                            {/* <div className="flex flex-col gap-1">
+                                <label className='myprimarytextcolor'>Amount Received</label>
+                                <div className="flex p-[10px] rounded-lg bg-white min-w-[150px]">{totalAmount}</div>
+                            </div>  */}
+                            
+                        </div>
+                        <div className="flex gap-5 w-full">                            
                             <div className="flex flex-col gap-1 w-full">
                                 <label className='myprimarytextcolor w-fit'>Reference N°</label> 
                                 <input type="text" value={refNb} onChange={(e)=>setRefNb(e.target.value)}

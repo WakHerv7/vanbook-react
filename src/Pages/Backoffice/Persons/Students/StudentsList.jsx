@@ -89,7 +89,7 @@ function StudentsList(props) {
                 {genderList[studentRegistration.gender]}
             </td>
             <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                {studentRegistration.account_balance}
+                {studentRegistration.account_balance ?? 0}
             </td>
             {/* <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                 {studentRegistration.status}

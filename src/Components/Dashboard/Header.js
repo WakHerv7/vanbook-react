@@ -11,29 +11,18 @@ import notify from '../Notify/Notify';
 
 const Header = () => {
     const dispatch = useDispatch()
-    const welcome = useSelector(selectWelcome)
     const token = useSelector(selectCurrentToken)
     const decodedToken = jwtDecode(token);
-    const { firstname, lastname, username, email } = decodedToken;
+    const { firstname, lastname, username, email, role, privileges, cc, rc } = decodedToken;
     
-    // const aaa = welcome ? 
-
     const firstLetter = (word) => {
         return word.charAt(0).toUpperCase() + '.';
     }
 
-    useEffect(() => {
-        if (welcome) {
-            notify("success", `Welcome to Vanbook `);
-            dispatch(setWelcome({ welcome:false}))
-        }        
-    }, [username])
-    
-
     return (
         <header className="flex w-full h-[78px] px-10 py-3 justify-center bg-white">
             <div className="flex w-full justify-between items-center">
-                <h1 className="myprimarytextcolor text-xl">Lagos High School</h1>
+                <h1 className="myprimarytextcolor text-xl">{cc.name}</h1>
                 <div className="search_bar rounded-[35px] h-[40px] w-[35%] bg-[#F0F0F0]  pl-5 pr-10 flex items-center">
                     <span className="pr-3">
                         <FiSearch size={20} color={"#959BA5"}/>
@@ -66,7 +55,7 @@ const Header = () => {
                 </div>
             </div>
 
-            <ToastContainer/>
+            {/* <ToastContainer/> */}
         </header>
     )
 }

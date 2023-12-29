@@ -142,7 +142,7 @@ function PaymentDepositTable({myPaymentMethods, receiptsAndPayments,
                                 Date
                             </th>
                             <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                                Invoice N°
+                                Bill N°
                             </th>
                             <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                                 By

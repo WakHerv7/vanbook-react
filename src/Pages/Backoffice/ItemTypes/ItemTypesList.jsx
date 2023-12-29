@@ -5,25 +5,23 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-import AddItemTypeModal from './AddItemType/AddItemTypeModal.jsx';
-import EditItemTypeModal from './EditItemType/EditItemTypeModal.jsx';
-import DeleteItemTypeModal from './DeleteItemType/DeleteItemTypeModal.jsx';
+import AddItemType from './ItemType/AddItemType';
+import EditItemType from './ItemType/EditItemType';
+import DeleteItemType from './ItemType/DeleteItemType';
 
+import {jwtDecode} from "jwt-decode";
+import { selectCurrentToken } from '../../../Api/Auth/authSlice.js';
+import { useGetItemTypesByCompanyIdQuery } from '../../../Api/Reducers/itemTypesApiSlice.js';
 import { useSelector, useDispatch }from 'react-redux';
-import { selectAllItemTypes,  getItemTypesStatus, getItemTypesError, fetchItemTypes }from '../../../Reducers/itemTypesSlice';
-import { selectAllAccounts,  getAccountsStatus, getAccountsError, fetchAccounts }from '../../../Reducers/accountsSlice';
 
-
-const listItemTypes = [
-    {value:"ItemType",text:"Element"},
-    {value:"ItemType",text:"Element"},
-    {value:"ItemType",text:"Element"},
-    {value:"ItemType",text:"Element"}
-];
 
 function ItemTypesList(props) {        
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const token = useSelector(selectCurrentToken)
+    const decodedToken = jwtDecode(token);
+    const { rc } = decodedToken;
 
     const [modalOpen, setModalOpen] = useState(false);    
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -31,23 +29,13 @@ function ItemTypesList(props) {
     const [idToEdit, setIdToEdit] = useState(null);
     const [idToDelete, setIdToDelete] = useState(null);
     
-    const itemTypes = useSelector(selectAllItemTypes);
-    const itemTypesStatus = useSelector(getItemTypesStatus);
-    const itemTypesError = useSelector(getItemTypesError);
-    useEffect(() => {
-        if (itemTypesStatus === 'idle') {
-            dispatch(fetchItemTypes())            
-        }
-    }, [itemTypesStatus, dispatch])
-
-    // const accounts = useSelector(selectAllAccounts);
-    // const accountsStatus = useSelector(getAccountsStatus);
-    // const accountsError = useSelector(getAccountsError);
-    // useEffect(() => {
-    //     if (accountsStatus === 'idle') {
-    //         dispatch(fetchAccounts())            
-    //     }
-    // }, [accountsStatus, dispatch]) 
+    const {
+        data: itemTypes,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetItemTypesByCompanyIdQuery(rc.id);
 
     const handleModalOpen = () => {   
         modalOpen ? setModalOpen(false) : setModalOpen(true)   
@@ -76,32 +64,38 @@ function ItemTypesList(props) {
     }
 
 
+    const renderItemTypes = (itemTypes) => {
+        return itemTypes.map((itemType, index) => {
+            return (
+                <tr key={itemType.id} className="table_row_w border border-b-slate-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
+                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    {itemType.name}
+                    </td>
+                    
+                    <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(itemType.id)}>
+                        <AiOutlineEdit size={18} color={"vanbook-primary"}/>
+                        </div>
+                        {!itemType.prime ? 
+                        <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(itemType.id)}>
+                            <RiDeleteBinLine size={18} color={"vanbook-primary"}/>
+                        </div>
+                        : <></>}
+                    </td>
+                </tr>
+            );
+        });
+     };
 
     let renderedItemTypes;
-    if (itemTypesStatus === 'loading') {
+    if (isLoading) {
         renderedItemTypes = <tr><td>...</td></tr>;
-    } else if (itemTypesStatus === 'succeeded') {
-        renderedItemTypes = itemTypes.map((itemType, index) => (
-        <tr key={index} className="table_row_w border border-b-slate-300">
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index}</td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {itemType.name}
-            </td>
-            <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                
-                <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(itemType.id)}>
-                    <AiOutlineEdit size={18} color={"#41436a"}/>
-                </div>
-                <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(itemType.id)}>
-                    <RiDeleteBinLine size={18} color={"#41436a"}/>
-                </div>
-            </td>
-        </tr>
-    ))
-    } else if (itemTypesStatus === 'failed') {
-        renderedItemTypes = <tr><td>{itemTypesError}</td></tr>;
+    } else if (isSuccess && itemTypes) {
+        renderedItemTypes = renderItemTypes(itemTypes.ids.map(id => itemTypes.entities[id]));
+    } else if (isError) {
+        renderedItemTypes = <tr><td>{JSON.stringify(error)}</td></tr>;
     }
-
     
 
 
@@ -117,47 +111,6 @@ function ItemTypesList(props) {
                         <FiChevronLeft size={20} color={"#white"}/>
                         <span className="myprimarytextcolor">Back</span>
                     </Link>
-
-                    {/* <div className="select_container flex gap-5 itemTypes-center">
-                        <span className="myprimarytextcolor">Look for</span>
-
-                        <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-xl`} name={""} defaultValue={'dflt'}>
-                            <option disabled value="dflt">{`Select from the list`}</option>        
-                            {
-                                listItemTypes.map((val, ind) => {
-                                    return <option key={ind} value={val.value}>{val.text}</option>
-                                })                                
-                            }
-                        </select>
-
-                    </div>
-
-                    <div className="select_container flex gap-5 itemTypes-center">
-                        <span className="myprimarytextcolor">In</span>
-
-                        <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-xl`} name={""}  defaultValue={'dflt'}>
-                            <option disabled value="dflt">{`Select from the list`}</option>        
-                            {
-                                listItemTypes.map((val, ind) => {
-                                    return <option key={ind} value={val.value}>{val.text}</option>
-                                })                                
-                            }
-                        </select>
-
-                    </div>
-
-                    <div className="select_container flex gap-5 itemTypes-center">
-                        <span className="myprimarytextcolor">Currency</span>
-
-                        <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-xl`} name={""} defaultValue={'dflt'}>
-                            <option disabled value="dflt">{`Select from the list`}</option>        
-                            {
-                                listItemTypes.map((val, ind) => {
-                                    return <option key={ind} value={val.value}>{val.text}</option>
-                                })                                
-                            }
-                        </select>
-                    </div> */}
 
                     <Link to={"#"} onClick={handleModalOpen} className="outline-none flex gap-1 items-center bg-[#41436a] border-1 border-[#41436a] rounded-md text-white text-sm px-3 py-2">
                         <FiPlus size={20} color={"#white"}/>
@@ -186,58 +139,14 @@ function ItemTypesList(props) {
                 </div>
             </div>
 
-            <div className="flex px-5 py-3 gap-10 ">
-
-                {/* <div className="select_container flex gap-5 itemTypes-center">
-                    <select className={`commonSelectInput outline-none h-[40px] px-2 min-w-[150px] rounded-xl`} name={""}  defaultValue={'dflt'}>
-                        <option disabled value="dflt">{`ItemTypes`}</option>        
-                        {
-                            listItemTypes.map((val, ind) => {
-                                return <option key={ind} value={val.value}>{val.text}</option>
-                            })                                
-                        }
-                    </select>
-                </div>
-                <div className="select_container flex gap-5 itemTypes-center">
-                    <select className={`commonSelectInput outline-none h-[40px] px-2 min-w-[150px] rounded-xl`} name={""}  defaultValue={'dflt'}>
-                        <option disabled value="dflt">{`Activites`}</option>        
-                        {
-                            listItemTypes.map((val, ind) => {
-                                return <option key={ind} value={val.value}>{val.text}</option>
-                            })                                
-                        }
-                    </select>
-                </div>
-                <div className="select_container flex gap-5 itemTypes-center">
-                    <select className={`commonSelectInput outline-none h-[40px] px-2 min-w-[150px] rounded-xl`} name={""}  defaultValue={'dflt'}>
-                        <option disabled value="dflt">{`Report`}</option>        
-                        {
-                            listItemTypes.map((val, ind) => {
-                                return <option key={ind} value={val.value}>{val.text}</option>
-                            })                                
-                        }
-                    </select>
-                </div>
-                <div className="select_container flex gap-5 itemTypes-center">
-                    <select className={`commonSelectInput outline-none h-[40px] px-2 min-w-[150px] rounded-xl`} name={""}  defaultValue={'dflt'}>
-                        <option disabled value="dflt">{`Export`}</option>        
-                        {
-                            listItemTypes.map((val, ind) => {
-                                return <option key={ind} value={val.value}>{val.text}</option>
-                            })                                
-                        }
-                    </select>
-                </div> */}
-
-            </div>
-
         </div>
 
         {modalOpen ?
         <>
-            <AddItemTypeModal 
+            <AddItemType 
             handleModalOpen={handleModalOpen}
             modalOpen={modalOpen}
+            companyId={rc.id}
             />
             
         </>
@@ -245,10 +154,11 @@ function ItemTypesList(props) {
         <></>}
         {editModalOpen ?
         <>
-            <EditItemTypeModal 
+            <EditItemType
             handleModalOpen={handleEditModalOpen}
             modalOpen={editModalOpen}
             itemTypeId ={idToEdit}
+            companyId={rc.id}
             />
             
         </>
@@ -256,10 +166,11 @@ function ItemTypesList(props) {
         <></>}
         {deleteModalOpen ?
         <>
-            <DeleteItemTypeModal 
-            handleDeleteModalOpen={handleDeleteModalOpen}
-            deleteModalOpen={deleteModalOpen}
+            <DeleteItemType
+            handleModalOpen={handleDeleteModalOpen}
+            modalOpen={deleteModalOpen}
             itemTypeId ={idToDelete}
+            companyId={rc.id}
             />
             
         </>

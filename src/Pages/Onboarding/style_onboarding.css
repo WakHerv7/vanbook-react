@@ -1,0 +1,26 @@
+.onboarding-radio {
+    display: none;
+  }
+  .onboarding-radio:checked + .card::before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #2e2f5b;
+    border-radius: 100%;
+  }
+  /* .onboarding-radio:checked + .card::after {
+    content: '';
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    top: 17px;
+    right: 17px;
+    border: 1px solid #2e2f5b;
+    border-radius: 100%;
+  } */
+  .onboarding-radio:checked + .card {
+    box-shadow: 0 0 2px 2px #2e2f5b;
+  }

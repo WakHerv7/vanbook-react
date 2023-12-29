@@ -5,13 +5,14 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-import AddItemModal from './AddItem/AddItemModal.jsx';
-import EditItemModal from './EditItem/EditItemModal.jsx';
-import DeleteItemModal from './DeleteItem/DeleteItemModal.jsx';
+import AddItem from './Item/AddItem';
+import EditItem from './Item/EditItem';
+import DeleteItem from './Item/DeleteItem';
 
+import {jwtDecode} from "jwt-decode";
+import { selectCurrentToken } from '../../../Api/Auth/authSlice.js';
+import { useGetItemsByCompanyIdQuery } from '../../../Api/Reducers/itemsApiSlice.js';
 import { useSelector, useDispatch }from 'react-redux';
-import { selectAllItems,  getItemsStatus, getItemsError, fetchItems }from '../../../Reducers/itemsSlice';
-import { selectAllAccounts,  getAccountsStatus, getAccountsError, fetchAccounts }from '../../../Reducers/accountsSlice';
 
 
 const listItems = [
@@ -22,32 +23,25 @@ const listItems = [
 ];
 
 function ItemsList(props) {        
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const token = useSelector(selectCurrentToken)
+    const decodedToken = jwtDecode(token);
+    const { rc } = decodedToken;
 
     const [modalOpen, setModalOpen] = useState(false);    
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [idToEdit, setIdToEdit] = useState(null);
     const [idToDelete, setIdToDelete] = useState(null);
-    
-    const items = useSelector(selectAllItems);
-    const itemsStatus = useSelector(getItemsStatus);
-    const itemsError = useSelector(getItemsError);
-    useEffect(() => {
-        if (itemsStatus === 'idle') {
-            dispatch(fetchItems())            
-        }
-    }, [itemsStatus, dispatch])
 
-    const accounts = useSelector(selectAllAccounts);
-    const accountsStatus = useSelector(getAccountsStatus);
-    const accountsError = useSelector(getAccountsError);
-    useEffect(() => {
-        if (accountsStatus === 'idle') {
-            dispatch(fetchAccounts())            
-        }
-    }, [accountsStatus, dispatch]) 
+    const {
+        data: items,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetItemsByCompanyIdQuery(rc.id);
 
     const handleModalOpen = () => {   
         modalOpen ? setModalOpen(false) : setModalOpen(true)   
@@ -75,49 +69,44 @@ function ItemsList(props) {
     }
 
 
+    
+
+    const renderItems = (items) => {
+        return items.map((item, index) => {
+            return (
+                <tr key={item.id} className="table_row_w border border-b-slate-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
+                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap" style={{ paddingLeft: `${item.level * 20}px` }}>
+                        {item.name}
+                    </td>
+                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.description}</td>
+                    {/* <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.type?.name}</td> */}
+                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.account?.name}</td>
+                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">N{item.rate}</td>
+                    <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(item.id)}>
+                        <AiOutlineEdit size={18} color={"vanbook-primary"}/>
+                        </div>
+                        {!item.prime ? 
+                        <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(item.id)}>
+                            <RiDeleteBinLine size={18} color={"vanbook-primary"}/>
+                        </div>
+                        : <></>}
+                    </td>
+                </tr>
+            );
+        });
+     };
 
     let renderedItems;
-    if (itemsStatus === 'loading') {
+    if (isLoading) {
         renderedItems = <tr><td>...</td></tr>;
-    } else if (itemsStatus === 'succeeded') {
-        renderedItems = items.map((item, index) => (
-        <tr key={index} className="table_row_w border border-b-slate-300">
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index}</td>
-            <td className="flex text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <span style={{"width":`${15*item.generation}px`}}></span>{item.name}
-                {/* {Array(item.generation).map((ie,idx)=>(<span>&nbsp;&nbsp;&nbsp;</span>))}{item.name} */}
-                {/* {(<>&nbsp;</>).repeat(item.generation)}{item.name} */}
-                {/* {Array(item.generation).join("\u0020\u0020\u0020")}{item.name} */}
-            </td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {item.description}
-            </td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                
-                {accounts.filter(acc => acc.id == item.account_id)[0]?.name}
-            </td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                N{item.rate}
-            </td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                ~
-            </td>
-            <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                
-                <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(item.id)}>
-                    <AiOutlineEdit size={18} color={"#41436a"}/>
-                </div>
-                <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(item.id)}>
-                    <RiDeleteBinLine size={18} color={"#41436a"}/>
-                </div>
-            </td>
-        </tr>
-    ))
-    } else if (itemsStatus === 'failed') {
-        renderedItems = <tr><td>{itemsError}</td></tr>;
+    } else if (isSuccess && items) {
+        renderedItems = renderItems(items.ids.map(id => items.entities[id]));
+    } else if (isError) {
+        renderedItems = <tr><td>{JSON.stringify(error)}</td></tr>;
     }
-
-    
+       
 
 
     return (
@@ -202,9 +191,9 @@ function ItemsList(props) {
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Price 
                         </th>
-                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                        {/* <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Balance
-                        </th>
+                        </th> */}
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">                            
                         </th>
                         </tr>
@@ -265,9 +254,10 @@ function ItemsList(props) {
 
         {modalOpen ?
         <>
-            <AddItemModal 
+            <AddItem
             handleModalOpen={handleModalOpen}
             modalOpen={modalOpen}
+            companyId={rc.id}
             />
             
         </>
@@ -275,10 +265,11 @@ function ItemsList(props) {
         <></>}
         {editModalOpen ?
         <>
-            <EditItemModal 
+            <EditItem
             handleModalOpen={handleEditModalOpen}
             modalOpen={editModalOpen}
             itemId ={idToEdit}
+            companyId={rc.id}
             />
             
         </>
@@ -286,10 +277,11 @@ function ItemsList(props) {
         <></>}
         {deleteModalOpen ?
         <>
-            <DeleteItemModal 
-            handleDeleteModalOpen={handleDeleteModalOpen}
-            deleteModalOpen={deleteModalOpen}
+            <DeleteItem
+            handleModalOpen={handleDeleteModalOpen}
+            modalOpen={deleteModalOpen}
             itemId ={idToDelete}
+            companyId={rc.id}
             />
             
         </>

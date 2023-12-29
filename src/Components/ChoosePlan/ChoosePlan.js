@@ -104,21 +104,20 @@ const ChoosePlan = ({selectedOption, setSelectedOption}) => {
 
   return (
     <div className='relative'>
-      <button 
+      <div 
         id="dropdownHelperRadioButton" 
-        onClick={toggleDropdown}
-        className="text-vanbook-primary w-[100%] border border-vanbook-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 inline-flex text-left items-center justify-between" 
-        type="button"
+        // onClick={toggleDropdown}
+        className="cursor-pointer text-vanbook-primary w-[100%] border border-vanbook-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 inline-flex text-left items-center justify-between"
       >
         <div>
             <div>{getOptionById(selectedOption)?.label}</div>
             <div className='text-[1.4rem] mt-1 font-bold'>{getPlanAmount(getOptionById(selectedOption)?.amount)}</div>
         </div>
         <HiDotsHorizontal size={20}/>
-      </button>
+      </div>
 
       {dropdownOpen ? 
-        <div 
+        <div
           className="z-10 w-full rounded-lg"           
           style={{ inset: 'auto auto 0px 0px', margin: '0px',}}>
           <ul className="p-3 space-y-1 text-sm text-vanbook-primary" aria-labelledby="dropdownHelperRadioButton">
@@ -129,7 +128,6 @@ const ChoosePlan = ({selectedOption, setSelectedOption}) => {
                   onClick={() => handleOptionChange(option.id)}
                 >
                   <div className="flex items-center justify-between w-full py-3">
-                    
                     <div className="ms-2 text-sm">
                         <label htmlFor={option.id} className="font-medium text-vanbook-primary">
                             <div>{option.label}</div>

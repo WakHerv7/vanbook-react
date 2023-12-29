@@ -11,9 +11,9 @@ function EditSchoolPaymentConfigModal({schoolPaymentConfigId, handleModalOpen, m
     const dispatch = useDispatch();
     const mySchoolPaymentConfig = useSelector((state) => selectSchoolPaymentConfigById(state, Number(schoolPaymentConfigId)));
     
-    const [issubschoolPaymentConfigof, setIssubschoolPaymentConfigof] = useState(mySchoolPaymentConfig?.class_parent_id);
+    const [issubschoolPaymentConfigof, setIssubschoolPaymentConfigof] = useState(mySchoolPaymentConfig?.parent_id);
     const [schoolPaymentConfigName, setSchoolPaymentConfigName] = useState(mySchoolPaymentConfig?.name);
-    const [schoolPaymentConfigParent, setSchoolPaymentConfigParent] = useState(mySchoolPaymentConfig?.class_parent_id);
+    const [schoolPaymentConfigParent, setSchoolPaymentConfigParent] = useState(mySchoolPaymentConfig?.parent_id);
     const [activeApplyBtn, setActiveApplyBtn] = useState(false);
     
     
@@ -35,7 +35,7 @@ function EditSchoolPaymentConfigModal({schoolPaymentConfigId, handleModalOpen, m
         const toSubmit = {
             "id": mySchoolPaymentConfig?.id,
             "name": schoolPaymentConfigName,
-            "class_parent_id": issubschoolPaymentConfigof ? Number(schoolPaymentConfigParent) : null,
+            "parent_id": issubschoolPaymentConfigof ? Number(schoolPaymentConfigParent) : null,
         }
         console.log("toSubmit: ", toSubmit)
         if ( schoolPaymentConfigName ) {

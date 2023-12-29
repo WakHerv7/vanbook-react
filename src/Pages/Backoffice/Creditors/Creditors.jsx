@@ -1,6 +1,11 @@
-import {React, useState }from 'react';
+import {React, useState, useRef, useEffect }from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {FiChevronLeft } from "react-icons/fi";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
+import { useSelector, useDispatch }from 'react-redux';
+// import OneCreditorModal from './OneCreditorModal.jsx';
+import { selectAllCreditors,  getCreditorsStatus, getCreditorsError, fetchCreditors }from '../../../Reducers/creditorsSlice';
+
 const listItems = [
     {value:"Item",text:"Element"},
     {value:"Item",text:"Element"},
@@ -8,8 +13,67 @@ const listItems = [
     {value:"Item",text:"Element"}
 ];
 
-function Creditors(props) {    
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+function Creditors(props) {
+    const dispatch = useDispatch();    
+    const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState(false);
+    const [idToOpen, setIdToOpen] = useState(null);
+    // --------------------------------------------------------
+    const myCreditors = useSelector(selectAllCreditors);
+    const creditorsStatus = useSelector(getCreditorsStatus);
+    const creditorsError = useSelector(getCreditorsError);
+    useEffect(() => {
+        if (creditorsStatus === 'idle') {
+            dispatch(fetchCreditors())            
+        }
+        else if (creditorsStatus === 'succeeded') {
+            console.log("======================")
+            console.log("myCreditors:",myCreditors)
+            console.log("======================")
+        }
+    }, [creditorsStatus, dispatch])
+    // --------------------------------------------------------
+    // --------------------------------------------------------
+    const handleModalOpen = (id) => {  
+        if (modalOpen) {
+            setIdToOpen(null)
+            setModalOpen(false)
+        }
+        else {
+            setIdToOpen(id)
+            setModalOpen(true)
+        }
+    }
+    // --------------------------------------------------------
+
+
+
+    let renderedCreditors;
+    if (creditorsStatus === 'loading') {
+        renderedCreditors = <tr><td>...</td></tr>;
+    } else if (creditorsStatus === 'succeeded') {
+        renderedCreditors = Array.isArray(myCreditors) && myCreditors.map((creditor, index) => (
+        <tr key={index}>
+            <td onClick={()=>handleModalOpen(creditor.id)} className="text-gray-900 underline cursor-pointer font-light px-6 py-4 whitespace-nowrap">
+                {creditor.name}
+            </td>
+            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {creditor.role}
+            </td>
+            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {creditor.address}
+            </td>
+            {/* <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {creditor.total_amount}
+            </td> */}
+            <td className=" text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
+                {creditor.balance_due}
+            </td>                            
+        </tr>
+    ))
+    } else if (creditorsStatus === 'failed') {
+        renderedCreditors = {creditorsError};
+    }
 
 
     return (
@@ -18,13 +82,13 @@ function Creditors(props) {
 
             <div>
                 <div className="flex py-3 justify-between items-center gap-10  border border-b-slate-300">
-                    <a href="#" className="flex gap-1 items-center">
+                    <Link to={""} onClick={() => navigate(-1)} className="flex gap-1 items-center">
                         <FiChevronLeft size={20} color={"#white"}/>
                         <span className="myprimarytextcolor">Back</span>
-                    </a>
+                    </Link>
 
-                    <div className="select_container flex gap-5 items-center">
-                        <span className="myprimarytextcolor">Branch</span>
+                    {/* <div className="select_container flex gap-5 items-center">
+                        <span className="myprimarytextcolor">Type</span>
 
                         <select className={`commonSelectInput outline-none h-[40px] px-2  rounded-md`} name={""} defaultValue={'dflt'}>
                             <option disabled value="dflt">{`Select from the list`}</option>        
@@ -34,8 +98,7 @@ function Creditors(props) {
                                 })                                
                             }
                         </select>
-
-                    </div>
+                    </div> */}
 
                     {/* <div className="flex myprimarytextcolor">
                         Date: 2023/02/03
@@ -48,7 +111,7 @@ function Creditors(props) {
                         <h1 className='text-[30px] myprimarytextcolor'>Creditors</h1>                                
                     </div>
                     <div className="flex gap-5">
-                        <div className="flex flex-col gap-4">
+                        {/* <div className="flex flex-col gap-4">
                             <div className="flex flex-col gap-1">
                                 <label className='myprimarytextcolor'>Class</label>
                                 <select className={`commonSelectInput outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>
@@ -64,9 +127,9 @@ function Creditors(props) {
                                 <label className='myprimarytextcolor'>Date</label>
                                 <input type="date" name="dateInput" id="dateInputId" className="outline-none py-2 px-2 rounded-md"/>
                             </div>                                    
-                        </div>
+                        </div> */}
                         <div className="flex flex-col gap-4">
-                            <div className="flex flex-col gap-1">
+                            {/* <div className="flex flex-col gap-1">
                                 <label className='myprimarytextcolor'>Extract</label>
                                 <select className={`commonSelectInput outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>
                                     <option disabled value="dflt">{`Select from the list`}</option>        
@@ -76,7 +139,7 @@ function Creditors(props) {
                                         })                                
                                     }
                                 </select>
-                            </div>
+                            </div> */}
                             
                             <div className="flex gap-7">
                                 <div className="flex flex-col gap-1">
@@ -101,34 +164,27 @@ function Creditors(props) {
                     <thead className="bg-white border-b">
                         <tr>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            #
+                            Name
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            S/N
+                            Status
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Vendors name
+                            Address
                         </th>
+                        {/* <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Original amount
+                        </th> */}
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Receipt No.
-                        </th>
-                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Admission No.
-                        </th>
-                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Amount paid
-                        </th>
-                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Amount owed
-                        </th>
-                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Date
-                        </th>
-                            
+                            Balance due
+                        </th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="bg-gray-100 border-b">
+                        
+                        {renderedCreditors}
+
+                        {/* <tr className="bg-gray-100 border-b">
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 ~
@@ -199,7 +255,7 @@ function Creditors(props) {
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             ~
                             </td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                     </table>
                 </div>
@@ -257,9 +313,22 @@ function Creditors(props) {
                 </div> */}
             </div>
 
-
-
         </div>
+
+        {/* {
+            modalOpen ?
+            <>
+                <OneCreditorModal 
+                handleModalOpen={handleModalOpen}
+                modalOpen={modalOpen}
+                creditorId ={idToOpen}
+                />
+                
+            </>
+            :
+            <></>
+        } */}
+
         </>
     );
 }

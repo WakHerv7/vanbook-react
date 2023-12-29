@@ -71,6 +71,11 @@ function Dashboard(props) {
                                 </Link>
                             </div>
                             <div className="flex items-center gap-4 pl-3 mb-5">
+                                <Link reloadDocument to={'/dashboard/persons/vendors'} className="dashboard_box">
+                                    <span className='text-xl text-center font-bold myprimarytextcolor'> Vendors</span>
+                                </Link>
+                            </div>
+                            <div className="flex items-center gap-4 pl-3 mb-5">
                                 <Link reloadDocument to={'/dashboard/receipts'} className="dashboard_box">
                                     <span className='text-xl text-center font-bold myprimarytextcolor'>Receipts</span>
                                 </Link>
@@ -87,9 +92,24 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3 mb-5">
                                 <Link reloadDocument to={'/dashboard/invoices'} className="dashboard_box">
-                                    <span className='text-xl text-center font-bold myprimarytextcolor'>Invoice</span>
+                                    <span className='text-xl text-center font-bold myprimarytextcolor'>Invoices</span>
                                 </Link>
-                            </div>                      
+                            </div>
+                            <div className="flex items-center gap-4 pl-3 mb-5">
+                                <Link reloadDocument to={'/dashboard/bills'} className="dashboard_box">
+                                    <span className='text-xl text-center font-bold myprimarytextcolor'>Bills</span>
+                                </Link>
+                            </div>
+                            <div className="flex items-center gap-4 pl-3 mb-5">
+                                <Link reloadDocument to={'/dashboard/deposits'} className="dashboard_box">
+                                    <span className='text-xl text-center font-bold myprimarytextcolor'>Deposits</span>
+                                </Link>
+                            </div>
+                            <div className="flex items-center gap-4 pl-3 mb-5">
+                                <Link reloadDocument to={'/dashboard/journal'} className="dashboard_box">
+                                    <span className='text-xl text-center font-bold myprimarytextcolor'>Journal</span>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                     

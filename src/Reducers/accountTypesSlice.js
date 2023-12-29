@@ -3,18 +3,6 @@ import axios from "axios";
 
 const ACCOUNT_TYPES_URL = process.env.REACT_APP_API_URL+'/account_types';
 
-// const accountTypesList = [
-//     { name:"Income", category:1 },
-//     { name:"Expenses", category:1 },
-//     { name:"Current Asset", category:2 },
-//     { name:"Fixed Asset", category:2 },
-//     { name:"Current Liabilities", category:2 },
-//     { name:"Long Term Liabilities", category:2 },
-//     { name:"Equity", category:2 },
-//     { name:"Item Receivable", category:2 },
-//     { name:"Item Payable", category:2 },
-// ];
-
 const initialState = {
     accountTypes: [],
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
@@ -22,10 +10,10 @@ const initialState = {
 }
 
 // *******************************************************************************
-// *******************************************************************************
-export const fetchAccountTypes = createAsyncThunk('account_types/fetchAccountTypes', async () => {
+export const fetchAccountTypes = createAsyncThunk('accounts/fetchAccountTypes', async (props) => {
+    const {company_id} = props
     try {
-        const response = await axios.get(ACCOUNT_TYPES_URL)
+        const response = await axios.get(`${ACCOUNT_TYPES_URL}/company/${company_id}`)
         return [...response.data];
     } catch (err) {
         return err.message;
@@ -34,6 +22,7 @@ export const fetchAccountTypes = createAsyncThunk('account_types/fetchAccountTyp
 
 export const addNewAccountType = createAsyncThunk('account_types/addNewAccountType', async (initialAccountType) => {
     try {
+        console.log("fetchAccountTypes - fetchAccountTypes");
         const response = await axios.post(ACCOUNT_TYPES_URL, initialAccountType)
         return response.data
     } catch (err) {
@@ -63,11 +52,9 @@ export const deleteAccountType = createAsyncThunk('account_types/deleteAccountTy
     }
 })
 // *******************************************************************************
-// *******************************************************************************
-
 
 const accountTypesSlice = createSlice({
-    name:'accounttypes',
+    name:'acctypes',
     initialState,
     reducers: {
         accountTypeAdded: {
@@ -83,20 +70,7 @@ const accountTypesSlice = createSlice({
             })
             .addCase(fetchAccountTypes.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                // Add any fetched items to the array
-                state.accountTypes = action.payload                
-                //............
-                // if (action.payload.length == 0) {
-                //     accountTypesList.map((accType) => {
-                //         accountTypesSlice.extraReducers.builder.addNewAccountType(accType);
-                //         // accountTypesSlice.extraReducers.addNewAccountType(state, { type: 'addNewAccountType', payload: accType })
-                //     })
-                //     accountTypesSlice.extraReducers.builder.fetchAccountTypes();
-                // } else {
-                //     // Add any fetched items to the array
-                //     state.accountTypes = action.payload
-                // }
-                
+                state.accountTypes = action.payload
             })
             .addCase(fetchAccountTypes.rejected, (state, action) => {
                 state.status = 'failed'
@@ -134,12 +108,12 @@ const accountTypesSlice = createSlice({
     }
 })
 
-export const selectAllAccTypes = (state) => state.accounttypes.accountTypes;
-export const getAccTypesStatus = (state) => state.accounttypes.status;
-export const getAccTypesError = (state) => state.accounttypes.error;
+export const selectAllAccTypes = (state) => state.acctypes.accountTypes;
+export const getAccTypesStatus = (state) => state.acctypes.status;
+export const getAccTypesError = (state) => state.acctypes.error;
 
 export const selectAccTypeById = (state, atId) =>
-    state.accounttypes.accountTypes.find(at => at.id === atId);
+    state.acctypes.accountTypes.find(at => at.id === atId);
  
 export const {accountAdded} = accountTypesSlice.actions;
 

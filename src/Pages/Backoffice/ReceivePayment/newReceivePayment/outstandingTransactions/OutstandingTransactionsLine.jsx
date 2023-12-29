@@ -7,7 +7,7 @@ function OutstandingTransactionsLine({ind, currentDepositLine, myPaymentMethods,
     /** Data to submit ============================ */
     const [accountId, setAccountId] = useState(currentDepositLine.deposit_account_id);  
     const [paymentId, setPaymentId] = useState(currentDepositLine.id ?? '');
-    const [person, setPerson] = useState({id:currentDepositLine.person_id, name:currentDepositLine.person_name, roleId: currentDepositLine.person_role_id});
+    const [person, setPerson] = useState({id:currentDepositLine.person_id, name:currentDepositLine.person.name, roleId: currentDepositLine.person_role_id});
     const [paymentDate, setPaymentDate] = useState(currentDepositLine.date ?? '');
     const [paymentType, setPaymentType] = useState("Invoice");
     //------------------------------------

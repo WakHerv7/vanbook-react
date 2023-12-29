@@ -66,7 +66,7 @@ function AddStudentRegistrationModal({handleModalOpen, modalOpen}) {
             // "status": "incomplete",
             "registration_number": "RN2023"+Math.ceil(Math.random()*1000000),
             // "place": studentRegistrationAddress,
-            // "class_parent_id": issubstudentRegistrationof ? Number(studentRegistrationParent) : null,
+            // "parent_id": issubstudentRegistrationof ? Number(studentRegistrationParent) : null,
         }
         console.log("toSubmit: ", toSubmit)
         if (studentRegistrationFirstName && 

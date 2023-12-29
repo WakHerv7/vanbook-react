@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-number-input';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 function CustomInput(props) {
-    const { type, label, name, value, placeholder, onChange, options, className, country, region, note, required, err, inputRef } = props;
+    const { onekey=0, id=0, type, label, name, value, placeholder, onChange, options, className, country, region, note, required, err, inputRef, optionValues, optionLabels } = props;
     const [error, setError] = useState();
     
     const [showPassword, setShowPassword] = useState(false);
@@ -13,8 +13,10 @@ function CustomInput(props) {
     };
 
     const handleChange = (e) => {
-          onChange({ 
-            target: { 
+      // console.log("indx :", indx);
+          onChange({
+            key:onekey,
+            target: {
                 name: e.target.name, 
                 value: e.target.value,
                 required: required
@@ -23,20 +25,22 @@ function CustomInput(props) {
       };
 
     useEffect(() => {
-      if (err[name] === `${name} is required`) {
-        const inputLabel = name === "password" ? "Password":label;
-        console.log(`${inputLabel} is required`);
-        setError(`${inputLabel} is required`);
-      } else if (err[name]) {
-        setError(err[name])
-      } else {
-        setError('')
+      if (err) { 
+        if (err[name] === `${name} is required`) {
+          const inputLabel = name === "password" ? "Password":label;
+          console.log(`${inputLabel} is required`);
+          setError(`${inputLabel} is required`);
+        } else if (err[name]) {
+          setError(err[name])
+        } else {
+          setError('')
+        }
       }
     }, [err])
     
 
   return (
-    <div className={`${className}`}>
+    <div key={id} className={`${className}`}>
       <label className='text-[.9rem]' htmlFor={name}>{label}</label>
       {type === 'select' ? 
         <select
@@ -45,8 +49,13 @@ function CustomInput(props) {
         name={name} 
         value={value} 
         onChange={handleChange}>
-            <option value="">Select...</option>
-            {options.map((option, index) => (
+            <option value="">{placeholder}...</option>
+            {optionValues ?
+            options.map((option, index) => (
+              <option key={index} value={optionValues[index]}>{optionLabels[index]}</option>
+            ))
+            :
+            options.map((option, index) => (
                 <option key={index} value={option.value}>{option.label}</option>
             ))}
         </select>
@@ -70,7 +79,7 @@ function CustomInput(props) {
         classes='w-full h-[2.5rem] border border-vanbook-100  outline-none pl-4 rounded-lg mt-1 text-[.9rem]'
         country={country}
         value={region}
-        onChange={(val)=>onChange({ target: { name: name, value: val } })}
+        onChange={(val)=>handleChange({ target: { name: name, value: val } })}
         />
       :
         <div className='relative'>
@@ -80,7 +89,7 @@ function CustomInput(props) {
         name={name} 
         defaultValue={value} 
         placeholder={placeholder} 
-        onChange={onChange}
+        onChange={handleChange}
         className={"w-full h-[2.5rem] border border-vanbook-100  outline-none pl-4 rounded-lg mt-1 text-[.9rem]"}
         />
         <div className='absolute top-1/2 right-2 transform -translate-y-1/2 text-xl cursor-pointer' 

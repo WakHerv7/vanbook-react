@@ -10,6 +10,8 @@ module.exports = {
     },
     extend: {
       colors: {
+        // "vanbook-gray": "#EAECF0",
+        "vanbook-gray": "#F9FAFB",
         "vanbook-primary": '#2E2F5B',
         "vanbook": {
           "100": '#2E2F5B33',

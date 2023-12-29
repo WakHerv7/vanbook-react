@@ -5,25 +5,23 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-import AddSchoolClassModal from './AddSchoolClass/AddSchoolClassModal.jsx';
-import EditSchoolClassModal from './EditSchoolClass/EditSchoolClassModal.jsx';
-import DeleteSchoolClassModal from './DeleteSchoolClass/DeleteSchoolClassModal.jsx';
+import AddSchoolClass from './SchoolClass/AddSchoolClass';
+import EditSchoolClass from './SchoolClass/EditSchoolClass';
+import DeleteSchoolClass from './SchoolClass/DeleteSchoolClass';
 
+import {jwtDecode} from "jwt-decode";
+import { selectCurrentToken } from '../../../Api/Auth/authSlice.js';
+import { useGetSchoolClassesByCompanyIdQuery } from "../../../Api/Reducers/schoolClassesApiSlice.js";
 import { useSelector, useDispatch }from 'react-redux';
-import { selectAllSchoolClasses,  getSchoolClassesStatus, getSchoolClassesError, fetchSchoolClasses }from '../../../Reducers/schoolClassesSlice';
-import { selectAllAccounts,  getAccountsStatus, getAccountsError, fetchAccounts }from '../../../Reducers/accountsSlice';
 
-
-const listSchoolClasses = [
-    {value:"SchoolClass",text:"Element"},
-    {value:"SchoolClass",text:"Element"},
-    {value:"SchoolClass",text:"Element"},
-    {value:"SchoolClass",text:"Element"}
-];
 
 function SchoolClassesList(props) {        
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const token = useSelector(selectCurrentToken)
+    const decodedToken = jwtDecode(token);
+    const { rc } = decodedToken;
 
     const [modalOpen, setModalOpen] = useState(false);    
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -31,23 +29,13 @@ function SchoolClassesList(props) {
     const [idToEdit, setIdToEdit] = useState(null);
     const [idToDelete, setIdToDelete] = useState(null);
     
-    const schoolClasses = useSelector(selectAllSchoolClasses);
-    const schoolClassesStatus = useSelector(getSchoolClassesStatus);
-    const schoolClassesError = useSelector(getSchoolClassesError);
-    useEffect(() => {
-        if (schoolClassesStatus === 'idle') {
-            dispatch(fetchSchoolClasses())            
-        }
-    }, [schoolClassesStatus, dispatch])
-
-    // const accounts = useSelector(selectAllAccounts);
-    // const accountsStatus = useSelector(getAccountsStatus);
-    // const accountsError = useSelector(getAccountsError);
-    // useEffect(() => {
-    //     if (accountsStatus === 'idle') {
-    //         dispatch(fetchAccounts())            
-    //     }
-    // }, [accountsStatus, dispatch]) 
+    const {
+        data: schoolClasses,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetSchoolClassesByCompanyIdQuery(rc.id);
 
     const handleModalOpen = () => {   
         modalOpen ? setModalOpen(false) : setModalOpen(true)   
@@ -76,32 +64,39 @@ function SchoolClassesList(props) {
     }
 
 
+    const renderSchoolClasses = (schoolClasses) => {
+        return schoolClasses.map((schoolClass, index) => {
+            return (
+                <tr key={schoolClass.id} className="table_row_w border border-b-slate-300">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
+                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap" style={{ paddingLeft: `${schoolClass.level * 20}px` }}>
+                    {schoolClass.name}
+                    </td>
+                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{schoolClass.myparent?.name}</td>
+                    
+                    <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(schoolClass.id)}>
+                        <AiOutlineEdit size={18} color={"vanbook-primary"}/>
+                        </div>
+                        {!schoolClass.prime ? 
+                        <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(schoolClass.id)}>
+                            <RiDeleteBinLine size={18} color={"vanbook-primary"}/>
+                        </div>
+                        : <></>}
+                    </td>
+                </tr>
+            );
+        });
+     };
 
     let renderedSchoolClasses;
-    if (schoolClassesStatus === 'loading') {
+    if (isLoading) {
         renderedSchoolClasses = <tr><td>...</td></tr>;
-    } else if (schoolClassesStatus === 'succeeded') {
-        renderedSchoolClasses = Array.isArray(schoolClasses) && schoolClasses.map((schoolClass, index) => (
-        <tr key={index} className="table_row_w border border-b-slate-300">
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index}</td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {schoolClass.name}
-            </td>
-            <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                
-                <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(schoolClass.id)}>
-                    <AiOutlineEdit size={18} color={"#41436a"}/>
-                </div>
-                <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(schoolClass.id)}>
-                    <RiDeleteBinLine size={18} color={"#41436a"}/>
-                </div>
-            </td>
-        </tr>
-    ))
-    } else if (schoolClassesStatus === 'failed') {
-        renderedSchoolClasses = <tr><td>{schoolClassesError}</td></tr>;
+    } else if (isSuccess && schoolClasses) {
+        renderedSchoolClasses = renderSchoolClasses(schoolClasses.ids.map(id => schoolClasses.entities[id]));
+    } else if (isError) {
+        renderedSchoolClasses = <tr><td>{JSON.stringify(error)}</td></tr>;
     }
-
     
 
 
@@ -175,6 +170,9 @@ function SchoolClassesList(props) {
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Class
                         </th>
+                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Parent Class
+                        </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">                            
                         </th>
                         </tr>
@@ -235,9 +233,10 @@ function SchoolClassesList(props) {
 
         {modalOpen ?
         <>
-            <AddSchoolClassModal 
+            <AddSchoolClass
             handleModalOpen={handleModalOpen}
             modalOpen={modalOpen}
+            companyId={rc.id}
             />
             
         </>
@@ -245,10 +244,11 @@ function SchoolClassesList(props) {
         <></>}
         {editModalOpen ?
         <>
-            <EditSchoolClassModal 
+            <EditSchoolClass 
             handleModalOpen={handleEditModalOpen}
             modalOpen={editModalOpen}
             schoolClassId ={idToEdit}
+            companyId={rc.id}
             />
             
         </>
@@ -256,10 +256,11 @@ function SchoolClassesList(props) {
         <></>}
         {deleteModalOpen ?
         <>
-            <DeleteSchoolClassModal 
-            handleDeleteModalOpen={handleDeleteModalOpen}
-            deleteModalOpen={deleteModalOpen}
+            <DeleteSchoolClass
+            handleModalOpen={handleDeleteModalOpen}
+            modalOpen={deleteModalOpen}
             schoolClassId ={idToDelete}
+            companyId={rc.id}
             />
             
         </>

@@ -28,7 +28,7 @@ function BillTable({myPaymentMethods, myItems, myPersons, billLines, setBillLine
         setTotalAmount(ta);        
     };
     //---------------------------------------------------------
-    const updateTableData = ({ind, item, itemDescription, qty, rate, amount}) => {
+    const updateTableData = ({ind, item, itemDescription, qty, rate, discount, amount}) => {
         let rls = [...billLines];
         rls[ind]['billLine'] = {
             // id: rls[ind]['billLine']['id'] ?? 0,
@@ -38,6 +38,7 @@ function BillTable({myPaymentMethods, myItems, myPersons, billLines, setBillLine
             itemDescription, 
             qty, 
             rate, 
+            discount,
             amount
         };
         setBillLines(rls);
@@ -80,6 +81,12 @@ function BillTable({myPaymentMethods, myItems, myPersons, billLines, setBillLine
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Rate
+                        </th>
+                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Cost
+                        </th> 
+                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Discount
                         </th> 
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Amount

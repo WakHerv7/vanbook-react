@@ -7,7 +7,7 @@ function OutstandingTransactionsLine({ind, currentDepositLine, myPaymentMethods,
     /** Data to submit ============================ */
     const [accountId, setAccountId] = useState(currentDepositLine.deposit_account_id);  
     const [paymentId, setPaymentId] = useState(currentDepositLine.id ?? '');
-    const [person, setPerson] = useState({id:currentDepositLine.person_id, name:currentDepositLine.person_name, roleId: currentDepositLine.person_role_id});
+    const [person, setPerson] = useState({id:currentDepositLine.person_id, name:currentDepositLine.person?.name, roleId: currentDepositLine.person_role_id});
     const [paymentDate, setPaymentDate] = useState(currentDepositLine.date ?? '');
     const [paymentType, setPaymentType] = useState("Invoice");
     //------------------------------------
@@ -34,6 +34,10 @@ function OutstandingTransactionsLine({ind, currentDepositLine, myPaymentMethods,
         }, 100);
     }, [paymentSelected, paymentAmount])
     
+    useEffect(()=>{
+        console.log(currentDepositLine)
+        console.log("================================")
+    },  [])
     
 
     return (
@@ -57,10 +61,10 @@ function OutstandingTransactionsLine({ind, currentDepositLine, myPaymentMethods,
                 {currentDepositLine.due_date}
             </td>
             <td className={`relative text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap`}>                
-                {currentDepositLine.total_amount}
+                {currentDepositLine.total_amount.toLocaleString('en-US')}
             </td>
             <td className={`relative text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap`}>                
-                {currentDepositLine.balance_due}
+                {currentDepositLine.balance_due.toLocaleString('en-US')}
             </td>
             <td className={`text-sm  font-medium px-6 py-4 whitespace-nowrap`}>
                 <input value={paymentAmount} onChange={(e)=>setPaymentAmount(e.target.value)} type="text" name="depositRefNb" id="depositRefNbId" className="outline-none py-2 px-2 rounded-md"/>

@@ -3,14 +3,14 @@ import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom';
 import {FiChevronLeft, FiPlus } from "react-icons/fi";
 
 function Persons(props) {
-
+    const navigate = useNavigate();
     return (
         <>
         <div className="main_page_container px-10 bg-[#F0F0F0] flex flex-col justify-between">
 
             <div>
                 <div className="flex py-3 justify-between items-center gap-10  border border-b-slate-300">
-                    <Link to={""} onClick={"/dashboard"} className="flex gap-1 items-center">
+                    <Link to={""} onClick={() => navigate(-1)} className="flex gap-1 items-center">
                         <FiChevronLeft size={20} color={"#white"}/>
                         <span className="myprimarytextcolor">Back</span>
                     </Link>
@@ -29,9 +29,15 @@ function Persons(props) {
                         </NavLink>
                         <NavLink reloadDocument to={"/dashboard/persons/customers"}
                         style={({ isActive }) => (isActive ? {background: 'white'} : {})}
-                        className={`outline-none border border-l-gray-400 rounded-md text-[#41436a] text-sm px-3 py-2`}
+                        className={`outline-none border border-l-gray-400 text-[#41436a] text-sm px-3 py-2`}
                         >
                             Customers
+                        </NavLink>
+                        <NavLink reloadDocument to={"/dashboard/persons/vendors"}
+                        style={({ isActive }) => (isActive ? {background: 'white'} : {})}
+                        className={`outline-none border border-l-gray-400 rounded-r-md text-[#41436a] text-sm px-3 py-2`}
+                        >
+                            Vendors
                         </NavLink>
                     </div>
 

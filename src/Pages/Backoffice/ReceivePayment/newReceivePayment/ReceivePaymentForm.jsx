@@ -118,6 +118,9 @@ function ReceivePaymentForm(props) {
         if (invoicesStatus === 'idle') {
             dispatch(fetchInvoicesWithOpenBalance())            
         } else if (invoicesStatus === 'succeeded') {
+            console.log("==================================")
+            console.log(myInvoices)
+            console.log("==================================")
             // setAllPaymentDepositLines(myInvoices);
             // let rls = []
             // myInvoices.forEach((elt, index) => {            
@@ -186,13 +189,6 @@ function ReceivePaymentForm(props) {
         }
     }, [receiptsStatus, dispatch])
     //---------------------------------------------------------
-
-    // const handleSelectedItem = (item, index=null) => {
-    //     let rl = fundDepositLines;
-    //     rl[index] = item
-    //     // setFundDepositLines(rl);
-    // };
-
 
     const submitNewDeposit = () => {
         let pdls= [...paymentDepositLines];

@@ -87,10 +87,7 @@ function StaffList(props) {
                 {person.address}
             </td>
             <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                {person.role.name}
-            </td>
-            <td scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                {person.account_balance}
+                {person.account_balance ?? 0}
             </td>
             
             <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -172,7 +169,7 @@ function StaffList(props) {
                         Address
                     </th>
                     <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                        Role
+                        Balance
                     </th>
                     
                     <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">

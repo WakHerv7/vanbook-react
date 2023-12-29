@@ -10,9 +10,9 @@ import SelectSearch from "../../../../Components/InputAndTitle/SelectSearch/Sele
 import BillTable from "./billTable";
 
 import { addNewBill, fetchBillById, getBillsError, getBillsStatus, selectBillById, updateBill } from '../../../../Reducers/billsSlice';
-import { fetchItems, getItemsError, getItemsStatus, selectAllItems } from '../../../../Reducers/itemsSlice';
+import { fetchItems, fetchItemsByAccount, getItemsError, getItemsStatus, selectAllItems } from '../../../../Reducers/itemsSlice';
 import { fetchPaymentMethods, getPaymentMethodsError, getPaymentMethodsStatus, selectAllPaymentMethods } from '../../../../Reducers/paymentMethodsSlice';
-import { fetchPersons, getPersonsError, getPersonsStatus, selectAllPersons } from '../../../../Reducers/personsSlice';
+import { fetchPersons, fetchPersonsByRole, getPersonsError, getPersonsStatus, selectAllPersons } from '../../../../Reducers/personsSlice';
 
 
 function CreateBill(props) {
@@ -32,7 +32,7 @@ function CreateBill(props) {
     const [billDate, setBillDate] = useState(new Date().toISOString().substring(0, 10));
     const [billDueDate, setBillDueDate] = useState(new Date().toISOString().substring(0, 10));
     const [totalAmount, setTotalAmount] = useState(0);
-    const [balanceDue, setBalanceDue] = useState(0);
+    const [balanceDue, setBalanceDue] = useState(null);
     const [billLines, setBillLines] = useState([{billLine:null}]);
     const [memo, setMemo] = useState('');
     /** ============================================ */
@@ -42,7 +42,7 @@ function CreateBill(props) {
     const itemsError = useSelector(getItemsError);
     useEffect(() => {
         if (itemsStatus === 'idle') {
-            dispatch(fetchItems())            
+            dispatch(fetchItemsByAccount("202"))            
         }
     }, [itemsStatus, dispatch])
     //---------------------------------------------------------
@@ -80,7 +80,7 @@ function CreateBill(props) {
     const personsError = useSelector(getPersonsError);
     useEffect(() => {
         if (personsStatus === 'idle') {
-            dispatch(fetchPersons());         
+            dispatch(fetchPersonsByRole("404"));         
         }
         else if (personsStatus === 'succeeded') {
             // console.log("myPersons: ", myPersons)
@@ -108,6 +108,8 @@ function CreateBill(props) {
             itemDescription: il.description,
             qty: il.qty,
             rate: il.rate,
+            cost: il.cost,
+            discount: il.discount,
             amount: il.amount,
           },
         }));
@@ -120,12 +122,13 @@ function CreateBill(props) {
         let bill_lines = [];
         ils.map(elt => {
             if (!isNaN(Number(elt.billLine.itemId))) {
-                const { itemId, qty, rate, amount, itemDescription } = elt.billLine;
+                const { itemId, qty, rate, amount, discount, itemDescription } = elt.billLine;
                 const bill_line_input = {
                     item_id: Number(itemId) || 0,
                     qty: Number(qty) || 0,
                     rate: Number(rate) || 0,
                     amount: Number(amount) || 0,
+                    discount: Number(discount) || 0,
                     description: itemDescription,
                     date: billDate,
                     ...(myBill?.id ? { id: elt.billLine.id } : {}),
@@ -136,7 +139,7 @@ function CreateBill(props) {
 
         const { id, deposit_account_id, deposit_id } = myBill || {};
         const toSubmit = {
-            number: billNum,
+            number: String(billNum),
             person_id: person.id,
             person_role_id: person.person_role_id,
             date: billDate,
@@ -155,8 +158,8 @@ function CreateBill(props) {
     //---------------------------------------------------------
     const dispatch_and_resetform = (toSubmit) => {
         dispatch(myBill?.id ? updateBill(toSubmit) : addNewBill(toSubmit)).unwrap();
-        // redirectRef.current.href = "/dashboard/bills";
-        // redirectRef.current.click();
+        redirectRef.current.href = "/dashboard/bills";
+        redirectRef.current.click();
     };      
     const cancelBill = () => navigate('/dashboard/bills');
 
@@ -189,7 +192,7 @@ function CreateBill(props) {
                         <h1 className='text-[30px] myprimarytextcolor'>Bill - {billNum}</h1>
                         <div className="flex gap-10">
                             <div className="flex flex-col gap-1">
-                                <label className='myprimarytextcolor'>Customer</label>
+                                <label className='myprimarytextcolor'>Vendor</label>
                                 {myPersons?                                
                                 <SelectSearch
                                 itemPlaceholder = {'Select a name'}
@@ -278,7 +281,7 @@ function CreateBill(props) {
                     <div className="flex gap-10">
                         <div className="flex flex-col gap-1">
                             <label className='myprimarytextcolor'>Memo</label>
-                            <textarea name="" id="" rows="5" value={memo} onChange={(e)=>setMemo(e.target.value)} className={`border p-2 w-[250px] border-[#41436a] rounded-md`} placeholder="Memo ...">
+                            <textarea name="" id="" rows="5" value={memo} onChange={(e)=>setMemo(e.target.value)} className={`border p-2 w-[250px] border-[#41436a] rounded-md py-2 px-2`} placeholder="Memo ...">
                             </textarea>
                         </div>
                         

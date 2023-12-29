@@ -4,11 +4,12 @@ import GoogleAuth from '../../Components/GoogleAuth'
 import logo from "../../Assets/Tech64-logo.svg";
 import CustomInput from '../../Components/CustomInput/CustomInput';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setCredentials } from '../../Api/Auth/authSlice';
 import { useLoginMutation } from '../../Api/Auth/authApiSlice';
 import notify from '../../Components/Notify/Notify';
 import { ToastContainer } from 'react-toastify';
+import {jwtDecode} from "jwt-decode";
 
 const initFormData = {
   'email': {value:'', required:true},
@@ -24,7 +25,6 @@ const Login = () => {
   // const [pwd, setPwd] = useState('')
   // const [errMsg, setErrMsg] = useState('')
   const navigate = useNavigate()
-
   const [login, { isLoading }] = useLoginMutation()
   const dispatch = useDispatch()
 
@@ -83,6 +83,14 @@ const Login = () => {
     return true
   }
 
+  const stageRoute = {
+    'company': '/onboarding/company',
+    'role': '/onboarding/role',
+    'objective': '/onboarding/objective',
+    'settings': '/dashboard',
+    'dashboard': '/dashboard',
+  }
+
   const handleSubmit = async (e) => {
       e.preventDefault();
       
@@ -93,9 +101,12 @@ const Login = () => {
       console.log("formData :", formData)
       try {
           const userData = await login({ email:formData['email'].value, password:formData['password'].value }).unwrap()
-          dispatch(setCredentials({ ...userData, welcome:true}))
-          navigate('/dashboard/users');
-          // notify("success", "Welcome to Vanbook");
+          const { access_token } = userData;
+          dispatch(setCredentials({ ...userData}))
+          const decodedToken = jwtDecode(access_token);
+          const { stage } = decodedToken;
+          navigate(stageRoute[stage]);
+          notify("success", "Welcome to Vanbook");
       } catch (err) {
         notify("error", "Invalid Email or Password")
         // console.log("err: ", err);
@@ -242,7 +253,7 @@ const Login = () => {
         </div>
       </footer>
 
-      <ToastContainer/>
+      {/* <ToastContainer/> */}
     </section>
   )
 }

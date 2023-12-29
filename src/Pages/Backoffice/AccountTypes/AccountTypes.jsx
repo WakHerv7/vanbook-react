@@ -5,31 +5,16 @@ import { FiChevronLeft, FiPlus } from "react-icons/fi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
-import AddAccountTypeModal from "./AddAccountType/AddAccountTypeModal.jsx";
-import EditAccountTypeModal from "./EditAccountType/EditAccountTypeModal.jsx";
-import DeleteAccountTypeModal from "./DeleteAccountType/DeleteAccountTypeModal.jsx";
+import AddAccountType from "./AccountType/AddAccountType";
+import EditAccountType from "./AccountType/EditAccountType";
+import DeleteAccountType from "./AccountType/DeleteAccountType";
+import {jwtDecode} from "jwt-decode";
+import { selectCurrentToken } from '../../../Api/Auth/authSlice.js';
 
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addNewAccountType,
-  selectAllAccTypes,
-  getAccTypesStatus,
-  getAccTypesError,
-  fetchAccountTypes,
-} from "../../../Reducers/accountTypesSlice";
-// import { useParams }from 'react-router-dom';
+import { useGetAccTypesByCompanyIdQuery } from "../../../Api/Reducers/accountTypesApiSlice.js";
 
-// const accountTypesList = [
-//     { name:"Income", category:1 },
-//     { name:"Expenses", category:1 },
-//     { name:"Current Asset", category:2 },
-//     { name:"Fixed Asset", category:2 },
-//     { name:"Current Liabilities", category:2 },
-//     { name:"Long Term Liabilities", category:2 },
-//     { name:"Equity", category:2 },
-//     { name:"Item Receivable", category:2 },
-//     { name:"Item Payable", category:2 },
-// ];
+// import { useParams }from 'react-router-dom';
 
 const categoryList = [
   { id: 1, name: "Income/Expenses" },
@@ -39,16 +24,17 @@ const categoryList = [
 
 function AccountTypesList(props) {
   const dispatch = useDispatch();
+
+  const token = useSelector(selectCurrentToken)
+  const decodedToken = jwtDecode(token);
+  const { firstname, lastname, username, email, role, privileges, cc, rc } = decodedToken;
+
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [idToEdit, setIdToEdit] = useState(null);
   const [idToDelete, setIdToDelete] = useState(null);
-
-  const accTypes = useSelector(selectAllAccTypes);
-  const accTypesStatus = useSelector(getAccTypesStatus);
-  const accTypesError = useSelector(getAccTypesError);
 
   const handleModalOpen = () => {
     modalOpen ? setModalOpen(false) : setModalOpen(true);
@@ -72,35 +58,31 @@ function AccountTypesList(props) {
     }
   };
 
-  useEffect(() => {
-    if (accTypesStatus === "idle") {
-      dispatch(fetchAccountTypes());
-    }
-    // else if (accTypesStatus == 'succeeded'){
-    //     if (accTypes.length == 0) {
-    //         accountTypesList.map((accType) => {
-    //             dispatch(addNewAccountType(accType))
-    //         })
-    //         dispatch(fetchAccountTypes())
-    //         // accountTypesSlice.extraReducers.builder.fetchAccountTypes();
-    //     }
-    // }
-  }, [accTypesStatus, dispatch]);
+const {
+  data: acctypes,
+  isLoading,
+  isSuccess,
+  isError,
+  error
+} = useGetAccTypesByCompanyIdQuery(rc.id);
 
   let renderedAccountTypes;
-  if (accTypesStatus === "loading") {
+  if (isLoading) {
     renderedAccountTypes = (
       <tr>
         <td>...</td>
       </tr>
     );
-  } else if (accTypesStatus === "succeeded") {
-    renderedAccountTypes = Array.isArray(accTypes) && accTypes.map((accType, index) => (
+  } else if (isSuccess && acctypes) {
+    renderedAccountTypes = acctypes.ids.map((acctypeId,index) => {
+      const accType = acctypes.entities[acctypeId];
+      return(
+    // renderedAccountTypes = Array.isArray(accTypes) && accTypes.map((accType, index) => (
       <tr key={index} className="table_row_w border border-b-slate-300">
         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
           {index}
         </td>
-        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">          
           {accType.name}
         </td>
         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -130,13 +112,13 @@ function AccountTypesList(props) {
           )}
         </td>
       </tr>
-    ));
-  } else if (accTypesStatus === "failed") {
-    renderedAccountTypes = (
-      <tr>
-        <td>{accTypesError}</td>
-      </tr>
-    );
+    )});
+  }  else if (isError) {
+    renderedAccountTypes = error.status === 401 || error.status === 403 ?
+    <tr><td>{"Not authorized"}</td></tr>
+    :
+    <tr><td>{JSON.stringify(error)}</td></tr>
+    // renderedUsers = <tr><td>{"Not authorized"}</td></tr>;
   }
 
   return (
@@ -206,9 +188,10 @@ function AccountTypesList(props) {
 
       {modalOpen ? (
         <>
-          <AddAccountTypeModal
+          <AddAccountType
             handleModalOpen={handleModalOpen}
             modalOpen={modalOpen}
+            companyId={rc.id}
           />
         </>
       ) : (
@@ -216,10 +199,11 @@ function AccountTypesList(props) {
       )}
       {editModalOpen ? (
         <>
-          <EditAccountTypeModal
-            handleEditModalOpen={handleEditModalOpen}
-            editModalOpen={editModalOpen}
+          <EditAccountType
+            handleModalOpen={handleEditModalOpen}
+            modalOpen={editModalOpen}
             accTypeId={idToEdit}
+            companyId={rc.id}
           />
         </>
       ) : (
@@ -227,10 +211,11 @@ function AccountTypesList(props) {
       )}
       {deleteModalOpen ? (
         <>
-          <DeleteAccountTypeModal
-            handleDeleteModalOpen={handleDeleteModalOpen}
-            deleteModalOpen={deleteModalOpen}
+          <DeleteAccountType
+            handleModalOpen={handleDeleteModalOpen}
+            modalOpen={deleteModalOpen}
             accTypeId={idToDelete}
+            companyId={rc.id}
           />
         </>
       ) : (

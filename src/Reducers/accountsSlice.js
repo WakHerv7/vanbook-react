@@ -13,9 +13,11 @@ const initialState = {
 
 // *******************************************************************************
 // *******************************************************************************
-export const fetchAccounts = createAsyncThunk('accounts/fetchAccounts', async () => {
+export const fetchAccounts = createAsyncThunk('accounts/fetchAccounts', async (props) => {
+    const {company_id} = props
     try {
-        const response = await axios.get(ACCOUNTS_URL)
+        console.log("fetchAccounts - fetchAccounts")
+        const response = await axios.get(`${ACCOUNTS_URL}/company/${company_id}`)
         return [...response.data];
     } catch (err) {
         return err.message;

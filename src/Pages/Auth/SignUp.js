@@ -13,7 +13,6 @@ import notify from '../../Components/Notify/Notify';
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../Api/Auth/authSlice';
 import { useRegisterMutation } from '../../Api/Auth/authApiSlice';
 
 const currentlyUseOptions = [
@@ -101,6 +100,7 @@ const SignUp = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+      setFormData({ ...formData, ['payment_plan']: {value:'trial', required:true} });
       userRef.current.focus()
   }, [])
   
@@ -181,7 +181,7 @@ const SignUp = () => {
     let required = e.target.required;
 
     if (name === 'email') {
-      console.log('email', e.target.value);
+      // console.log('email', e.target.value);
       validateEmail(e.target.value);
     }
     setFormData({ ...formData, [name]: {value:value, required:required} });
@@ -231,9 +231,7 @@ const SignUp = () => {
     setFormErrors(errors);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // let errors = {...formErrors};
+  const validateForm = () => {
     let errors = {};
     for (let key in formData) {
       if (formData[key].required && !formData[key].value) {
@@ -246,40 +244,64 @@ const SignUp = () => {
         } 
       }
     }
-    
-    
-    // formErrors
-    console.log("errors");
-    console.log(errors);
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      notify("error", "Invalid entries")
-    } else {
-      try {
-          // const userData = await login({ user, pwd }).unwrap()
-          // dispatch(setCredentials({ ...userData, user }))
-          // setUser('')
-          // setPwd('')
-          notify("success", "You're successfully registered");
-          // navigate('/welcome')
-      } catch (err) {
-          if (!err?.originalStatus) {
-              // isLoading: true until timeout occurs
-              setErrMsg('No Server Response');
-          } else if (err.originalStatus === 400) {
-              setErrMsg('Missing Username or Password');
-          } else if (err.originalStatus === 401) {
-              setErrMsg('Unauthorized');
-          } else {
-              setErrMsg('Login Failed');
-          }
-          errRef.current.focus();
-      }
 
-      
-      // console.log("submit the form");
+    if (Object.keys(errors).length > 0) {
+      console.log(errors);
+      setFormErrors(errors);
+      notify("error", "Invalid entries");
+      return false;
     }
-  };
+    return true;
+  }
+  
+  const handleSubmit = async (e) => {
+    
+    e.preventDefault();
+
+    if(!validateForm()) {
+      return;
+    }
+
+    let toSubmit = {
+      'company_name': formData['company_name'].value,
+      'firstname': formData['first_name'].value,
+      'lastname': formData['last_name'].value,
+      'phone': formData['phone_number'].value,
+      'email': formData['email'].value,
+      'password': formData['password'].value,
+      // 'confirm_password': formData['confirm_password'].value,
+      'referral_code': formData['referral_code'].value,
+      'payment_plan': formData['payment_plan'].value,
+    }
+
+    // console.log("toSubmit :", toSubmit)
+    
+    try {
+      // console.log("toSubmit :", toSubmit)
+
+      const userData = await register(toSubmit).unwrap()
+      // console.log("response :", userData)
+      navigate('/login')
+    } catch (err) {
+      if (!err?.status) {
+          // isLoading: true until timeout occurs
+          setErrMsg('No Server Response');
+      } else if (err.status === 400) {
+          setErrMsg('Some informations are incorrect');
+      } else if (err.status === 401) {
+          setErrMsg('Unauthorized');
+      } else if (err.status === 409) {
+          setErrMsg('This email is already registered');
+          notify("error", "This email is already registered");
+      } else {
+          setErrMsg('Something went wrong!');
+          notify("error", "Something went wrong!");
+      }
+      // errRef.current.focus();
+    }
+      // console.log("submit the form");
+  }
+
   return (
     <section>
       <nav className='h-[70px] flex items-center pl-12'>
@@ -319,7 +341,7 @@ const SignUp = () => {
               <div className='flex flex-col gap-4'>
                 <CustomInput 
                 type="text" 
-                label="Company Name" 
+                label="School Name" 
                 name="company_name" 
                 value={formData['company_name'].value} 
                 onChange={handleInputChange}
@@ -401,16 +423,7 @@ const SignUp = () => {
                 required={formData['region'].required}
                 err={formErrors}                
                 />
-                <CustomInput 
-                type="select" 
-                label="What You Currently Use" 
-                name="currently_use" 
-                value={formData['currently_use'].value} 
-                onChange={handleInputChange}
-                required={formData['currently_use'].required}
-                err={formErrors}                
-                options={currentlyUseOptions}
-                />
+                +
                 <CustomInput 
                 type="select" 
                 label="Years In Business" 
@@ -423,7 +436,7 @@ const SignUp = () => {
                 /> */}
                 <CustomInput 
                 type="text" 
-                label="Referral Code" 
+                label="Referral Code (optional)" 
                 name="referral_code" 
                 value={formData['referral_code'].value} 
                 onChange={handleInputChange} 
@@ -467,7 +480,7 @@ const SignUp = () => {
         </div>
       </footer>
 
-      <ToastContainer/>
+      {/* <ToastContainer/> */}
 
     </section>
   )

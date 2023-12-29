@@ -53,6 +53,10 @@ function BillsList(props) {
             setModalOpen(true)
         }
     }
+    const handleDeleteModalOpen = (id) => {
+
+    }
+    
     // --------------------------------------------------------
     const capitalizeText = (str) => {  
         return str.charAt(0).toUpperCase() + str.slice(1)
@@ -78,17 +82,17 @@ function BillsList(props) {
                 {bill.items_list}
             </td>
             <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {bill.total_amount ?? 0}
+                {bill.total_amount.toLocaleString('en-US') ?? 0}
             </td>
             <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {bill.balance_due ?? 0}
+                {bill.balance_due.toLocaleString('en-US') ?? 0}
             </td>
             <td className="flex text-gray-900 gap-5 font-bold px-6 py-4 whitespace-nowrap">
                 <a href={`/dashboard/bills/${bill.id}`}>
                     <AiOutlineEdit size={18} color={"#41436a"}/>
                     {/* {receipt.number} */}
                 </a>
-                {/* <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(account.id)}>
+                {/* <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(account?.id)}>
                     <RiDeleteBinLine size={18} color={"#41436a"}/>
                 </div> */}
             </td>  
@@ -195,7 +199,7 @@ function BillsList(props) {
                             ID
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Customer
+                            Vendor
                         </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Description

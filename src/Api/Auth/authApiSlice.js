@@ -23,11 +23,36 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: {}
             })
         }),
+        submitCompanyData: builder.mutation({
+            query: data => ({
+                url: `/auth/onboarding/company/${data.id}`,
+                method: 'PUT',
+                body: { ...data }
+            })
+        }),
+        submitUserRole: builder.mutation({
+            query: data => ({
+                url: `/auth/onboarding/role/${data.id}`,
+                method: 'PUT',
+                body: { ...data }
+            })
+        }),
+        submitObjective: builder.mutation({
+            query: data => ({
+                url: `/auth/onboarding/objective/${data.id}`,
+                method: 'PUT',
+                body: { ...data }
+            })
+        }),
+        
     })
  })
  
  export const {
     useLoginMutation,
     useRegisterMutation,
-    useSignoutMutation
+    useSignoutMutation,
+    useSubmitCompanyDataMutation,
+    useSubmitUserRoleMutation,
+    useSubmitObjectiveMutation
  } = authApiSlice

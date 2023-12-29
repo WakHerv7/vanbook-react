@@ -354,7 +354,7 @@ function CreateDeposit(props) {
                     <div className="flex gap-10">
                         <div className="flex flex-col gap-1">
                             <label className='myprimarytextcolor'>Memo</label>
-                            <textarea name="" id="" rows="5" value={memo} onChange={(e)=>setMemo(e.target.value)} className={`border p-2 w-[250px] border-[#41436a] rounded-md`} placeholder="Memo ...">
+                            <textarea name="" id="" rows="5" value={memo} onChange={(e)=>setMemo(e.target.value)} className={`border p-2 w-[250px] border-[#41436a] rounded-md py-2 px-2`} placeholder="Memo ...">
                             </textarea>
                         </div>
                         

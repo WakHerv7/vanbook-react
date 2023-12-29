@@ -11,9 +11,9 @@ function EditSchoolStudentModal({schoolStudentId, handleModalOpen, modalOpen}) {
     const dispatch = useDispatch();
     const mySchoolStudent = useSelector((state) => selectSchoolStudentById(state, Number(schoolStudentId)));
     
-    const [issubschoolStudentof, setIssubschoolStudentof] = useState(mySchoolStudent?.class_parent_id);
+    const [issubschoolStudentof, setIssubschoolStudentof] = useState(mySchoolStudent?.parent_id);
     const [schoolStudentName, setSchoolStudentName] = useState(mySchoolStudent?.name);
-    const [schoolStudentParent, setSchoolStudentParent] = useState(mySchoolStudent?.class_parent_id);
+    const [schoolStudentParent, setSchoolStudentParent] = useState(mySchoolStudent?.parent_id);
     const [activeApplyBtn, setActiveApplyBtn] = useState(false);
     
     
@@ -35,7 +35,7 @@ function EditSchoolStudentModal({schoolStudentId, handleModalOpen, modalOpen}) {
         const toSubmit = {
             "id": mySchoolStudent?.id,
             "name": schoolStudentName,
-            "class_parent_id": issubschoolStudentof ? Number(schoolStudentParent) : null,
+            "parent_id": issubschoolStudentof ? Number(schoolStudentParent) : null,
         }
         console.log("toSubmit: ", toSubmit)
         if ( schoolStudentName ) {

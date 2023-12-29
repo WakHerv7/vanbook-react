@@ -1,6 +1,6 @@
 // import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import accountsReducer from "../../Reducers/accountsSlice";
-import accountTypesReducer from "../../Reducers/accountTypesSlice";
+// import accountTypesReducer from "../../Reducers/accountTypesSlice";
 import itemsReducer from "../../Reducers/itemsSlice";
 import itemTypesReducer from "../../Reducers/itemTypesSlice";
 import personRolesReducer from "../../Reducers/personRolesSlice";
@@ -30,19 +30,22 @@ import thunk from "redux-thunk";
 const persistConfig = {
   key: "root",
   storage: storageSession,
-  blacklist: [
-    "accountTypes", "accounts", "items",
-    "schoolClasses", "schoolStudents", "studentRegistrations",
-    "schoolPaymentConfigs", "itemTypes", "persons",
-    "personRoles", "paymentMethods", "receipts",
-    "debtors", "deposits", "invoices", "receivedPayments",
-    "bills", "paidBills", 'users',
-  ],
+  whitelist:['auth'],
+  // blacklist: [
+  //   "AccType",
+  //   // "accountTypes", 
+  //   "accounts", "items",
+  //   "schoolClasses", "schoolStudents", "studentRegistrations",
+  //   "schoolPaymentConfigs", "itemTypes", "persons",
+  //   "personRoles", "paymentMethods", "receipts",
+  //   "debtors", "deposits", "invoices", "receivedPayments",
+  //   "bills", "paidBills", 'users',
+  // ],
 };
 
 const rootReducer = combineReducers({
   accounts: accountsReducer,
-  accountTypes: accountTypesReducer,
+  // accountTypes: accountTypesReducer,
   items: itemsReducer,
   itemTypes: itemTypesReducer,
   schoolClasses: schoolClassesReducer,
@@ -76,6 +79,15 @@ export const Store = configureStore({
 
 export const persistor = persistStore(Store);
 
+
+// export const Store = configureStore({
+//   reducer: persistedReducer,
+//   middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//       serializableCheck: false,
+//     }).prepend(thunk).concat(apiSlice.middleware),
+//   devTools: true
+// });
 
 // export const Store = configureStore({
 //   reducer: persistedReducer,

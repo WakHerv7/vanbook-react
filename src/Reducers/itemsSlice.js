@@ -21,6 +21,15 @@ export const fetchItems = createAsyncThunk('items/fetchItems', async () => {
     }
 })
 
+export const fetchItemsByAccount = createAsyncThunk('persons/fetchItemsByRole', async (primenumber) => {
+    try {
+        const response = await axios.get(`${ITEMS_URL}/account/${primenumber}`)
+        return [...response.data];
+    } catch (err) {
+        return err.message;
+    }
+})
+
 export const addNewItem = createAsyncThunk('items/addNewItem', async (initialItem) => {
     try {
         const response = await axios.post(ITEMS_URL, initialItem)
@@ -73,13 +82,23 @@ const itemsSlice = createSlice({
             .addCase(fetchItems.fulfilled, (state, action) => {
                 state.status = 'succeeded'                
                 // Add any fetched items to the array
-                
                 state.items = action.payload
             })
             .addCase(fetchItems.rejected, (state, action) => {
                 state.status = 'failed'
                 state.error = action.error.message
+            })//===========================================================
+            .addCase(fetchItemsByAccount.pending, (state, action) => {
+                state.status = 'loading'
             })
+            .addCase(fetchItemsByAccount.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.items = action.payload
+            })
+            .addCase(fetchItemsByAccount.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            })//===========================================================
             .addCase(addNewItem.fulfilled, (state, action) => {                
                 state.items.push(action.payload)
             })

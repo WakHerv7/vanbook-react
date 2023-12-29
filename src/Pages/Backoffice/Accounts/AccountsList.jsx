@@ -1,17 +1,17 @@
-import {React, useState, useEffect }from 'react';
+import React, { useState, useEffect }from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {FiChevronLeft, FiPlus } from "react-icons/fi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
-// import NewAccountModal from '../../../Components/Dashboard/NewAccountModal/NewAccountModal.jsx';
-import AddAccountModal from './AddAccount/AddAccountModal.jsx';
-import EditAccountModal from './EditAccount/EditAccountModal.jsx';
-import DeleteAccountModal from './DeleteAccount/DeleteAccountModal.jsx';
 
+import AddAccountModal from './Account/AddAccount';
+import EditAccountModal from './Account/EditAccount.jsx';
+import DeleteAccountModal from './Account/DeleteAccount';
+import {jwtDecode} from "jwt-decode";
+import { selectCurrentToken } from '../../../Api/Auth/authSlice.js';
 import { useSelector, useDispatch }from 'react-redux';
-import { selectAllAccounts,  getAccountsStatus, getAccountsError, fetchAccounts }from '../../../Reducers/accountsSlice';
-import { selectAllAccTypes, getAccTypesStatus, getAccTypesError, fetchAccountTypes }from '../../../Reducers/accountTypesSlice';
+import { accountsApiSlice, useGetAccountsByCompanyIdQuery } from "../../../Api/Reducers/accountsApiSlice.js";
 
 const listItems = [
     {value:"Item",text:"Element"},
@@ -19,21 +19,14 @@ const listItems = [
     {value:"Item",text:"Element"},
     {value:"Item",text:"Element"}
 ];
-// const accountTypesList = [
-//     {id:1, name:"Income", part:1},
-//     {id:2, name:"Expenses", part:1},
-//     {id:3, name:"Current Asset", part:2},
-//     {id:4, name:"Fixed Asset", part:2},
-//     {id:5, name:"Current Liabilities", part:2},
-//     {id:6, name:"Long Term Liabilities", part:2},
-//     {id:7, name:"Equity", part:2},
-//     {id:8, name:"Account Receivable", part:2},
-//     {id:9, name:"Account Payable", part:2},    
-// ];
 
 function AccountsList(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const token = useSelector(selectCurrentToken)
+    const decodedToken = jwtDecode(token);
+    const { firstname, lastname, username, email, role, privileges, cc, rc } = decodedToken;
     
     const [modalOpen, setModalOpen] = useState(false);    
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -41,24 +34,6 @@ function AccountsList(props) {
     const [idToEdit, setIdToEdit] = useState(null);
     const [idToDelete, setIdToDelete] = useState(null);
     
-    const accounts = useSelector(selectAllAccounts);
-    const accountsStatus = useSelector(getAccountsStatus);
-    const accountsError = useSelector(getAccountsError);
-    useEffect(() => {
-        if (accountsStatus === 'idle') {
-            dispatch(fetchAccounts())            
-        }
-    }, [accountsStatus, dispatch])
-
-    const accountTypesList = useSelector(selectAllAccTypes);
-    const accTypesStatus = useSelector(getAccTypesStatus);
-    const accTypesError = useSelector(getAccTypesError);
-    useEffect(() => {
-        if (accTypesStatus === 'idle') {
-            dispatch(fetchAccountTypes())
-        }
-    }, [accTypesStatus, dispatch])  
-
     const handleModalOpen = () => {   
         modalOpen ? setModalOpen(false) : setModalOpen(true)   
     }
@@ -73,7 +48,7 @@ function AccountsList(props) {
             setEditModalOpen(true)
         }
     }
-    const handleDeleteModalOpen = (id) => {  
+    const handleDeleteModalOpen = (id) => {
         if (deleteModalOpen) {
             setIdToDelete(null)
             setDeleteModalOpen(false)
@@ -84,43 +59,55 @@ function AccountsList(props) {
         }
     }
 
+    const {
+        data: accounts,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetAccountsByCompanyIdQuery(rc.id);
+    
+    const renderAccount = (account) => {
+        return (
+            <tr key={account.id} className="table_row_w border border-b-slate-300">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{account.number}</td>
+                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap" style={{ paddingLeft: `${account.level * 20}px` }}>
+                    {account.name}
+                </td>
+                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{account.account_type?.name}</td>
+                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">Naira</td>
+                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">N~</td>
+                <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(account.id)}>
+                       <AiOutlineEdit size={18} color={"vanbook-primary"}/>
+                    </div>
+                    {!account.prime ? 
+                       <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(account.id)}>
+                           <RiDeleteBinLine size={18} color={"vanbook-primary"}/>
+                       </div>
+                    : <></>}
+                </td>
+            </tr>
+        );
+    };
+
+    const renderAccounts = (accounts) => {
+        return accounts.map((account) => {
+            return (
+                <React.Fragment key={account.id}>
+                    {renderAccount(account)}
+                </React.Fragment>
+            );
+        });
+     };
 
     let renderedAccounts;
-    if (accountsStatus === 'loading') {
+    if (isLoading) {
         renderedAccounts = <tr><td>...</td></tr>;
-    } else if (accountsStatus === 'succeeded') {
-        renderedAccounts = Array.isArray(accounts) && accounts.map((account, index) => (
-        <tr key={index} className="table_row_w border border-b-slate-300">
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{account.number}</td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {account.name}
-            </td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                
-                {accountTypesList.filter(type => type.id == account.account_type_id)[0]?.name}
-            </td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Naira
-            </td>
-            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                N~
-            </td>
-            <td className="flex gap-5 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                
-                <div className="hover:cursor-pointer" onClick={()=>handleEditModalOpen(account.id)}>
-                    <AiOutlineEdit size={18} color={"#41436a"}/>
-                </div>
-                {!account.prime ? 
-                    <div className="hover:cursor-pointer" onClick={()=>handleDeleteModalOpen(account.id)}>
-                        <RiDeleteBinLine size={18} color={"#41436a"}/>
-                    </div>
-                : <></>}
-                
-            </td>
-        </tr>
-    ))
-    } else if (accountsStatus === 'failed') {
-        renderedAccounts = <tr><td>{accountsError}</td></tr>;
+    } else if (isSuccess && accounts) {
+        renderedAccounts = renderAccounts(accounts.ids.map(id => accounts.entities[id]));
+    } else if (isError) {
+        renderedAccounts = <tr><td>{JSON.stringify(error)}</td></tr>;
     }
     
 
@@ -270,6 +257,7 @@ function AccountsList(props) {
                 <AddAccountModal 
                 handleModalOpen={handleModalOpen}
                 modalOpen={modalOpen}
+                companyId={rc.id}
                 />
                 
             </>
@@ -281,17 +269,19 @@ function AccountsList(props) {
                 handleModalOpen={handleEditModalOpen}
                 modalOpen={editModalOpen}
                 accId ={idToEdit}
+                companyId={rc.id}
                 />
                 
             </>
             :
             <></>}
-            {deleteModalOpen ?
+            {deleteModalOpen && rc.id ?
             <>
                 <DeleteAccountModal 
-                handleDeleteModalOpen={handleDeleteModalOpen}
-                deleteModalOpen={deleteModalOpen}
+                handleModalOpen={handleDeleteModalOpen}
+                modalOpen={deleteModalOpen}
                 accId ={idToDelete}
+                companyId={rc.id}
                 />
                 
             </>

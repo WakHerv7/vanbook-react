@@ -70,8 +70,11 @@ function DepositsList(props) {
                 {deposit.transaction_type}
             </td> */}
             <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {deposit.to_account_name}
+                {deposit.issuers_accounts_names}
             </td>
+            <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {deposit.to_account_name}
+            </td>            
             <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 {deposit.depositors_names}
             </td>
@@ -177,9 +180,9 @@ function DepositsList(props) {
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Date
                         </th>
-                        {/* <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Transaction type
-                        </th> */}
+                        <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            From
+                        </th>
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Deposit to
                         </th>

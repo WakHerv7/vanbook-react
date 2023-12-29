@@ -33,7 +33,7 @@ function AddSchoolStudentModal({handleModalOpen, modalOpen}) {
     const submitNewSchoolStudent = () => {
         const toSubmit = {
             "name": schoolStudentName,
-            "class_parent_id": issubschoolStudentof ? Number(schoolStudentParent) : null,
+            "parent_id": issubschoolStudentof ? Number(schoolStudentParent) : null,
         }
         console.log("toSubmit: ", toSubmit)
         if ( schoolStudentName ) {

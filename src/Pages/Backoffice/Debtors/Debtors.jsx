@@ -66,9 +66,12 @@ function Debtors(props) {
             <td className="text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 {debtor.schoolClass}
             </td>
+            {/* <td className=" text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {debtor.total_amount}
+            </td> */}
             <td className=" text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
                 {debtor.balance_due}
-            </td>                            
+            </td>  
         </tr>
     ))
     } else if (debtorsStatus === 'failed') {
@@ -175,9 +178,12 @@ function Debtors(props) {
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
                             Class
                         </th>
+                        {/* <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
+                            Original amount
+                        </th> */}
                         <th scope="col" className="text-sm font-medium myprimarytextcolor px-6 py-4 text-left">
-                            Amount owed
-                        </th>                            
+                            Balance due
+                        </th>                          
                         </tr>
                     </thead>
                     <tbody>

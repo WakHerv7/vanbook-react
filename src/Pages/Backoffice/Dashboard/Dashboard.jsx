@@ -92,6 +92,17 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
+                                <Link reloadDocument to={'/dashboard/journal'} className="dashboard_box">
+                                        <div className="flex">
+                                            <div className="dashboard_box_icon">
+                                                <IoCashOutline size={'20'} color={'#41436a'}/>
+                                            </div>
+                                        </div>
+                                        <span className='myprimarytextcolor'>Journal</span>
+                                </Link>
+                            </div>
+                            {/* <div className="flex items-center gap-4 pl-3">
+                                <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
                                 <Link reloadDocument to={'/dashboard/deposits'} className="dashboard_box">
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
@@ -100,7 +111,7 @@ function Dashboard(props) {
                                         </div>
                                         <span className='myprimarytextcolor'>Deposit</span>
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
@@ -121,13 +132,13 @@ function Dashboard(props) {
                             </div>
                             <div className="flex items-center gap-4 pl-3">
                                 <HiOutlineArrowNarrowRight size={'40'} color={'#41436a'}/>
-                                <Link to={'/dashboard/paid-bills'} className="dashboard_box">
+                                <Link to={'/dashboard/bill-payments'} className="dashboard_box">
                                         <div className="flex">
                                             <div className="dashboard_box_icon">
                                                 <HiOutlineCash size={'20'} color={'#41436a'}/>
                                             </div>
                                         </div>
-                                        <span className='myprimarytextcolor'>Paid bills</span>
+                                        <span className='myprimarytextcolor'>Bill payments</span>
                                 </Link>
                             </div>
                             <div className="flex items-center gap-4 pl-3">

@@ -12,6 +12,8 @@ function BillLine({ind, currentLine, removeBillLine,
     const [itemDescription, setItemDescription] = useState('');    
     const [qty, setQty] = useState(0);
     const [rate, setRate] = useState(0);
+    const [cost, setCost] = useState(0);
+    const [discount, setDiscount] = useState(0);
     const [amount, setAmount] = useState(0);
     /** ============================================ */
     const { 
@@ -20,7 +22,8 @@ function BillLine({ind, currentLine, removeBillLine,
         itemDescription: curItemDescription, 
         qty: curQty, 
         rate: curRate, 
-        amount: curAmount 
+        discount: curDiscount, 
+        amount: curAmount
     } = currentLine?.billLine || {};
 
     useEffect(() => {
@@ -30,16 +33,22 @@ function BillLine({ind, currentLine, removeBillLine,
         setItemDescription(curItemDescription ?? '');
         setQty(Number(curQty) || 0);
         setRate(Number(curRate) || 0);
+        setDiscount(Number(curDiscount) || 0);
         setAmount(Number(curAmount) || 0);
         isFirstLoad.current = item ? true : false;
     }, [currentLine]);
 
     useEffect(() => {
-        updateTableData({ ind, item: selectedItem, itemDescription, qty, rate, amount });
+        updateTableData({ ind, item: selectedItem, itemDescription, qty, rate, discount, amount });
         if (!isNaN(qty) && !isNaN(rate)) {
-            setAmount(rate * qty);
+            setCost(rate * qty);
+            if (!isNaN(discount)) {
+                setAmount((rate * qty)-(rate * qty * discount));
+            } else {
+                setAmount(rate * qty);
+            }
         }
-    }, [selectedItem, itemDescription, qty, rate, amount]);
+    }, [selectedItem, itemDescription, qty, rate, discount, amount]);
     //---------------------------------------------------------
     const handleSelectedItem = (item) => {
         setSelectedItem(item);        
@@ -82,6 +91,12 @@ function BillLine({ind, currentLine, removeBillLine,
             </td>
             <td className={`text-sm  font-medium px-6 py-4 whitespace-nowrap`}>
                 <input value={rate ?? 0} onChange={(e)=>setRate(e.target.value)} type="number" name="amount" id="billAmountId" className="outline-none py-2 px-2 rounded-md w-[150px]"/>
+            </td>
+            <td className={`text-sm  font-medium px-6 py-4 whitespace-nowrap`}>
+                <input value={cost ?? 0} onChange={(e)=>setCost(e.target.value)} type="number" name="amount" id="billAmountId" className="outline-none py-2 px-2 rounded-md w-[150px]"/>
+            </td>
+            <td className={`text-sm  font-medium px-6 py-4 whitespace-nowrap`}>
+                <input value={discount ?? 0} onChange={(e)=>setDiscount(e.target.value)} type="number" name="amount" id="billAmountId" className="outline-none py-2 px-2 rounded-md w-[150px]"/>
             </td>
             <td className={`text-sm  font-medium px-6 py-4 whitespace-nowrap`}>
                 <input value={amount ?? 0} onChange={(e)=>setAmount(e.target.value)} type="number" name="amount" id="billAmountId" className="outline-none py-2 px-2 rounded-md w-[150px]"/>
