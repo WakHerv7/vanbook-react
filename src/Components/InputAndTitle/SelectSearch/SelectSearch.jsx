@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {FiChevronDown } from "react-icons/fi";
-import listenForOutsideClick from './listen-for-outside-clicks'
+import listenForOutsideClicks from '../listen-for-outside-clicks'
 import './SelectSearch_style.css';
 
 const list=[
@@ -23,7 +23,7 @@ function SelectSearch({itemPlaceholder, selectedItem, itemsList, handleSelected,
     // Hide Dropdown on Outside Click
     const menuRef = useRef(null)
     const [listening, setListening] = useState(false)
-    useEffect(listenForOutsideClick(listening, setListening, menuRef, setActive), [])
+    useEffect(listenForOutsideClicks(listening, setListening, menuRef, setActive), [])
 
     useEffect(() => {
         if (active) {

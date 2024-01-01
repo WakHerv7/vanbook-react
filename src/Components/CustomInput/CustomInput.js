@@ -1,9 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import PhoneInput from 'react-phone-number-input';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import CustomDropdownSelect from '../CustomDropdownSelect/CustomDropdownSelect';
+import CustomDropdownPeriod from '../CustomDropdownPeriod/CustomDropdownPeriod';
+import CustomCheckbox from '../CustomCheckbox/CustomCheckbox';
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+
+
 function CustomInput(props) {
-    const { onekey=0, id=0, type, label, name, value, placeholder, onChange, options, className, country, region, note, required, err, inputRef, optionValues, optionLabels } = props;
+    const { onekey=0, id=0, attr='', type, label, labelPosition, title, name, value, placeholder, onChange, options, className, country, region, note, required, err, inputRef, optionValues, optionLabels } = props;
     const [error, setError] = useState();
     
     const [showPassword, setShowPassword] = useState(false);
@@ -13,9 +18,10 @@ function CustomInput(props) {
     };
 
     const handleChange = (e) => {
-      // console.log("indx :", indx);
+        // console.log("onekey :", onekey);
           onChange({
             key:onekey,
+            attr:attr,
             target: {
                 name: e.target.name, 
                 value: e.target.value,
@@ -40,8 +46,12 @@ function CustomInput(props) {
     
 
   return (
-    <div key={id} className={`${className}`}>
-      <label className='text-[.9rem]' htmlFor={name}>{label}</label>
+    <div key={id} className={`${className} ${labelPosition == 'side'? 'flex gap-4 items-center':''}`}>
+      {type === 'checkbox' ?
+        <></>
+        :
+        <label className='text-[.9rem] whitespace-nowrap' htmlFor={name}>{label}</label>
+      }      
       {type === 'select' ? 
         <select
         className={"w-full h-[2.5rem] border outline-none pl-4 rounded-lg mt-1 text-[.9rem] border border-vanbook-100 "}
@@ -56,7 +66,10 @@ function CustomInput(props) {
             ))
             :
             options.map((option, index) => (
-                <option key={index} value={option.value}>{option.label}</option>
+                <option key={index} value={option.value}>
+                  {`${option.label} `}
+                  {option.description ? <i className='italic text-[10px]'>({option.description})</i>:<></>}
+                </option>
             ))}
         </select>
       
@@ -81,6 +94,44 @@ function CustomInput(props) {
         value={region}
         onChange={(val)=>handleChange({ target: { name: name, value: val } })}
         />
+      :
+        type === 'cselect' ?
+        <CustomDropdownSelect
+        className='w-full h-[2.5rem] border border-vanbook-100  outline-none pl-4 rounded-lg mt-1 text-[.9rem]'
+        ref={inputRef}
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        onChange={handleChange}
+        options={options}
+        />
+      :
+        type === 'cperiod' ?
+        <CustomDropdownPeriod
+        className='w-full h-[2.5rem] border border-vanbook-100  outline-none pl-4 rounded-lg mt-1 text-[.9rem]'
+        ref={inputRef}
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        onChange={handleChange}
+        options={options}
+        />
+      : type === 'checkbox' ?
+        <CustomCheckbox
+        className='w-full h-[2.5rem] border border-vanbook-100  outline-none pl-4 rounded-lg mt-1 text-[.9rem]'
+        ref={inputRef}
+        name={name}
+        value={value}
+        label={label}
+        title={title}
+        onChange={handleChange}
+        />
+        // <label htmlFor={name} className="checkboxContainer">
+        //     {label}
+        //     <input type="radio" name={name} id={name} checked={checked} value={value}
+        //     onChange={handleChange}/>
+        //     <span className="customCheckmark"></span>
+        // </label>
       :
         <div className='relative'>
         <input 

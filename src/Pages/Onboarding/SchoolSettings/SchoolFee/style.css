@@ -1,0 +1,12 @@
+.ml-close-btn {
+    display: none;
+}
+.ml-list-item:hover .ml-close-btn {
+    display: block;
+}
+.ml-item-opacity {
+    opacity: 50%;
+}
+.ml-list-item:hover .ml-item-opacity {
+    opacity: 70%;
+}

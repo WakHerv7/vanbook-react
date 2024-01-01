@@ -1,0 +1,107 @@
+/* The container_checkbo_select_w */
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  /* padding-left: 35px; */
+  /* margin-bottom: 12px; */
+  cursor: pointer;
+  /* font-size: 15px; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: transparent;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxContainer > input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.customCheckmark {
+  position: absolute;
+  /* top: ; */
+  left: 0;
+  /* height: 20px;
+  width: 20px; */
+  border: 1px solid #777;
+  border: 1px solid #ddd;
+  /* border-radius: 5px; */
+  background: #f0f0f0;
+  /* background-color: #eee; */
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxContainer:hover > input ~ .customCheckmark {
+  background-color: #eee;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxContainer > input:checked ~ .customCheckmark {
+  background-color: #41436a;
+  border: 1px solid #41436a;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.customCheckmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark/indicator when checked */
+.checkboxContainer > input:checked ~ .customCheckmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkboxContainer .customCheckmark:after {
+  /* left: 7.5px;
+  top: 4px;
+  width: 5px;
+  height: 10px; */
+  border: solid white;
+  /* border-width: 0 3px 3px 0; */
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Small */
+.checkboxContainer.sm {
+  padding-left: 21px;
+}
+.checkboxContainer.sm .customCheckmark.sm {
+  height: 15px;
+  width: 15px;
+  border-radius: 2.5px;
+}
+.checkboxContainer.sm .customCheckmark.sm:after {
+  left: 5px;
+  top: 1.5px;
+  width: 5px;
+  height: 8px;
+  border-width: 0 2px 2px 0;
+}
+/* Medium */
+.checkboxContainer.md {
+  padding-left: 35px;
+}
+.checkboxContainer.md .customCheckmark.md {
+  height: 20px;
+  width: 20px;
+  border-radius: 5px;
+}
+.checkboxContainer.md .customCheckmark.md:after {
+  left: 7.5px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border-width: 0 3px 3px 0;
+}

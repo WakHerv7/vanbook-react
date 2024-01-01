@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {FiChevronDown } from "react-icons/fi";
-import listenForOutsideClick from './listen-for-outside-clicks'
+import listenForOutsideClick from '../listen-for-outside-clicks'
 import './SelectSearch_style.css';
 
 const list=[
