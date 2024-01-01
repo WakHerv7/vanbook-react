@@ -41,7 +41,7 @@ const CustomDropdown = (props) => {
     } = props;
 
     const [isActive, setIsActive] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
     const [optionsList, setOptionsList] = useState({});
     const [selectedOptionList, setSelectedOptionList] = useState([]);
     // Hide Dropdown on Outside Click
@@ -94,6 +94,12 @@ const CustomDropdown = (props) => {
     };
 
     const handleSelectButtonClick = () => {
+        let list = optionsList;
+        list = Object.entries(list).reduce((acc, [key, option]) => {
+            acc[key] = {...option, value: false};
+            return acc;
+        }, {});
+        setOptionsList(list);
         setIsActive(!isActive);
         // console.log("isActive : ",isActive);
     };

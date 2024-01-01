@@ -49,29 +49,25 @@ export default function SchoolYearMajorLevel() {
         setMajors(list);
         setMajorCounter(majorCounter+1);
     };
-    const removeMajor = (key) => {
-        let myDict = majors;
-        console.log(myDict);
-        let keysToRemove = [key];        
-        let filteredKeys = Object.keys(myDict).filter(key => !keysToRemove.includes(key));
-        let newDict = filteredKeys.reduce((result, key) => {
-            result[key] = myDict[key];
-            return result;
+    const removeMajor = (id) => {
+        console.log("id : ", id);
+        const result = Object.keys(majors)
+          .filter(key => majors[key].id !== id )
+          .reduce((accumulator, key) => {
+            accumulator[key] = majors[key];
+            return accumulator;
         }, {});
-        setMajors(newDict);
+        console.log("result : ", result);
+        setMajors(result);
+        
     };
     const handleMajorInputChange = (e) => {
       let name = e.target.name;
       let value = e.target.value;
       let required = e.target.required;
-      setMajors({ ...majors, [name]: {value:value, required:required} });
+      setMajors({ ...majors, [name]: {...majors[name], value:value, required:required} });
       setFormData({ ...formData, [name]: {value:value, required:required} });
     };
-
-    useEffect(() => {
-      console.log("majors: ", majors);
-      console.log("formData: ", formData);
-    }, [majors])
     
 
     const addNewLevel = () => {
@@ -82,22 +78,18 @@ export default function SchoolYearMajorLevel() {
       setLevels(list);
       setLevelCounter(levelCounter+1);
     };
-    const removeLevel = (key) => {
-      let myDict = levels;
-      console.log(myDict);
-      let keysToRemove = [key];        
-      let filteredKeys = Object.keys(myDict).filter(key => !keysToRemove.includes(key));
-      let newDict = filteredKeys.reduce((result, key) => {
-          result[key] = myDict[key];
-          return result;
-      }, {});
-      setLevels(newDict);
+    const removeLevel = (id) => {
+      console.log("id : ", id);
+      const result = Object.keys(levels)
+          .filter(key => levels[key].id !== id)
+          .map(key => levels[key]);
+      setLevels(result);
     };
     const handleLevelInputChange = (e) => {
       let name = e.target.name;
       let value = e.target.value;
       let required = e.target.required;
-      setLevels({ ...levels, [name]: {value:value, required:required} });
+      setLevels({ ...levels, [name]: {...levels[name], value:value, required:required} });
       setFormData({ ...formData, [name]: {value:value, required:required} });
     };
 
@@ -242,14 +234,14 @@ export default function SchoolYearMajorLevel() {
                             key={ind}
                             type="text" 
                             placeholder={"Major title"}
-                            name={`major_name_${ind}`}
+                            name={`major_name_${elt.id}`}
                             value={elt.value} 
                             onChange={handleMajorInputChange}
                             err={formErrors}
                             required={elt.required}
                             className={'w-full'}
                             />
-                            <div onClick={()=>removeMajor(`major_name_${elt.id}`)} className={`${ind>0? '':'hidden'} cursor-pointer opacity-[60%]`}>
+                            <div onClick={()=>removeMajor(elt.id)} className={`${ind>0? '':'hidden'} cursor-pointer opacity-[60%]`}>
                                 <FiX size={25} color={"#41436a"}/>
                             </div>
                         </div>                        
@@ -279,14 +271,14 @@ export default function SchoolYearMajorLevel() {
                             key={ind}
                             type="text" 
                             placeholder={"Level title"}
-                            name={`level_name_${ind}`}
+                            name={`level_name_${elt.id}`}
                             value={elt.value} 
                             onChange={handleLevelInputChange}
                             err={formErrors}
                             required={elt.required}
                             className={'w-full'}
                             />
-                            <div onClick={()=>removeLevel(`level_name_${elt.id}`)} className={`${ind>0? '':'hidden'} cursor-pointer opacity-[60%]`}>
+                            <div onClick={()=>removeLevel(elt.id)} className={`${ind>0? '':'hidden'} cursor-pointer opacity-[60%]`}>
                                 <FiX size={25} color={"#41436a"}/>
                             </div>
                         </div>                        

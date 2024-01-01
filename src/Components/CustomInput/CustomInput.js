@@ -138,7 +138,7 @@ function CustomInput(props) {
         type={name === "password" || name === "confirm_password" ? showPassword ? "text" : "password" : type}
         ref={inputRef}
         name={name} 
-        defaultValue={value} 
+        value={value !== undefined ? value : null}
         placeholder={placeholder} 
         onChange={handleChange}
         className={"w-full h-[2.5rem] border border-vanbook-100  outline-none pl-4 rounded-lg mt-1 text-[.9rem]"}
