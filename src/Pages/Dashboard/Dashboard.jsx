@@ -12,16 +12,24 @@ import {
 import { FiEdit3 } from "react-icons/fi";
 import { RiHandCoinLine } from "react-icons/ri";
 import { IoCashOutline } from "react-icons/io5";
+
+
+
+
+
+
 function Dashboard(props) {
+
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
 
     return (
         <div className='flex w-full'>
-            {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
+            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
             <section className={`bg-[#F9F9F9] w-full transition-[width] ease ${sidebarOpen ? "sectionWidthSidebarOpen" : "sectionWidthSidebarClosed"}`}>
-                {/* <Header /> */}
+                <Header />
                 {/* Main Page Container */}
                 <div className="main_page_container px-10 bg-[#F0F0F0] flex flex-col justify-center items-center">
 

@@ -1,0 +1,18 @@
+
+
+.box {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid gray;
+}
+.grid_row {
+    grid-auto-rows: minmax(180px , auto);
+}
+.box1, .box4 {
+    grid-column: span 1;
+    grid-row: span 3;
+}
+.box7 {
+    grid-column: span 2;
+    grid-row: span 2;
+}

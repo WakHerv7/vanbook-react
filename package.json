@@ -19,6 +19,7 @@
     "react-scripts": "5.0.1",
     "react-select-search": "^4.1.6",
     "reactstrap": "^9.1.5",
+    "recharts": "^2.10.3",
     "redux-persist": "^6.0.0",
     "swiper": "^8.4.6",
     "web-vitals": "^2.1.4"

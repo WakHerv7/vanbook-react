@@ -44,6 +44,8 @@ import Layout from "./Components/Dashboard/Layout";
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
 import JoinWaitList from "./Pages/JoinWaitList";
+import AdminDashboard from "./Pages/Dashboard/admin/AdminDashboard.jsx";
+import DashboardProfile from "./Pages/Dashboard/admin/profile/DashboardProfile.jsx";
 
 function App() {
   
@@ -60,6 +62,8 @@ function App() {
           <Route path="/onboarding" element={<Stepper />} />
           <Route path="/onboarding2" element={<OnBoardHome />} />
           <Route path="/onboarding3" element={<OnBoardFinish/>} />
+          <Route path="/admin" element={<AdminDashboard/>} />
+          <Route path="/dashboard/profile" element={<DashboardProfile/>} />
 
           <Route exact path="dashboard" element={<Layout/>}>
             <Route index element={<Dashboard />}/>
