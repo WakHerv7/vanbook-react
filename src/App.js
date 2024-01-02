@@ -77,7 +77,7 @@ function App() {
             <Route exact path="/onboarding/objective" element={<AboutObjective />}/>
 
             <Route exact path="/onboarding/school-data" element={<OnboardingSchoolYearMajorLevel />}/>
-            <Route exact path="/onboarding/school-fee" element={<OnboardingSchoolFee />}/>
+            <Route exact path="/onboarding/school-fees" element={<OnboardingSchoolFee />}/>
             
             <Route exact path="dashboard" element={<Layout/>}>
               <Route index element={<Dashboard />}/>

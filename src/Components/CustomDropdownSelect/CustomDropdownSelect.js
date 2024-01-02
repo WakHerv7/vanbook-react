@@ -40,7 +40,7 @@ const CustomDropdownSelect = (props) => {
     useEffect(listenForOutsideClicks(listening, setListening, menuRef, setIsActive), []);
     
     useEffect(() => {
-        console.log(`${name} value : `, value);
+        // console.log(`${name} value : `, value);
       if (value !== null && value !== undefined && value !== '') {
         const mountOption = options.filter(opt => opt.value === value)[0];
         setSelectedOption(mountOption);

@@ -34,13 +34,16 @@ function CustomInput(props) {
       if (err) { 
         if (err[name] === `${name} is required`) {
           const inputLabel = name === "password" ? "Password":label;
-          console.log(`${inputLabel} is required`);
           setError(`${inputLabel} is required`);
         } else if (err[name]) {
           setError(err[name])
+        } else if (err[attr]) {
+          setError(err[attr])
         } else {
-          setError('')
+          setError()
         }
+      } else {
+        setError()
       }
     }, [err])
     
@@ -51,7 +54,8 @@ function CustomInput(props) {
         <></>
         :
         <label className='text-[.9rem] whitespace-nowrap' htmlFor={name}>{label}</label>
-      }      
+      }
+      <div className='flex flex-col'>
       {type === 'select' ? 
         <select
         className={"w-full h-[2.5rem] border outline-none pl-4 rounded-lg mt-1 text-[.9rem] border border-vanbook-100 "}
@@ -118,7 +122,7 @@ function CustomInput(props) {
         />
       : type === 'checkbox' ?
         <CustomCheckbox
-        className='w-full h-[2.5rem] border border-vanbook-100  outline-none pl-4 rounded-lg mt-1 text-[.9rem]'
+        className='w-full'
         ref={inputRef}
         name={name}
         value={value}
@@ -154,12 +158,14 @@ function CustomInput(props) {
         </div>
         </div>
       }
-      
       {error ? 
         <div className='text-red-500 text-xs'>{error}</div>
         :
         <div className='text-sm'>{note}</div>
       }
+      </div>
+
+      
     </div>
   );
 }

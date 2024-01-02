@@ -254,7 +254,7 @@ const CustomDropdownPeriod = (props) => {
                                     {selectedOption.id == option.id ?
                                         <input 
                                         type={'number'}
-                                        min={"0"}
+                                        min={"1"}
                                         name={`${option.type}_${indx}`}
                                         defaultValue={inputValue[option.type]}
                                         onChange={(e)=>handleInputValue(e, option)}
@@ -300,7 +300,7 @@ const CustomDropdownPeriod = (props) => {
                                         {selectedOption.id == option.id ?
                                             <input 
                                             type={'date'}
-                                            min={"0"}
+                                            min={"1"}
                                             name={`${option.type}_${indx}`}
                                             defaultValue={inputValue['start_date']}
                                             onChange={(e)=>handleInputValue(e, option, 'start_date')}
@@ -331,7 +331,7 @@ const CustomDropdownPeriod = (props) => {
                                         {selectedOption.id == option.id ?
                                             <input 
                                             type={'date'}
-                                            min={"0"}
+                                            min={"1"}
                                             name={`${option.type}_${indx}`}
                                             defaultValue={inputValue['end_date']}
                                             onChange={(e)=>handleInputValue(e, option, 'end_date')}

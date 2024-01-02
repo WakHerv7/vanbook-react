@@ -11,7 +11,7 @@ import {jwtDecode} from "jwt-decode";
 import { selectCurrentToken } from '../../../../Api/Auth/authSlice.js';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useSubmitCompanyDataMutation } from '../../../../Api/Auth/authApiSlice.js';
+import { useSubmitSchoolDataMutation } from '../../../../Api/Auth/authApiSlice.js';
 import notify from '../../../../Components/Notify/Notify.js';
 
 const initFormData = {
@@ -33,13 +33,13 @@ export default function SchoolYearMajorLevel() {
     const [levelCounter, setLevelCounter] = useState(0);
     const [isActive, setIsActive] = useState(true);
   
-    // const token = useSelector(selectCurrentToken);
-    // const decodedToken = jwtDecode(token);
-    // const { rc } = decodedToken;
+    const token = useSelector(selectCurrentToken);
+    const decodedToken = jwtDecode(token);
+    const { rc } = decodedToken;
     
-    // const navigate = useNavigate()
-    // const [submitCompanyData, { isLoading }] = useSubmitCompanyDataMutation()
-    // const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [submitSchoolData, { isLoading }] = useSubmitSchoolDataMutation()
+    const dispatch = useDispatch()
     
     const addNewMajor = () => {
         let list = majors;
@@ -139,29 +139,25 @@ export default function SchoolYearMajorLevel() {
       if(!validateForm()) {
         return;
       }
-  
-    //   let toSubmit = {
-    //     'id': rc.id,
-    //     'ein': formData['ein'].value,
-    //     'company_type': formData['company_type'].value,
-    //     'financial_year_start': formData['financial_year_start'].value,
-    //     'address': formData['address'].value,
-    //     'phone': formData['phone_number'].value,
-    //     'email': formData['email'].value,
-    //     'website': formData['website'].value,
-    //     'country': formData['country'].value,
-    //     'region': formData['region'].value,
-    //     'city': formData['city'].value,
-    //     'currently_use': formData['currently_use'].value,
-    //     'years_in_business': formData['years_in_business'].value,
-    //   }
-  
-    //   console.log("toSubmit :", toSubmit)
-      // return;
+      // let myValues = Object.values(majors).map(obj => ({id:obj.id, value:obj.value}));
+      let majorValues = Object.values(majors).map(obj => obj.value);
+      let levelValues = Object.values(levels).map(obj => obj.value);
+
+      let toSubmit = {
+        'id': rc.id,
+        'academic_period_name': formData['academic_period_name'].value,
+        'academic_period_start': formData['academic_period_start'].value,
+        'academic_period_end': formData['academic_period_end'].value,
+        'majors': majorValues,
+        'levels': levelValues,
+      };
+
+      console.log("toSubmit :", toSubmit);
+      return;
   
       try {
-        //   const userData = await submitCompanyData(toSubmit).unwrap()
-        //   navigate('/onboarding/role');
+          const data = await submitSchoolData(toSubmit).unwrap()
+          navigate('/onboarding/school-fees');
       } catch (err) {
         notify("error", "Something went wrong")
       }

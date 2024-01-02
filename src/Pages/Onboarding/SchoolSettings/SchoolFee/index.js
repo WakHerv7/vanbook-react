@@ -39,18 +39,24 @@ const majorOptions = [
       label: 'All Majors',
       type: 'all',
       content: null,
+      error: false,
+      errorlevels: [],
   },
   { 
       id: 1, 
       label: 'Business Management',
       type: 'single',
       content: null,
+      error: false,
+      errorlevels: [],
   },
   { 
       id: 2, 
       label: 'Engineering',
       type: 'single',
       content: null,
+      error: false,
+      errorlevels: [],
   },
 ];
 
@@ -60,30 +66,35 @@ const levelOptions = [
       label: 'All Levels',
       type: 'all',
       content: null,
+      error: false,
   },
   { 
       id: 1, 
       label: 'Grade 1',
       type: 'single',
       content: null,
+      error: false,
   },
   { 
       id: 2, 
       label: 'Grade 2',
       type: 'single',
       content: null,
+      error: false,
   },
   { 
       id: 3, 
       label: 'Grade 3',
       type: 'single',
       content: null,
+      error: false,
   },
   { 
       id: 4, 
       label: 'Grade 4',
       type: 'single',
       content: null,
+      error: false,
   },
 ];
 
@@ -209,7 +220,44 @@ function getFilteredFees(fees, Id) {
     
   // console.log("result : ", result);
   return result;
-} 
+}
+
+function updateMajorErrorById(majorList, major_id, level_id) {
+  let index = majorList.findIndex(item => item.id == major_id);
+  if (index !== -1) {
+    majorList[index]['error'] = true;
+    if (!majorList[index]['errorlevels'].includes(level_id)) {
+      majorList[index]['errorlevels'].push(level_id);
+    }
+  }
+  
+  return majorList;
+ }
+ function updateLevelErrorById(list, id, attr, value) {
+  let index = list.findIndex(item => item.id == id);
+  if (index !== -1) {
+    list[index][attr] = value;
+  }
+  return list;
+ }
+ function compareDates(start_date, end_date) {
+  const startDate = new Date(start_date);   // '2022-01-01'
+  const endDate = new Date(end_date);   //'2022-01-15'
+
+  // Compare the dates
+  if (startDate < endDate) {
+    return true;
+    // console.log('startDate is earlier than endDate');
+  } else if (startDate > endDate) {
+    return false;
+    // console.log('startDate is later than endDate');
+  } else {
+    return 'equal';
+    // console.log('startDate is equal to endDate');
+  }
+ }
+
+ 
 
 export default function SchoolFee() {
     // const [welcome, setWelcome] = useState(true);
@@ -253,8 +301,8 @@ export default function SchoolFee() {
     };
     useEffect(() => {
       if (fees.length == 0) {
-        setSelectedMajorOption(majorList[majorList.length-1]);
-      } else {
+      //   setSelectedMajorOption(majorList[majorList.length-1]);
+      // } else {
         setSelectedMajorOption(majorList[0]);
       }
     }, [majorList])
@@ -271,8 +319,8 @@ export default function SchoolFee() {
     };
     useEffect(() => {
       if (fees.length == 0) {
-        setSelectedLevelOption(levelList[levelList.length-1]);
-      } else {
+      //   setSelectedLevelOption(levelList[levelList.length-1]);
+      // } else {
         setSelectedLevelOption(levelList[0]);
       }
       
@@ -353,13 +401,30 @@ export default function SchoolFee() {
       let required = e.target.required;
       // console.log("e.key : ", e.key);
       // console.log("e.attr : ", e.attr);
-      setFees({
+      let myFees = {
         ...fees, 
         [e.key]: {
           ...fees[e.key], 
           [e.attr]: {value: value, required: required}
         } 
-      });
+      };
+      if (e.attr == 'parent_fee') {
+        // console.log("e.attr : ", e.attr);
+        // console.log("myFees : ", myFees);
+      }
+      if (e.attr == 'is_subfee') {
+        myFees = {
+          ...myFees, 
+          [e.key]: {
+            ...myFees[e.key], 
+            ['parent_fee']: {
+              ...myFees[e.key]['parent_fee'], 
+              required: value}
+          } 
+        };
+      }
+      setFees(myFees);
+      
       setFormData({
         ...formData,
         [name]: {value: value, required: required }
@@ -371,18 +436,71 @@ export default function SchoolFee() {
   //     // console.log("formData : ", formData);
   //   }, [formData])
     
-    
+    const isNull = (value) => {
+      const result = value === null || value === undefined || value === '';
+      // console.log("isNull : ", result);
+      return result
+    }
     
     const validateForm = () => {
       let errors = {};
-      for (let key in formData) {
-        if (formData[key].required && !formData[key].value) {
-          errors[key] = `${key} is required`;        
-        }
-      }
+      let ml = majorList.map(item => ({...item, error: false, errorlevels:[]}))
+      let ll = levelList.map(item => ({...item, error: false}))
       for (let ind in fees) {
-        if (fees[ind].required && !fees[ind].value) {
-          errors[ind] = `This field is required`;
+        for (let attr in fees[ind]) {
+          if (fees[ind][attr].required && isNull(fees[ind][attr].value)) {
+            errors = {
+              ...errors, 
+              [ind]: {
+                ...errors[ind], 
+                [attr]: `This field is required`,
+              } 
+            }
+            // console.log("=======================================");
+            // console.log(updateListById(majorList, fees[ind]['major_id'], 'error', true));
+            // console.log("=======================================");
+            const uml = updateMajorErrorById(ml, fees[ind]['major_id'], fees[ind]['level_id']);
+            setMajorList(uml);
+            setLevelList(updateLevelErrorById(ll, fees[ind]['level_id'], 'error', true));
+            if (selectedMajorOption.id === fees[ind]['major_id']) {
+              const itemIndex = uml.findIndex(item => item.id === selectedMajorOption.id);
+              setSelectedMajorOption(uml[itemIndex]);
+            }
+          }          
+          else if (fees[ind][attr].required 
+            && attr == 'period' 
+            && (isNull(fees[ind][attr].value.type) 
+                  || (fees[ind][attr].value.type == 'date' 
+                        && !compareDates(fees[ind][attr].value.start_date, fees[ind][attr].value.end_date)
+                     )
+                )
+            ) {
+              console.log("fees[ind][attr].value.type : ", fees[ind][attr].value.type);
+              console.log("compareDates : ", compareDates(fees[ind][attr].value.start_date, fees[ind][attr].value.end_date));
+              let errorMsg = '';
+              if (isNull(fees[ind][attr].value.type)) {
+                  errorMsg = `This field is required`;
+              } else if(fees[ind][attr].value.type == 'date' 
+                  && !compareDates(fees[ind][attr].value.start_date, fees[ind][attr].value.end_date)
+              )
+              {
+                errorMsg = `Period is incorrect`;
+              }
+            errors = {
+              ...errors, 
+              [ind]: {
+                ...errors[ind], 
+                [attr]: errorMsg,
+              } 
+            }
+            const uml = updateMajorErrorById(ml, fees[ind]['major_id'], fees[ind]['level_id']);
+            setMajorList(uml);
+            setLevelList(updateLevelErrorById(ll, fees[ind]['level_id'], 'error', true));
+            if (selectedMajorOption.id === fees[ind]['major_id']) {
+              const itemIndex = uml.findIndex(item => item.id === selectedMajorOption.id);
+              setSelectedMajorOption(uml[itemIndex]);
+            }
+          }
         }
       }
   
@@ -391,8 +509,18 @@ export default function SchoolFee() {
         setFormErrors(errors);
         notify("error", "Invalid entries");
         return false;
+      } else {
+        setFormErrors({});
+        ml = majorList.map(item => ({...item, error: false, errorlevels:[]}))
+        ll = levelList.map(item => ({...item, error: false}))
+        setMajorList(ml);
+        setLevelList(ll);
+        const itemIndex = ml.findIndex(item => item.id === selectedMajorOption.id);
+        setSelectedMajorOption(ml[itemIndex]);
+        return true;
       }
-      return true;
+      // console.log("formErrors : ", formErrors);
+      
     }
   
     const handleSubmit = async (e) => {
@@ -401,24 +529,27 @@ export default function SchoolFee() {
       if(!validateForm()) {
         return;
       }
+      
+      // const toSubmit = Object.keys(fees)
+      //       .map(key => fees[key]);
+      const toSubmit = Object.keys(fees)
+            .map(key => ({
+              id:fees[key].id,
+              label: fees[key].label,
+              major_id: fees[key].major_id,
+              level_id: fees[key].level_id,
+              major_label: fees[key].major_label,
+              level_label: fees[key].level_label,
+              title: fees[key].title.value,
+              amount: Number(fees[key].amount.value),
+              fee_category: fees[key].category.value,
+              student_category: fees[key].stdcategory.value,
+              period: fees[key].period.value,
+              is_subfee: fees[key].is_subfee.value,
+              parent_fee: fees[key].parent_fee.value,
+            }));
   
-    //   let toSubmit = {
-    //     'id': rc.id,
-    //     'ein': formData['ein'].value,
-    //     'company_type': formData['company_type'].value,
-    //     'financial_year_start': formData['financial_year_start'].value,
-    //     'address': formData['address'].value,
-    //     'phone': formData['phone_number'].value,
-    //     'email': formData['email'].value,
-    //     'website': formData['website'].value,
-    //     'country': formData['country'].value,
-    //     'region': formData['region'].value,
-    //     'city': formData['city'].value,
-    //     'currently_use': formData['currently_use'].value,
-    //     'years_in_business': formData['years_in_business'].value,
-    //   }
-  
-    //   console.log("toSubmit :", toSubmit)
+      console.log("toSubmit :", toSubmit)
       // return;
   
       try {
@@ -498,11 +629,13 @@ export default function SchoolFee() {
                               </div>                
                             </div>
                             {option.type == 'multi'?
-                                <div className={`absolute top-[5px] right-[5px] z-100 ml-close-btn cursor-pointer opacity-[60%]`} onClick={()=>removeFromMajorList(option.id)}>
+                                <div className={`absolute top-[0px] right-[0px] z-100 ml-close-btn cursor-pointer opacity-[60%]`} onClick={()=>removeFromMajorList(option.id)}>
                                   <FiX size={16} color={"#41436a"}/>
                                 </div>
                             :
                             <></>} 
+                            <div className={`absolute bottom-[5px] right-[5px] z-100 w-2 h-2 rounded-[50%] bg-red-400 ${option.error ? 'opacity-100':'opacity-0'}`}>
+                            </div>
                         </li>                        
                         ))}
                         <li>
@@ -547,11 +680,13 @@ export default function SchoolFee() {
                               </div>                
                             </div>
                             {option.type == 'multi'?
-                                <div className={`absolute top-[5px] right-[5px] z-100 ml-close-btn cursor-pointer opacity-[60%]`} onClick={()=>removeFromLevelList(option.id)}>
+                                <div className={`absolute top-[0px] right-[0px] z-100 ml-close-btn cursor-pointer opacity-[60%]`} onClick={()=>removeFromLevelList(option.id)}>
                                   <FiX size={16} color={"#41436a"}/>
                                 </div>
                             :
-                            <></>} 
+                            <></>}
+                            <div className={`absolute bottom-[5px] right-[5px] z-100 w-2 h-2 rounded-[50%] bg-red-400 ${selectedMajorOption.error && selectedMajorOption.errorlevels.includes(option.id)? 'opacity-100':'opacity-0'}`}>
+                            </div>
                         </li>                        
                         ))}
                         <li>
@@ -597,7 +732,7 @@ export default function SchoolFee() {
                                         value={elt.is_subfee.value}
                                         attr={'is_subfee'} 
                                         onChange={handleFeeInputChange}
-                                        err={formErrors}
+                                        err={formErrors[onekey]}
                                         required={elt.is_subfee.required}
                                         className={'w-full'}
                                         />
@@ -621,7 +756,7 @@ export default function SchoolFee() {
                                   value={elt.title.value}
                                   attr={'title'} 
                                   onChange={handleFeeInputChange}
-                                  err={formErrors}
+                                  err={formErrors[onekey]}
                                   required={elt.title.required}
                                   className={'w-full'}
                                   />
@@ -638,7 +773,7 @@ export default function SchoolFee() {
                                   value={elt.amount.value} 
                                   attr={'amount'} 
                                   onChange={handleFeeInputChange}
-                                  err={formErrors}
+                                  err={formErrors[onekey]}
                                   required={elt.amount.required}
                                   className={'w-full'}
                                   />
@@ -651,7 +786,7 @@ export default function SchoolFee() {
                                   value={elt.period.value} 
                                   attr={'period'} 
                                   onChange={handleFeeInputChange}
-                                  err={formErrors}
+                                  err={formErrors[onekey]}
                                   required={elt.period.required}
                                   className={'w-full'}
                                   />
@@ -664,7 +799,7 @@ export default function SchoolFee() {
                                   value={elt.category.value} 
                                   attr={'category'} 
                                   onChange={handleFeeInputChange}
-                                  err={formErrors}
+                                  err={formErrors[onekey]}
                                   required={elt.category.required}
                                   className={'w-full'}
                                   options={feeCategories}
@@ -678,7 +813,7 @@ export default function SchoolFee() {
                                   value={elt.stdcategory.value} 
                                   attr={'stdcategory'} 
                                   onChange={handleFeeInputChange}
-                                  err={formErrors}
+                                  err={formErrors[onekey]}
                                   required={elt.stdcategory.required}
                                   className={'w-full'}
                                   options={studentCategories}
@@ -696,7 +831,7 @@ export default function SchoolFee() {
                                     value={elt.parent_fee.value} 
                                     attr={'parent_fee'} 
                                     onChange={handleFeeInputChange}
-                                    err={formErrors}
+                                    err={formErrors[onekey]}
                                     required={elt.parent_fee.required}
                                     className={'w-full mt-1'}
                                     options={filteredFees}

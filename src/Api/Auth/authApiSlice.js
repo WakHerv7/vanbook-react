@@ -44,6 +44,20 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...data }
             })
         }),
+        submitSchoolData: builder.mutation({
+            query: data => ({
+                url: `/auth/onboarding/school-data/${data.id}`,
+                method: 'PUT',
+                body: { ...data }
+            })
+        }),
+        submitSchoolFees: builder.mutation({
+            query: data => ({
+                url: `/auth/onboarding/school-fees/${data.id}`,
+                method: 'PUT',
+                body: { ...data }
+            })
+        }),
         
     })
  })
@@ -54,5 +68,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     useSignoutMutation,
     useSubmitCompanyDataMutation,
     useSubmitUserRoleMutation,
-    useSubmitObjectiveMutation
+    useSubmitObjectiveMutation,
+    useSubmitSchoolDataMutation,
+    useSubmitSchoolFeesMutation
  } = authApiSlice
