@@ -33,9 +33,9 @@ const DashboardProfile = () => {
                         Employee details
                     </h2>
 
-                    <div className="flex gap-12">
+                    <div className="flex gap-12 flex-wrap">
                         <ProfileSummary />
-                        <div className="flex-1 flex-col gap-6 flex">
+                        <div className="flex-1 flex-col gap-6 flex flex-wrap">
                             <PersonalDetails />
                             <ContactDetails />
                         </div>
