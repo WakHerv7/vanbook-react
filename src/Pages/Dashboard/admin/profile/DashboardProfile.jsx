@@ -2,15 +2,17 @@ import SideBar from '../../../../Components/Dashboard/admin/SideBar'
 import ProfileSummary from '../../../../Components/Dashboard/admin/profile/ProfileSummary'
 import PersonalDetails from '../../../../Components/Dashboard/admin/profile/PersonalDetails'
 import ContactDetails from '../../../../Components/Dashboard/admin/profile/ContactDetails'
+import Header from '../../../../Components/Dashboard/Header'
 
 
 const DashboardProfile = () => {
     
     return (
-        <main className="min-w-screen min-h-screen flex">
+        <main className="min-w-screen min-h-screen flex bg-gray-300">
             <SideBar />
 
-            <section className="py-6 flex-1 bg-gray-300">
+            <section className="pb-6 flex-1 ">
+                <Header />
                 <header className="py-3.5 px-12 justify-between items-center flex border border-zinc-400">
                     <div className="py-2.5 gap-2 items-center flex">
                         <img

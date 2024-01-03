@@ -46,6 +46,7 @@ import ContactUs from "./Pages/ContactUs";
 import JoinWaitList from "./Pages/JoinWaitList";
 import AdminDashboard from "./Pages/Dashboard/admin/AdminDashboard.jsx";
 import DashboardProfile from "./Pages/Dashboard/admin/profile/DashboardProfile.jsx";
+import DashboardReport from "./Pages/Dashboard/admin/report/DashboardReport.jsx";
 
 function App() {
   
@@ -64,6 +65,7 @@ function App() {
           <Route path="/onboarding3" element={<OnBoardFinish/>} />
           <Route path="/admin" element={<AdminDashboard/>} />
           <Route path="/dashboard/profile" element={<DashboardProfile/>} />
+          <Route path="/dashboard/report" element={<DashboardReport/>} />
 
           <Route exact path="dashboard" element={<Layout/>}>
             <Route index element={<Dashboard />}/>
