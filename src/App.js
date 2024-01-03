@@ -44,9 +44,9 @@ import Layout from "./Components/Dashboard/Layout";
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
 import JoinWaitList from "./Pages/JoinWaitList";
-import AdminDashboard from "./Pages/Dashboard/admin/AdminDashboard.jsx";
-import DashboardProfile from "./Pages/Dashboard/admin/profile/DashboardProfile.jsx";
-import DashboardReport from "./Pages/Dashboard/admin/report/DashboardReport.jsx";
+import AdminDashboard from "./Pages/Dashboard/admin/AdminDashboard";
+import DashboardProfile from "./Pages/Dashboard/admin/profile/DashboardProfile";
+import DashboardReport from "./Pages/Dashboard/admin/report/DashboardReport";
 
 function App() {
   
