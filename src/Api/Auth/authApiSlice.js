@@ -25,35 +25,35 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         submitCompanyData: builder.mutation({
             query: data => ({
-                url: `/auth/onboarding/company/${data.id}`,
+                url: `/onboarding/company/${data.id}`,
                 method: 'PUT',
                 body: { ...data }
             })
         }),
         submitUserRole: builder.mutation({
             query: data => ({
-                url: `/auth/onboarding/role/${data.id}`,
+                url: `/onboarding/role/${data.id}`,
                 method: 'PUT',
                 body: { ...data }
             })
         }),
         submitObjective: builder.mutation({
             query: data => ({
-                url: `/auth/onboarding/objective/${data.id}`,
+                url: `/onboarding/objective/${data.id}`,
                 method: 'PUT',
                 body: { ...data }
             })
         }),
         submitSchoolData: builder.mutation({
             query: data => ({
-                url: `/auth/onboarding/school-data/${data.id}`,
+                url: `/onboarding/school-data/${data.id}`,
                 method: 'PUT',
                 body: { ...data }
             })
         }),
         submitSchoolFees: builder.mutation({
             query: data => ({
-                url: `/auth/onboarding/school-fees/${data.id}`,
+                url: `/onboarding/school-fees/${data.id}`,
                 method: 'PUT',
                 body: { ...data }
             })

@@ -35,29 +35,37 @@ export default function SchoolYearMajorLevel() {
   
     const token = useSelector(selectCurrentToken);
     const decodedToken = jwtDecode(token);
-    const { rc } = decodedToken;
+    const { rc, has_majors } = decodedToken;
     
     const navigate = useNavigate()
     const [submitSchoolData, { isLoading }] = useSubmitSchoolDataMutation()
     const dispatch = useDispatch()
     
+    useEffect(() => {
+      if (!has_majors) {
+        setMajors({});
+      }
+      // console.log("rc : ", rc);
+      // console.log("has_majors : ", has_majors);
+    }, [])
+    
     const addNewMajor = () => {
         let list = majors;
         const name = `major_name_${majorCounter+1}`;
         list = {...list, [name]: {id:majorCounter+1, value:'', required:true}};
-        console.log(list);
+        // console.log(list);
         setMajors(list);
         setMajorCounter(majorCounter+1);
     };
     const removeMajor = (id) => {
-        console.log("id : ", id);
+        // console.log("id : ", id);
         const result = Object.keys(majors)
           .filter(key => majors[key].id !== id )
           .reduce((accumulator, key) => {
             accumulator[key] = majors[key];
             return accumulator;
         }, {});
-        console.log("result : ", result);
+        // console.log("result : ", result);
         setMajors(result);
         
     };
@@ -74,12 +82,12 @@ export default function SchoolYearMajorLevel() {
       let list = levels;
       const name = `level_name_${levelCounter+1}`;
       list = {...list, [name]: {id:levelCounter+1, value:'', required:true}};
-      console.log(list);
+      // console.log(list);
       setLevels(list);
       setLevelCounter(levelCounter+1);
     };
     const removeLevel = (id) => {
-      console.log("id : ", id);
+      // console.log("id : ", id);
       const result = Object.keys(levels)
           .filter(key => levels[key].id !== id)
           .map(key => levels[key]);
@@ -93,10 +101,10 @@ export default function SchoolYearMajorLevel() {
       setFormData({ ...formData, [name]: {value:value, required:required} });
     };
 
-    useEffect(() => {
-      console.log("levels: ", levels);
-      console.log("formData: ", formData);
-    }, [levels])
+    // useEffect(() => {
+    //   console.log("levels: ", levels);
+    //   console.log("formData: ", formData);
+    // }, [levels])
 
     const handleInputChange = (e) => {
       let name = e.target.name;
@@ -133,7 +141,7 @@ export default function SchoolYearMajorLevel() {
       return true;
     }
   
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e, next_page) => {
       e.preventDefault();
   
       if(!validateForm()) {
@@ -150,14 +158,21 @@ export default function SchoolYearMajorLevel() {
         'academic_period_end': formData['academic_period_end'].value,
         'majors': majorValues,
         'levels': levelValues,
+        'has_majors': has_majors,
       };
 
       console.log("toSubmit :", toSubmit);
-      return;
+
+      notify("default", "You're ready to submit");
+      // return;
   
       try {
           const data = await submitSchoolData(toSubmit).unwrap()
-          navigate('/onboarding/school-fees');
+          notify("success", "Well done brother !!!");
+          if (next_page) {
+            navigate('/onboarding/school-fees');
+            notify("default", "You're almost done. This is the last.");
+          }
       } catch (err) {
         notify("error", "Something went wrong")
       }
@@ -215,7 +230,8 @@ export default function SchoolYearMajorLevel() {
           </div> 
         </div>
 
-
+        {has_majors ?
+        <>
         <h1 className={style.h1}>Define your school majors</h1>
         <p className={style.extraInfo}>
         Examples: Business management, Engineering, Health science, Computer science ...
@@ -252,6 +268,11 @@ export default function SchoolYearMajorLevel() {
             </div>
           </div> 
         </div>
+        </>
+
+        :
+        <></>}
+        
 
         <h1 className={style.h1}>Define your school levels</h1>
         <p className={style.extraInfo}>
@@ -299,12 +320,20 @@ export default function SchoolYearMajorLevel() {
                             <span>Back</span>
                         </button>
                     </Link> */}
-                    <Link to="#" onClick={handleSubmit}>
+                    <Link to="#" onClick={(e)=>handleSubmit(e, false)}>
                         <button
                         className={isActive ? style.nextBtn : style.nextBtnDisable}
                         disabled={!isActive}
                         >
-                        <span>Next</span>
+                        <span>Save</span>
+                        </button>
+                    </Link>
+                    <Link to="#" onClick={(e)=>handleSubmit(e, true)}>
+                        <button
+                        className={isActive ? style.nextBtn : style.nextBtnDisable}
+                        disabled={!isActive}
+                        >
+                        <span>Save & Continue</span>
                         </button>
                     </Link>
                   </div>

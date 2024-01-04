@@ -8,11 +8,14 @@ import { feesList } from './feesList.js';
 import {style} from "../../style.js";
 import { FiPlus, FiX, FiCopy } from "react-icons/fi";
 import './style.css';
+
 import {jwtDecode} from "jwt-decode";
 import { selectCurrentToken } from '../../../../Api/Auth/authSlice.js';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useSubmitCompanyDataMutation } from '../../../../Api/Auth/authApiSlice.js';
+import { useSubmitSchoolFeesMutation } from '../../../../Api/Auth/authApiSlice.js';
+import { useGetSchoolMajorsByCompanyIdQuery } from "../../../../Api/Reducers/schoolMajorsApiSlice.js";
+import { useGetSchoolLevelsByCompanyIdQuery } from "../../../../Api/Reducers/schoolLevelsApiSlice.js";
 import notify from '../../../../Components/Notify/Notify.js';
 
 const initFormData = {
@@ -240,6 +243,18 @@ function updateMajorErrorById(majorList, major_id, level_id) {
   }
   return list;
  }
+ function updateListNbFeesById(list, id, action) {
+  let index = list.findIndex(item => item.id == id);
+  if (index !== -1) {
+    if (action == 'add') {
+      list[index]['nbfees'] += 1;  
+    } else if (action == 'remove') {
+      list[index]['nbfees'] -= 1;  
+    }
+    
+  }
+  return list;
+ }
  function compareDates(start_date, end_date) {
   const startDate = new Date(start_date);   // '2022-01-01'
   const endDate = new Date(end_date);   //'2022-01-15'
@@ -263,23 +278,104 @@ export default function SchoolFee() {
     // const [welcome, setWelcome] = useState(true);
     const [formData, setFormData] = useState(initFormData);
     const [formErrors, setFormErrors] = useState({});
-    const [majorList, setMajorList] = useState(majorOptions);
-    const [levelList, setLevelList] = useState(levelOptions);
+    // const [majorList, setMajorList] = useState(majorOptions);
+    // const [levelList, setLevelList] = useState(levelOptions);
+    const [majorList, setMajorList] = useState([]);
+    const [levelList, setLevelList] = useState([]);
     const [fees, setFees] = useState({});
     
     const [activeFees, setActiveFees] = useState({});
     const [inputCounter, setInputCounter] = useState(0);
     const [isActive, setIsActive] = useState(true);
-    const [selectedMajorOption, setSelectedMajorOption] = useState(majorOptions[0]);
-    const [selectedLevelOption, setSelectedLevelOption] = useState(levelList[0]);
+    // const [selectedMajorOption, setSelectedMajorOption] = useState(majorOptions[0]);
+    // const [selectedLevelOption, setSelectedLevelOption] = useState(levelList[0]);
+    const [selectedMajorOption, setSelectedMajorOption] = useState({});
+    const [selectedLevelOption, setSelectedLevelOption] = useState({});
 
-    // const token = useSelector(selectCurrentToken);
-    // const decodedToken = jwtDecode(token);
-    // const { rc } = decodedToken;
+    const token = useSelector(selectCurrentToken);
+    const decodedToken = jwtDecode(token);
+    const { rc, has_majors } = decodedToken;
     
-    // const navigate = useNavigate()
-    // const [submitCompanyData, { isLoading }] = useSubmitCompanyDataMutation()
-    // const dispatch = useDispatch()
+    const {
+      data: schoolMajors,
+      isLoading: isLoadingMajors,
+      isSuccess: isSuccessMajors,
+      isError: isErrorMajors,
+      error: errorMajors
+    } = useGetSchoolMajorsByCompanyIdQuery(rc.id);
+    const {
+      data: schoolLevels,
+      isLoading: isLoadingLevels,
+      isSuccess: isSuccessLevels,
+      isError: isErrorLevels,
+      error: errorLevels
+    } = useGetSchoolLevelsByCompanyIdQuery(rc.id);
+
+    useEffect(() => {
+      let data = [];
+      if (isSuccessMajors && schoolMajors) {
+        let majors = [
+          { 
+            id: 0, 
+            label: 'All Majors',
+            type: 'all',
+            content: schoolMajors.ids,
+            error: false,
+            errorlevels: [],
+            nbfees: null,
+          }
+        ];     
+        data = schoolMajors.ids.map(id => ({
+          id: id,
+          label: schoolMajors.entities[id]['name'],
+          type: 'single',
+          content: null,
+          error: false,
+          errorlevels: [],
+          nbfees: null,
+        }));
+        majors = (!has_majors || data.length<=1) ? data: [...majors, ...data];
+        console.log("schoolMajors : ", majors);
+        setMajorList(majors);
+        setSelectedMajorOption(majors[0]);
+      }
+
+      if (isSuccessLevels && schoolLevels) {
+        let levels = [
+          { 
+            id: 0, 
+            label: 'All Levels',
+            type: 'all',
+            content: schoolLevels.ids,
+            error: false,
+            nbfees: null,
+          }
+        ];   
+        data = schoolLevels.ids.map(id => ({
+          id: id,
+          label: schoolLevels.entities[id]['name'],
+          type: 'single',
+          content: null,
+          error: false,
+          nbfees: null,
+        }));
+        levels = (data.length<=1) ? data: [...levels, ...data];
+        console.log("schoolLevels : ", levels);
+        // const result = Object.keys(levels)
+        //     .filter(key => levels[key]['type'] === 'single')
+        //     .map(key => levels[key]);
+        // console.log("filtered single levels : ", result);
+        setLevelList(levels);
+        setSelectedLevelOption(levels[0]);
+      }
+    }, [schoolMajors, schoolLevels])
+
+    /////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////
+
+    const navigate = useNavigate()
+    const [submitSchoolFees, { isLoading }] = useSubmitSchoolFeesMutation()
+    const dispatch = useDispatch()
     
     const handleMajorOptionChange = (option) => {
         setSelectedMajorOption(option);
@@ -316,12 +412,13 @@ export default function SchoolFee() {
             .map(key => levelList[key]);
       setLevelList(result);
       setFees(removeFeesByMajorIdAndLevelId(fees, null, id))
+      setSelectedLevelOption(levelList[0]);
     };
     useEffect(() => {
       if (fees.length == 0) {
       //   setSelectedLevelOption(levelList[levelList.length-1]);
       // } else {
-        setSelectedLevelOption(levelList[0]);
+        
       }
       
     }, [levelList])
@@ -338,10 +435,12 @@ export default function SchoolFee() {
         const name = `fee_${inputCounter}`;
         list = {...list, [name]: {
           id:inputCounter,
-          label: `${selectedMajorOption.label} - ${selectedLevelOption.label} - Fee #${inputCounter+1}`,
+          label: `${has_majors ? selectedMajorOption.label+' - ':''}${selectedLevelOption.label} - Fee #${inputCounter+1}`,
+          major: selectedMajorOption,
           major_id: selectedMajorOption.id, 
-          level_id: selectedLevelOption.id,
-          major_label: selectedMajorOption.label, 
+          major_label: selectedMajorOption.label,
+          level: selectedLevelOption,
+          level_id: selectedLevelOption.id,           
           level_label: selectedLevelOption.label,
           title:{value:'', required:true},
           amount:{value:'', required:true},
@@ -356,6 +455,7 @@ export default function SchoolFee() {
           is_subfee:{value:false, required:false},
           parent_fee:{value:'', required:false},
         }};
+        setLevelList(updateListNbFeesById(levelList, selectedLevelOption.id, 'add'));
         setFees(list);
         setInputCounter(inputCounter+1);
     }
@@ -369,6 +469,7 @@ export default function SchoolFee() {
             return result;
         }, {});
         setFees(newDict);
+        setLevelList(updateListNbFeesById(levelList, selectedLevelOption.id, 'remove'));
     }
     
     const duplicateFee = (elt, major, level) => {
@@ -377,9 +478,11 @@ export default function SchoolFee() {
       const item = {
         id:inputCounter,
         label: `${elt.major_label} - ${elt.level_label} - Fee #${elt.id+1} (Copy - ${generateCode(3)})`,
+        major: major,
         major_id: major.id, 
-        level_id: level.id,
         major_label: major.label, 
+        level: level,
+        level_id: level.id,
         level_label: level.label,
         title:{value:elt.title.value, required:elt.title.required},
         amount:{value:elt.amount.value, required:elt.amount.required},
@@ -393,6 +496,7 @@ export default function SchoolFee() {
       list = {...list, [name]: item};
       setFees(list);
       setInputCounter(inputCounter+1);
+      setLevelList(updateListNbFeesById(levelList, selectedLevelOption.id, 'add'));
     }
 
     const handleFeeInputChange = (e) => {
@@ -523,22 +627,22 @@ export default function SchoolFee() {
       
     }
   
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e, next_page=false) => {
       e.preventDefault();
-  
       if(!validateForm()) {
         return;
       }
-      
       // const toSubmit = Object.keys(fees)
       //       .map(key => fees[key]);
-      const toSubmit = Object.keys(fees)
+      const feesToSubmit = Object.keys(fees)
             .map(key => ({
               id:fees[key].id,
               label: fees[key].label,
+              major: fees[key].major,
               major_id: fees[key].major_id,
-              level_id: fees[key].level_id,
               major_label: fees[key].major_label,
+              level: fees[key].level,
+              level_id: fees[key].level_id,
               level_label: fees[key].level_label,
               title: fees[key].title.value,
               amount: Number(fees[key].amount.value),
@@ -548,19 +652,33 @@ export default function SchoolFee() {
               is_subfee: fees[key].is_subfee.value,
               parent_fee: fees[key].parent_fee.value,
             }));
-  
-      console.log("toSubmit :", toSubmit)
+      
+      const toSubmit = {
+        fees: feesToSubmit,
+        has_majors: has_majors,
+        fee_categories: feeCategories,
+        student_categories: feeCategories,
+      }
+      console.log("toSubmit :", toSubmit);
+      if (toSubmit.length == 0) {
+        notify("warn", "You must create at least one fee");
+        return;
+      }
       // return;
-  
       try {
-        //   const userData = await submitCompanyData(toSubmit).unwrap()
-        //   navigate('/onboarding/role');
+          const data = await submitSchoolFees(toSubmit).unwrap();
+          if (next_page) {
+            navigate('/dashboard');
+          }
       } catch (err) {
-        notify("error", "Something went wrong")
+        notify("error", "Oops! Something went wrong.")
       }
   }
   
     return (
+      isSuccessMajors && schoolMajors 
+      && isSuccessLevels && schoolLevels 
+      && majorList.length>0 && levelList.length>0 ?
       <div className={`${style.container}`}>
         <div className={style.header}>
           <div className="relative flex justify-center align-center w-full ">
@@ -577,6 +695,7 @@ export default function SchoolFee() {
         <div className={`w-full flex flex-col items-center justify-center gap-5`}>
           <div className={`w-fit sm:w-[90%] md:w-[85%] lg:w-[85%]  mt-5 rounded-lg mb-[70px] shadow-2xl shadow-slate-300`}>
             <div className="grid md:grid-cols-12">
+                {has_majors ? 
                 <div className="col-span-2 grid md:grid-cols-1 gap-7 z-[100] shadow-[10px_0px_10px_-10px] shadow-slate-400 min-h-[500px] py-7 px-4 pr-7 " style={{borderRight: '1px solid vanboook-primary'}}>
                   <ul className="space-y-1 text-sm text-vanbook-primary" aria-labelledby="dropdownHelperRadioButton">
                         {/* {majorOptions.map((option, indx) => (
@@ -638,6 +757,8 @@ export default function SchoolFee() {
                             </div>
                         </li>                        
                         ))}
+
+                        {majorList.length>1?
                         <li>
                           <CustomDropdown
                           className={'mt-10'}
@@ -652,18 +773,20 @@ export default function SchoolFee() {
                           onChange={addToMajorList}
                           />
                         </li>
-
+                        :<></>}
                   </ul>
                 </div>
-                <div className="col-span-2 grid md:grid-cols-1 gap-7 bg-vanbook-gray min-h-[500px] py-7 px-4 pr-7 border-solid shadow-[10px_0px_10px_-10px] shadow-slate-300" style={{borderRight: '1px solid vanboook-primary'}}>
+                : <></>}
+
+                <div className={`${has_majors ? 'col-span-2':'col-span-3'} grid md:grid-cols-1 gap-7 bg-vanbook-gray min-h-[500px] py-7 px-4 pr-7 border-solid shadow-[10px_0px_10px_-10px] shadow-slate-300`} style={{borderRight: '1px solid vanboook-primary'}}>
                     <ul className="relative w-full space-y-1 text-sm text-vanbook-primary" aria-labelledby="dropdownHelperRadioButton">
                         {levelList.map((option, indx) => (
                         <li key={indx} className='w-full relative ml-list-item'>
                             <div 
-                            className={`flex relative hover:bg-100 cursor-pointer border-b border-vanbook-100 border-solid`}
+                            className={`flex relative gap-2 justify-between items-center hover:bg-100 cursor-pointer border-b border-vanbook-100 border-solid`}
                             onClick={() => handleLevelOptionChange(option)}
                             >
-                              <div className="flex relative gap-2 items-center w-full py-3">
+                              <div className="flex relative gap-2 items-center w-full py-4">
                                   <div>
                                       <div
                                       className={`
@@ -677,18 +800,26 @@ export default function SchoolFee() {
                                       {/* <div>{getPlanAmount(option.amount)}</div> */}
                                       </label>
                                   </div>
-                              </div>                
+                              </div>
+
+                              <div className={` ${selectedLevelOption.id === option.id ? 'ml-item-opacity':'ml-item-opacity'}`}>
+                                {option.nbfees>0? `(${option.nbfees})`:''}
+                              </div>
+
                             </div>
                             {option.type == 'multi'?
-                                <div className={`absolute top-[0px] right-[0px] z-100 ml-close-btn cursor-pointer opacity-[60%]`} onClick={()=>removeFromLevelList(option.id)}>
+                                <div className={`absolute top-[-3px] right-[0px] z-100 ml-close-btn cursor-pointer opacity-[60%]`} onClick={()=>removeFromLevelList(option.id)}>
                                   <FiX size={16} color={"#41436a"}/>
                                 </div>
                             :
                             <></>}
+                            {/* <div className={`absolute bottom-[5px] right-[5px] z-100 w-2 h-2 rounded-[50%] bg-red-400`}> {selectedMajorOption.nbfees? `(${selectedMajorOption.nbfees})`:''}
+                            </div> */}
                             <div className={`absolute bottom-[5px] right-[5px] z-100 w-2 h-2 rounded-[50%] bg-red-400 ${selectedMajorOption.error && selectedMajorOption.errorlevels.includes(option.id)? 'opacity-100':'opacity-0'}`}>
                             </div>
                         </li>                        
                         ))}
+                        {levelList.length>1?
                         <li>
                           <CustomDropdown
                           className={'mt-10'}
@@ -703,12 +834,17 @@ export default function SchoolFee() {
                           onChange={addToLevelList}
                           />
                         </li>
+                        :<></>}
+                        
                     </ul>
                 </div>
-                <div className='col-span-8 flex flex-col w-full'>
+                <div className={`${has_majors ? 'col-span-8':'col-span-9'}  flex flex-col w-full`}>
                   <div className='m-7 mt-8 text-lg tracking-wide'>
-                      {'Here define all fees of '}
-                      <strong className='tracking-wide'>{selectedMajorOption.label}</strong>{' for '}
+                      {'Here define all fees'}
+                      {has_majors?
+                      <><>{' of '}</><strong className='tracking-wide'>{selectedMajorOption.label}</strong></>
+                      :<></>}
+                      {' for '}
                       <strong className='tracking-wide'>{selectedLevelOption.label}</strong>.
                   </div>
                   <div className="grid md:grid-cols-1 gap-7 px-7 pb-4 h-fit w-full">
@@ -857,20 +993,27 @@ export default function SchoolFee() {
   
             <div className={`pt-10 mb-10 px-4 border-solid border-vanbook-100 border-t ${style.btnContainer}`}>
                   <div className="flex gap-3 justify-end">
-                  
-                  {/* <Link to="#" onClick={(e)=>e.preventDefault()}>
-                      <button className={style.backBtn}>
-                          <span>Back</span>
-                      </button>
-                  </Link> */}
-                  <Link to="#" onClick={handleSubmit}>
-                      <button
-                      className={isActive ? style.nextBtn : style.nextBtnDisable}
-                      disabled={!isActive}
-                      >
-                      <span>Next</span>
-                      </button>
-                  </Link>
+                    <Link to="#" onClick={(e)=>e.preventDefault()}>
+                        <button className={style.backBtn}>
+                            <span>Back</span>
+                        </button>
+                    </Link>
+                    <Link to="#" onClick={(e)=>handleSubmit(e, false)}>
+                        <button
+                        className={isActive ? style.nextBtn : style.nextBtnDisable}
+                        disabled={!isActive}
+                        >
+                        <span>Save</span>
+                        </button>
+                    </Link>
+                    <Link to="#" onClick={(e)=>handleSubmit(e, true)}>
+                        <button
+                        className={isActive ? style.nextBtn : style.nextBtnDisable}
+                        disabled={!isActive}
+                        >
+                        <span>Save & Continue</span>
+                        </button>
+                    </Link>
                   </div>
                   <div></div>
                   <div></div>
@@ -881,6 +1024,8 @@ export default function SchoolFee() {
 
         
       </div>
+      :
+      <></>
     );
   }
 

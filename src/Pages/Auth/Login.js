@@ -87,7 +87,9 @@ const Login = () => {
     'company': '/onboarding/company',
     'role': '/onboarding/role',
     'objective': '/onboarding/objective',
-    'settings': '/dashboard',
+    'settings': '/onboarding/school-data',
+    'school-data': '/onboarding/school-data',
+    'school-fees': '/onboarding/school-fees',
     'dashboard': '/dashboard',
   }
 

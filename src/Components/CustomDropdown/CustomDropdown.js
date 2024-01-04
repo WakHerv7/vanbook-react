@@ -146,6 +146,8 @@ const CustomDropdown = (props) => {
                         label: labels,
                         type: 'multi',
                         content: ids,
+                        error: false,
+                        nbfees: null
                     },
                 }
             })
