@@ -129,11 +129,11 @@ function AddAccountModal({handleModalOpen, modalOpen}) {
                                 {accountTypesList.map((value, index) => (                                                                        
                                     (Number(value.category) == 1) ?
                                     
-                                        <li>                                    
-                                            <label key={index} onClick={()=>setAccountType(value.id)} htmlFor={`account_category_${value.id}`} class="container_checkbo_select_w">
+                                        <li key={value.id}>                                    
+                                            <label key={index} onClick={()=>setAccountType(value.id)} htmlFor={`account_category_${value.id}`} className="container_checkbo_select_w">
                                                 {value.name}
                                                 <input type="radio" name="account_type" id={`account_category_${value.id}`} checked={accountType == value.id}/>
-                                                <span class="checkmark_checkbo_select_w"></span>
+                                                <span className="checkmark_checkbo_select_w"></span>
                                             </label>
                                         </li>                                     
                                     :
@@ -147,11 +147,11 @@ function AddAccountModal({handleModalOpen, modalOpen}) {
                             <ul className="list-none mt-2 pl-3">
                                 {accountTypesList.map((value, index) => (
                                     (Number(value.category) == 2) ?
-                                        <li>                                    
-                                            <label key={index} onClick={()=>setAccountType(value.id)} htmlFor={`account_category_${value.id}`} class="container_checkbo_select_w">
+                                        <li key={value.id}>                                    
+                                            <label key={index} onClick={()=>setAccountType(value.id)} htmlFor={`account_category_${value.id}`} className="container_checkbo_select_w">
                                                 {value.name}
                                                 <input type="radio" name="account_type" id={`account_category_${value.id}`} checked={accountType == value.id}/>
-                                                <span class="checkmark_checkbo_select_w"></span>
+                                                <span className="checkmark_checkbo_select_w"></span>
                                             </label>
                                         </li>                                     
                                     :
@@ -183,10 +183,10 @@ function AddAccountModal({handleModalOpen, modalOpen}) {
                                     <input type="text" onChange={(e)=>setAccountName(e.target.value)} name="account_name" id="receiptNumInputId" className="outline-none py-2 px-2 rounded-md border border-[#41436a]" placeholder='...'/>
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <label htmlFor="account_category_1" class="myprimarytextcolor container_checkbo_select_w mb0w">
+                                    <label htmlFor="account_category_1" className="myprimarytextcolor container_checkbo_select_w mb0w">
                                         Is subaccount of
                                         <input type="checkbox" onChange={(e)=>setIssubaccountof(e.target.checked)} name="subaccount" id="account_category_1"/>
-                                        <span class="checkmark_checkbo_select_w"></span>
+                                        <span className="checkmark_checkbo_select_w"></span>
                                     </label>
                                     {issubaccountof?                                    
                                     <select onChange={(e)=>(setAccountParent(e.target.value))} className={`commonSelectInput border border-[#41436a] outline-none h-[40px] px-2 rounded-md`} name={""} defaultValue={'dflt'}>

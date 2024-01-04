@@ -1,3 +1,5 @@
+import React from 'react'
+
 import DetailListItem from '../../../../Components/Dashboard/admin/profile/DetailListItem'
 
 

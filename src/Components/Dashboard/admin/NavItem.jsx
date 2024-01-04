@@ -1,3 +1,4 @@
+import React from 'react'
 
 
  const NavItem = ({ img, text, isVisible }) => {

@@ -133,7 +133,7 @@ function EditAccountModal({accId, handleModalOpen, modalOpen}) {
                                 {accountTypesList.map((value, index) => (                                                                        
                                     (Number(value.category) == 1) ?
                                     
-                                        <li>                                    
+                                        <li key={value.id}>                                    
                                             <label key={index} onClick={()=>setAccountType(value.id)} htmlFor={`account_category_${value.id}`} className="container_checkbo_select_w">
                                                 {value.name}
                                                 <input type="radio" name="account_type" id={`account_category_${value.id}`} defaultChecked={accountType == value.id}/>
@@ -151,7 +151,7 @@ function EditAccountModal({accId, handleModalOpen, modalOpen}) {
                             <ul className="list-none mt-2 pl-3">
                                 {accountTypesList.map((value, index) => (
                                     (Number(value.category) == 2) ?
-                                        <li>                                    
+                                        <li key={value.id}>                                    
                                             <label key={index} onClick={()=>setAccountType(value.id)} htmlFor={`account_category_${value.id}`} className="container_checkbo_select_w">
                                                 {value.name}
                                                 <input type="radio" name="account_type" id={`account_category_${value.id}`} defaultChecked={accountType == value.id}/>

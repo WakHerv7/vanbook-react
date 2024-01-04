@@ -26,7 +26,7 @@ function TextInput({
         name={nameText}
         required={requiredValue}
         placeholder={placeholderText}
-        onCHange={onChangeFct}
+        onChange={onChangeFct}
         value={oneValue}
       />
     </div>

@@ -8,7 +8,7 @@ const DemoCTA = () => {
             <a
                 className='text-[#2E2F5B] py-2 px-4 rounded-lg border text-[.9rem] font-medium flex items-center gap-2'
                 href="https://drive.google.com/file/d/1o8UWLwAbP2IMJtIH_0RgiBqPwgEza9zW/view?usp=sharing"
-                target="_blank"
+                target="_blank" rel='noreferrer'
             >
                 <img src={play} alt="" width="15"/>
                 Demo

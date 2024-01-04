@@ -32,7 +32,7 @@ function Invoice(props) {
                             <option disabled value="dflt">{`Select from the list`}</option>        
                             {
                                 listItems.map((val, ind) => {
-                                    return <option value={val.value}>{val.text}</option>
+                                    return <option key={ind} value={val.value}>{val.text}</option>
                                 })                                
                             }
                         </select>
@@ -46,7 +46,7 @@ function Invoice(props) {
                             <option disabled value="dflt">{`Select from the list`}</option>        
                             {
                                 listItems.map((val, ind) => {
-                                    return <option value={val.value}>{val.text}</option>
+                                    return <option key={ind} value={val.value}>{val.text}</option>
                                 })                                
                             }
                         </select>
@@ -71,7 +71,7 @@ function Invoice(props) {
                                     <option disabled value="dflt">{`Select from the list`}</option>        
                                     {
                                         listItems.map((val, ind) => {
-                                            return <option value={val.value}>{val.text}</option>
+                                            return <option key={ind} value={val.value}>{val.text}</option>
                                         })                                
                                     }
                                 </select>
@@ -214,7 +214,7 @@ function Invoice(props) {
                             <option disabled value="dflt">{`Select from the list`}</option>        
                             {
                                 listItems.map((val, ind) => {
-                                    return <option value={val.value}>{val.text}</option>
+                                    return <option key={ind} value={val.value}>{val.text}</option>
                                 })                                
                             }
                         </select>

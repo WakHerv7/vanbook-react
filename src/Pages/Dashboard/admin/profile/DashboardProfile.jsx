@@ -1,3 +1,5 @@
+import React from 'react'
+
 import SideBar from '../../../../Components/Dashboard/admin/SideBar'
 import ProfileSummary from '../../../../Components/Dashboard/admin/profile/ProfileSummary'
 import PersonalDetails from '../../../../Components/Dashboard/admin/profile/PersonalDetails'
