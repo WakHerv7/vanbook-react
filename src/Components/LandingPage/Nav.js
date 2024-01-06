@@ -49,12 +49,7 @@ const Nav = () => {
             <li>
               <Link to="/contact-us">Contact us</Link>
             </li>
-            <li>
-              <Link to="/dashboard/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/dashboard/report">Report</Link>
-            </li>
+           
           </ul>
         </div>
         {/* login and sign-up */}
