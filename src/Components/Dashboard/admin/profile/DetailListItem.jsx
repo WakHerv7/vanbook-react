@@ -6,7 +6,7 @@ import React from 'react'
     return (
         <div
             className={`${padding ? padding : "p-1"
-                } bg-stone-50 rounded-[5px] inline-flex w-full`}
+                } bg-[#F9F9F9] rounded-[5px] inline-flex w-full`}
         >
             <div>
                 <span className="text-black text-xs font-normal leading-tight">

@@ -5,9 +5,9 @@ import DetailListItem from '../../../../Components/Dashboard/admin/profile/Detai
  const PersonalDetails = () => {
     
     return (
-        <section className="personal_details px-6 py-4 bg-white rounded-[10px] myshadow flex-col gap-4 flex">
+        <section className="personal_details px-6 py-4 bg-white rounded-[.625rem] myshadow flex-col gap-4 flex">
             <div className="items-center justify-between flex">
-                <h3 className="text-slate-700 text-2xl font-normal leading-7">
+                <h3 className="text-[#2E2F5B] text-2xl font-normal leading-7">
                     Personal details
                 </h3>
                 <img src="/Pencil.png" alt="pencil" className="w-6 h-6" />

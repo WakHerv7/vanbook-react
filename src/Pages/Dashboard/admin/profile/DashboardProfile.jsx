@@ -4,18 +4,18 @@ import SideBar from '../../../../Components/Dashboard/admin/SideBar'
 import ProfileSummary from '../../../../Components/Dashboard/admin/profile/ProfileSummary'
 import PersonalDetails from '../../../../Components/Dashboard/admin/profile/PersonalDetails'
 import ContactDetails from '../../../../Components/Dashboard/admin/profile/ContactDetails'
-import Header from '../../../../Components/Dashboard/Header'
+import ProfileHeader from '../../../../Components/Dashboard/admin/profile/ProfileHeader'
 
 
 const DashboardProfile = () => {
     
     return (
-        <main className="min-w-screen min-h-screen flex bg-gray-300">
-            <SideBar />
+        <main className="min-w-screen min-h-screen flex bg-[#f9f9f9] font-['DM_Sans']">
+            <SideBar height={'100%'} />
 
-            <section className="pb-6 flex-1 ">
-                <Header />
-                <header className="py-3.5 px-12 justify-between items-center flex border border-zinc-400">
+            <section className="pb-[3.87rem] flex-1 ">
+                <ProfileHeader />
+                <header className="py-3.5 px-12 bg-[#f9fafb] text-[#2E2F5B] justify-between items-center flex border border-[#d7d7d7]">
                     <div className="py-2.5 gap-2 items-center flex">
                         <img
                             src="/svg/dropdown.svg"
@@ -30,12 +30,12 @@ const DashboardProfile = () => {
                     </span>
                 </header>
 
-                <div className="px-12 pt-[30px]">
-                    <h2 className="text-neutral-800 text-2xl font-normal leading-loose">
+                <div className="px-12 ">
+                    <h2 className="text-[#242424] text-2xl font-normal border-b border-[#d7d7d7] pt-7 pb-4 mb-6">
                         Employee details
                     </h2>
 
-                    <div className="flex gap-12 flex-wrap">
+                    <div className="flex gap-6 flex-wrap">
                         <ProfileSummary />
                         <div className="flex-1 flex-col gap-6 flex flex-wrap">
                             <PersonalDetails />
