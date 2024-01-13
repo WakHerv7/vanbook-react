@@ -1,23 +1,23 @@
 import React from 'react'
 
 import SideBar from '../../../../Components/Dashboard/admin/SideBar'
-import DatePicker from '../../../../Components/Dashboard/admin/report/DatePicker'
+import Datepicker from '../../../../Components/Dashboard/admin/report/DatePicker'
 import SelectFromList from '../../../../Components/Dashboard/admin/report/SelectFromList'
 import CustomDropMenu from '../../../../Components/Dashboard/admin/report/CustomDropMenu'
 import ItemCell from '../../../../Components/Dashboard/admin/report/ItemCell'
-import Header from '../../../../Components/Dashboard/Header'
+import ProfileHeader from '../../../../Components/Dashboard/admin/profile/ProfileHeader'
 
 
 
 const DashboardReport = () => {
     return (
-        <main className="min-w-screen min-h-screen scroll-smooth flex bg-gray-300">
-            <SideBar />
+        <main className="min-w-screen min-h-screen scroll-smooth flex bg-[#F9F9F9] font-['DM_Sans'] ">
+            <SideBar height={'0px'} />
 
             <section className="pb-6 flex-1 h-full">
-                <Header />
-                <header>
-                    <div className="py-3.5 px-12 justify-between items-center flex border border-zinc-400">
+                <ProfileHeader />
+                <header className='bg-[#F9FAFB] '>
+                    <div className="py-3.5 px-12 justify-between items-center flex border border-[#D7D7D7]">
                         <div className="flex items-center justify-around gap-20">
                             <div className="py-2.5 gap-2 items-center flex">
                                 <img
@@ -25,26 +25,26 @@ const DashboardReport = () => {
                                     alt="dropdown"
                                     className="transform rotate-90"
                                 />
-                                <span className="text-slate-700 text-base font-normal">
+                                <span className="text-[#2E2F5B] text-base font-normal">
                                     Back
                                 </span>
                             </div>
 
                             <form className="gap-8 items-center flex">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-slate-700 text-base font-normal ">
+                                    <span className="text-[#2E2F5B] text-base font-normal ">
                                         From
                                     </span>
-                                    <DatePicker />
+                                    <Datepicker />
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-slate-700 text-base font-normal ">
+                                    <span className="text-[#2E2F5B] text-base font-normal ">
                                         To
                                     </span>
-                                    <DatePicker />
+                                    <Datepicker />
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-slate-700 text-base font-normal ">
+                                    <span className="text-[#2E2F5B] text-base font-normal ">
                                         Branch
                                     </span>
                                     <SelectFromList />
@@ -52,41 +52,43 @@ const DashboardReport = () => {
                             </form>
                         </div>
 
-                        <span className="text-slate-700 text-xl font-normal ">
+                        <span className="text-[#2E2F5B] text-xl font-normal ">
                             Date; 11/12/22
                         </span>
                     </div>
 
-                    <div className="py-3.5 px-12 justify-between items-center flex border border-zinc-400">
+                    <div className="py-3.5 px-12 justify-between items-center flex border border-[#D7D7D7]">
                         <div className="items-center flex gap-11">
-                            <span className="text-slate-700 text-base font-medium me-1">
+                            <span className="text-[#2E2F5B] text-base font-medium me-1">
                                 Report basis
                             </span>
                             <div className="inline-flex items-center gap-2">
                                 <input
+                                    id='accural'
                                     type="radio"
                                     name="report"
                                     className="w-4 h-4 accent-[#2E2F5B] "
                                 />
-                                <span className="text-slate-700 text-base font-medium ">
+                                <label htmlFor='accural' className="text-[#2E2F5B] text-base font-medium ">
                                     Accural
-                                </span>
+                                </label>
                             </div>
                             <div className="inline-flex items-center gap-2">
                                 <input
+                                    id='cash'
                                     type="radio"
                                     name="report"
                                     className="w-4 h-4 accent-[#2E2F5B] "
                                 />
-                                <span className="text-slate-700 text-base font-medium ">
+                                <label htmlFor='cash' className="text-[#2E2F5B] text-base font-medium ">
                                     Cash
-                                </span>
+                                </label>
                             </div>
                         </div>
 
-                        <div className=" px-4 py-2.5 me-10 bg-white rounded-lg border border-zinc-300 justify-center items-center gap-2 inline-flex">
+                        <div className="cursor-pointer px-4 py-2.5 me-10 bg-white rounded-lg border border-zinc-300 justify-center items-center gap-2 inline-flex">
                             <img src="/svg/print.svg" alt="printer" />
-                            <span className="text-slate-700 text-base font-medium ">
+                            <span className="text-[#2E2F5B] text-base font-medium ">
                                 Print
                             </span>
                         </div>
@@ -94,7 +96,7 @@ const DashboardReport = () => {
                 </header>
 
                 <div className="w-4/6 bg-white mx-auto my-12 pb-12 ">
-                    <h1 className="p-8 border-b border-gray-200 text-center text-slate-700 text-[30px] font-semibold leading-[52px] flex-col flex ">
+                    <h1 className="p-8 border-b border-gray-200 text-center text-[#2E2F5B] text-[30px] font-semibold leading-[52px] flex-col flex ">
                         <span className=" text-2xl font-medium ">
                             CHAPEL SECONDARY SCHOOL
                         </span>

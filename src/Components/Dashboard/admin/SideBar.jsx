@@ -17,7 +17,7 @@ const SideBar = ({ height }) => {
     };
 
     return (
-        <section style={{height: height}} className={`sidebar bg-[#2E2F5B] px-6 py-10 flex-col justify-between flex `}>
+        <section style={{minHeight: height}} className={`sidebar bg-[#2E2F5B] px-6 py-10 flex-col justify-between flex `}>
             <div>
                 <header className="pb-6">
                     <div className="w-[50px] h-[50px] mb-4 bg-violet-900 rounded-full justify-center items-center flex">
