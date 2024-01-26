@@ -1,17 +1,11 @@
 import React, { useState, useRef } from "react";
 import DemoCTA2 from "./DemoCTA2";
-import reviewer1 from "../../Assets/reviewer1.png";
-import reviewer2 from "../../Assets/reviewer2.png";
-import reviewer3 from "../../Assets/reviewer3.png";
-import stars from "../../Assets/stars.png";
-import mail from "../../Assets/mail.png";
-import bar from "../../Assets/bar-chart-2.png";
-import zap from "../../Assets/zap.png";
-import avatar from "../../Assets/Avatar.png";
-import devices from "../../Assets/Devices.png";
+import { reviewerData } from '../../constants'
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
+import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
+
 // Import Swiper styles
 import "swiper/css/bundle";
 import "swiper/css/pagination";
@@ -28,57 +22,16 @@ const Testimonials = () => {
   const prevRef = useRef();
   const nextRef = useRef();
 
-  const data = [
-    {
-      image: reviewer1,
-      name: "Dave Chapman",
-      role: "Accountant, Altair",
-      company: "Interior Design Company.",
-    },
-    {
-      image: reviewer2,
-      name: "Adeola Adeoye",
-      role: "Accountant, DeClair’s Academy",
-      company: "Finance Consulting firm",
-    },
-    {
-      image: reviewer3,
-      name: "Oluwakemi Ade",
-      role: "Principal, Wilmer’s Academy",
-      company: "Institute for higher learning",
-    },
-    {
-      image: reviewer1,
-      name: "Dave Chapman",
-      role: "Accountant, Altair",
-      company: "Interior Design Company.",
-    },
-    {
-      image: reviewer2,
-      name: "Adeola Adeoye",
-      role: "Accountant, Altair",
-      company: "Finance Consulting firm.",
-    },
-    {
-      image: reviewer3,
-      name: "Oluwakemi Ade",
-      role: "Accountant, Altair",
-      company: "Institute for higher learning",
-    },
-  ];
-
-  const cardStyle = {
-    background: "rgba(255, 255, 255, 0.5)",
-    width: "90%",
-    margin: "auto",
-    height: "170px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "left",
-    justifyContent: "center",
-    padding: "1.5rem",
-    color: "#ffffff",
-  };
+  // const cardStyle = {
+  //   background: "rgb(0,0,0)",
+  //   width: "90%",
+  //   margin: "auto",
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   alignItems: "left",
+  //   justifyContent: "center",
+  //   padding: "1.5rem",
+  // };
 
   const SwiperButtonPrev = ({ idx, onClick }) => {
     // const swiper = useSwiper();
@@ -99,13 +52,13 @@ const Testimonials = () => {
   };
 
   return (
-    <section >
+    <section>
       <div className="flex flex-col md:flex-row items-center justify-between md:w-[85%] mx-auto py-16">
-        <div id="testimonial_section">
+        <div id="testimonial_section" className="w-full">
           <h2 className="text-[#101828] text-[1.7rem] mb-[1rem] text-center">
-            Don’t just take our word for it
+            Don't just take our word for it
           </h2>
-          <p className="text-[#475467] text-[1rem] text-center md:text-left mb-[1rem]">
+          <p className="text-[#475467] text-[1rem] text-center mb-[1rem]">
             Hear from some of our amazing customers
           </p>
         </div>
@@ -158,31 +111,28 @@ const Testimonials = () => {
             // },
           }}
         >
-          {data.map((item, index) => {
+          {reviewerData.map((item, index) => {
             return (
               // <div>
               <SwiperSlide key={Math.floor(Math.random() * 1000)}>
-                <div
-                  style={{
-                    backgroundImage: `url(${item.image})`,
-                    backgroundSize: `cover`,
-                    backgroundPosition: `center`,
-                    width: `350px`,
-                    height: `450px`,
-                    display: `flex`,
-                    paddingTop: `12rem`,
-                  }}
-                >
-                  <div style={cardStyle}>
+                <div className="flex flex-col justify-center items-center gap-2 p-4">
+                  <div>
                     <img
-                      src={stars}
-                      alt=""
-                      width={110}
-                      className="mr-auto mb-4"
+                      src={`assets/${item.image}.png`}
+                      alt={item.name}
+                      className="h-24 w-24 border-none rounded-full"
                     />
-                    <span className="text-[1.5rem] mb-4">{item.name}</span>
-                    <span>{item.role}</span>
-                    <span>{item.company}</span>
+                  </div>
+                  <div className="flex flex-col justify-start align-center">
+                    <p className="text-base italic text-center">
+                      {item.comment}
+                    </p>
+                    <hr className="mt-4 mb-2"/>
+                    <div>
+                      <h3 className="text-sm">{item.name}</h3>
+                      <p className="text-xs text-gray-400">{item.role}</p>
+                      <p className="text-xs text-gray-400">{item.company}</p>
+                    </div>
                   </div>
                 </div>
               </SwiperSlide>
@@ -200,7 +150,7 @@ const Testimonials = () => {
 
       <div className="w-[85%] mx-auto pt-[10rem] pb-16">
         <div id="feature_section" className="flex flex-col text-center gap-4">
-          <span className="text-[#2E2F5B] font-semibold py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[.9rem]">
+          <span className="text-[#2E2F5B] font-semibold py-1 px-3 rounded-[15px] mx-auto bg-[#F9F5FF] w-fit text-[1.1rem]">
             Features
           </span>
           <span className="-mb-1 font-medium text-[2rem] text-[#101828] capitalize">
@@ -213,18 +163,18 @@ const Testimonials = () => {
         </div>
 
         <div>
-          <img src={devices} alt="" className="w-[80%] mx-auto mt-12 mb-8" />
+          <img src="assets/Devices.png" alt="" className="w-[80%] mx-auto mt-12 mb-8" />
         </div>
 
         <div className="flex flex-col sm:gap-y-4 md:flex-row items-center py-16">
-          <div className="flex flex-col gap-3 text-center flex-1 min-h-[180px] md:justify-between md:gap-0 ">
+          <div className="flex flex-col gap-3 text-center flex-1 min-h-[200px] md:justify-between md:gap-0 ">
             <div className="mx-auto w-[40px] rounded-[50%] p-3 bg-[#F9F5FF]">
-              <img src={mail} alt="" width={30} height={40} />
+              <img src="assets/mail.png" alt="" width={30} height={40} />
             </div>
             <span className="text-[#101828] text-[1rem]">
               Share team inboxes
             </span>
-            <span className="text-[#667085] text-[.9rem] md:px-4">
+            <span className="text-[#667085] md:text-[1.1rem] text-[.9rem] md:px-4">
               Our shared team inboxes keep everyone on the same page and in the
               loop.
             </span>
@@ -235,12 +185,12 @@ const Testimonials = () => {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-3 text-center flex-1 min-h-[180px] md:justify-between md:gap-0 ">
+          <div className="flex flex-col gap-3 text-center flex-1 min-h-[200px] md:justify-between md:gap-0 ">
             <div className="mx-auto w-[40px] rounded-[50%] p-3 bg-[#F9F5FF]">
-              <img src={zap} alt="" width={30} height={40} />
+              <img src="assets/zap.png" alt="" width={30} height={40} />
             </div>
             <span>Deliver instant answers</span>
-            <span className="text-[#667085] text-[.9rem] md:px-4">
+            <span className="text-[#667085] md:text-[1.1rem] text-[.9rem] md:px-4">
               An all-in-one customer service platform that helps you balance
               everything.
             </span>
@@ -251,12 +201,12 @@ const Testimonials = () => {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-3 text-center flex-1 min-h-[180px] md:justify-between md:gap-0 ">
+          <div className="flex flex-col gap-3 text-center flex-1 min-h-[200px] md:justify-between md:gap-0 ">
             <div className="mx-auto w-[40px] rounded-[50%] p-3 bg-[#F9F5FF]">
-              <img src={bar} alt="" width={30} height={40} />
+              <img src="assets/bar-chart-2.png" alt="" width={30} height={40} />
             </div>
             <span>Manage your team with reports</span>
-            <span className="text-[#667085] text-[.9rem] md:px-4 md:text-[.82rem] lg:text-[.9rem] ">
+            <span className="text-[#667085] text-[.9rem] md:px-4 md:text-[1.1rem]">
               Measure what matters with Vanbook’s easy-to-use reports. You can
               filter, export, and drilldown on the data in a couple
               clicks.
@@ -276,7 +226,7 @@ const Testimonials = () => {
           </span>
 
           <div className="text-center flex flex-col gap-2 pt-12">
-            <img src={avatar} alt="" width={100} className="mx-auto" />
+            <img src="assets/Avatar.png" alt="" width={100} className="mx-auto" />
             <span className="text-[#101828] text-[1.3rem] sm:text-[1rem]">Adeola Adeoye</span>
             <span className="text-[#667085] text-[1.3rem] sm:text-[1rem]">
               Accountant, DeClair’s Academy

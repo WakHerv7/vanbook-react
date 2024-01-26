@@ -1,4 +1,3 @@
-import jwlImg from "../Assets/Rectangle.png";
 import Footer from "../Components/Footer";
 import TextArea from "../Components/InputAndTitle/TextArea/textArea";
 import TextInput from "../Components/InputAndTitle/TextInput/textInput";
@@ -67,7 +66,7 @@ function JoinWaitList() {
           </form>
         </div>
         <div className="relative hidden lg:block max-w-[40%] h-[500px] object-contain ">
-          <img className="h-[100%] max-w-none w-[auto]" src={jwlImg} alt="" />
+          <img className="h-[100%] max-w-none w-[auto]" src="assets/Rectangle.png" alt="" />
         </div>
       </div>
       {/* <Trial /> */}

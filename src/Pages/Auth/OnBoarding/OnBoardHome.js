@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 import Card from "./Card";
 import InnerCard from "./InnerCard";
 
-import owner from '../../../Assets/owner.png'
-import accountant from '../../../Assets/accountant.png'
-import amico from '../../../Assets/amico.png'
-import employee from '../../../Assets/employee.png'
-import helped from '../../../Assets/helped.png'
-import note from '../../../Assets/note.png'
-import placard from '../../../Assets/placard.png'
-import research from '../../../Assets/research.png'
+import owner from '../../../'
+import accountant from '../../../'
+import amico from '../../../'
+import employee from '../../../'
+import helped from '../../../'
+import note from '../../../'
+import placard from '../../../'
+import research from '../../../'
 
 
 const style = {
@@ -43,9 +43,9 @@ export default function OnBoardHome() {
       <>
         <p className={style.contentText}>Do you have an accountant or bookkeeper right now?</p>
         <div className={style.cardContainer}>
-          <InnerCard setIsActive={setIsActive} image={helped} text="Yes, someone helps  me" />
-          <InnerCard setIsActive={setIsActive} image={note} text="No, i do it all by myself" />
-          <InnerCard setIsActive={setIsActive} image={placard} text="No, but i would like helpful tips" />
+          <InnerCard setIsActive={setIsActive} image="assets/helped.png" text="Yes, someone helps  me" />
+          <InnerCard setIsActive={setIsActive} image="assets/note.png" text="No, i do it all by myself" />
+          <InnerCard setIsActive={setIsActive} image="assets/placard.png" text="No, but i would like helpful tips" />
         </div>
 
       </>
@@ -64,9 +64,9 @@ export default function OnBoardHome() {
       <>
         <p className={style.extraInfo}>Do you have an accountant or bookkeeper right now?</p>
         <div className={style.cardContainer}>
-          <InnerCard setIsActive={setIsActive} image={helped} text="Yes, someone helps  me" />
-          <InnerCard setIsActive={setIsActive} image={note} text="No, i do it all by myself" />
-          <InnerCard setIsActive={setIsActive} image={placard} text="No, but i would like helpful tips" />
+          <InnerCard setIsActive={setIsActive} image="assets/helped.png" text="Yes, someone helps  me" />
+          <InnerCard setIsActive={setIsActive} image="assets/note.png" text="No, i do it all by myself" />
+          <InnerCard setIsActive={setIsActive} image="assets/placard.png" text="No, but i would like helpful tips" />
         </div>
       </>
     )
@@ -76,9 +76,9 @@ export default function OnBoardHome() {
       <>
         <p className={style.extraInfo}>Do you have an accountant or bookkeeper right now?</p>
         <div className={style.cardContainer}>
-          <InnerCard setIsActive={setIsActive} image={helped} text="Yes, someone helps  me" />
-          <InnerCard setIsActive={setIsActive} image={note} text="No, i do it all by myself" />
-          <InnerCard setIsActive={setIsActive} image={placard} text="No, but i would like helpful tips" />
+          <InnerCard setIsActive={setIsActive} image="assets/helped.png" text="Yes, someone helps  me" />
+          <InnerCard setIsActive={setIsActive} image="assets/note.png" text="No, i do it all by myself" />
+          <InnerCard setIsActive={setIsActive} image="assets/placard.png" text="No, but i would like helpful tips" />
         </div>
       </>
     )
@@ -98,11 +98,11 @@ export default function OnBoardHome() {
       <h1 className={style.h1}>What’s your role at your business</h1>
       <p className={style.extraInfo}>We’ll use this information to help personalize your Vanbook. You can always change it later in settings</p>
       <div className={style.cardContainer}>
-        <Card image={owner} text='Owner' display={setOwner} />
-        <Card image={research} text='Bookkeeper' display={setBookkeeper} />
-        <Card image={accountant} text='Accountant' display={setAccountant} />
-        <Card image={employee} text="Employee" display={setEmployee} />
-        <Card image={amico} text="Something else" display={setSomething} />
+        <Card image="assets/owner.png" text='Owner' display={setOwner} />
+        <Card image="assets/research.png" text='Bookkeeper' display={setBookkeeper} />
+        <Card image="assets/accountant.png" text='Accountant' display={setAccountant} />
+        <Card image="assets/employee.png" text="Employee" display={setEmployee} />
+        <Card image="assets/amico.png" text="Something else" display={setSomething} />
       </div>
       <div className={style.contentContainer}>{display}</div>
       <div className={style.btnContainer}>

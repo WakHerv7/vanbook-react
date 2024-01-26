@@ -1,7 +1,6 @@
 import { AiOutlineTwitter, AiFillLinkedin } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import logo from "../Assets/tech64Logo.svg";
 import { HashLink } from "react-router-hash-link";
 
 const Footer = () => {
@@ -11,7 +10,7 @@ const Footer = () => {
         {/* logo and pitch */}
         <div className="flex flex-col justify-center w-full lg:w-[30%] pt-2">
           <div className="flex items-center h-[50%] sm:mb-[10px] ">
-            <img src={logo} alt="" className="mr-[8px] h-[38px] mt-[5px]" />
+            <img src="assets/tech64Logo.svg" alt="" className="mr-[8px] h-[38px] mt-[5px]" />
             <div className="flex flex-col">
               <span className="font-[400] text-[16px] leading-[20px] ">
                 Tech 64 Africa

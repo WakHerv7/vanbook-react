@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../Assets/tech64Logo.svg";
 import GoogleAuth from "../../Components/GoogleAuth";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -21,7 +20,7 @@ const SignUp = () => {
     <section>
       <nav className="h-[70px] flex items-center pl-12">
         <a href="/">
-          <img src={logo} alt="tech64 logo" className="cursor-pointer" />
+          <img src="Assets/tech64Logo.svg" alt="tech64 logo" className="cursor-pointer" />
         </a>
       </nav>
 

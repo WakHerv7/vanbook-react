@@ -9,7 +9,7 @@ const style = {
   imgText: `text-center text-neutral-900 text-lg font-normal leading-normal`
 }
 
-export default function InnerCard({ image, text, setIsActive}) {
+export default function InnerCard({ image, text, setIsActive }) {
 
   return (
     <label className={style.cardBody}>

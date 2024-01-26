@@ -2,21 +2,7 @@
 import Footer from "../Components/Footer";
 import Nav from "../Components/LandingPage/Nav";
 import Trial from "../Components/LandingPage/Trial";
-import bzzt from "../Assets/bzzzt.svg";
-import curvedarrow from "../Assets/curved-arrow.svg";
-import emoji from "../Assets/emoji.svg";
-import flag from "../Assets/flag.svg";
-import frame9727 from "../Assets/frame9727.svg";
-import heart from "../Assets/heart.svg";
-import people from "../Assets/people.svg";
-import vanessaAvt from "../Assets/vanessa-Avt.svg";
 import TeamCard from "../Components/Card/TeamCard";
-import hermanAvt from "../Assets/hermanAvt.svg";
-import davidAvt from "../Assets/davidAvt.svg";
-import olanikeAvt from "../Assets/olanikeAvt.svg";
-import joyAvt from "../Assets/joyAvt.svg";
-import fisayoAvt from "../Assets/fisayoAvt.svg";
-import mapbg from "../Assets/Mapwrap.png";
 import Alert from "../Components/LandingPage/Alert";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
@@ -48,7 +34,7 @@ function AboutUs() {
                 Efficient finance management for all
               </h1>
               <p className="font-[500] text-[16px] leading-[20.83px] text-[#475467]">
-                We’re a dedicated team for your school’s smart financial
+                We're a dedicated team for your school's smart financial
                 management
               </p>
             </div>
@@ -71,7 +57,7 @@ function AboutUs() {
       <section>
         <div className="mission-container py-[56px] text-center max-w-[90%] mx-[auto]">
           <h2 className="font-[500] text-[20px] leading-[27px] text-[#101828] mb-[24px]">
-            We’re a mission driven company
+            We're a mission driven company
           </h2>
           <p className="font-[400] text-[16px] leading-[21.6px] text-[#475467]">
             Powerful, self-serve financial management product to help organize
@@ -95,7 +81,7 @@ function AboutUs() {
           {/*  */}
           <div className="mt-[80px] flex flex-col md:flex-row flex-wrap justify-evenly gap-[64px] md:gap-x-8 md:gap-y-24">
             <div className="flex flex-col basis-[30%] gap-2 justify-center items-center text-center">
-              <img src={people} alt="" />
+              <img src="assets/people.svg" alt="" />
               <h2 className="font-[400] text-[20px] leading-[30px] text-[#101828]">
                 Care about our team
               </h2>
@@ -105,7 +91,7 @@ function AboutUs() {
               </p>
             </div>
             <div className="flex flex-col basis-[30%] gap-2 justify-center items-center text-center">
-              <img src={heart} alt="" />
+              <img src="assets/heart.svg" alt="" />
               <h2 className="font-[400] text-[20px] leading-[30px] text-[#101828]">
                 Be excellent to each other
               </h2>
@@ -115,7 +101,7 @@ function AboutUs() {
               </p>
             </div>
             <div className="flex flex-col basis-[30%] gap-2 justify-center items-center text-center">
-              <img src={curvedarrow} alt="" />
+              <img src="assets/curved-arrow.svg" alt="" />
               <h2 className="font-[400] text-[20px] leading-[30px] text-[#101828]">
                 Pride in what we do
               </h2>
@@ -125,7 +111,7 @@ function AboutUs() {
               </p>
             </div>
             <div className="flex flex-col basis-[30%] gap-2 justify-center items-center text-center">
-              <img src={emoji} alt="" />
+              <img src="assets/emoji.svg" alt="" />
               <h2 className="font-[400] text-[20px] leading-[30px] text-[#101828]">
                 Care for the customer
               </h2>
@@ -135,7 +121,7 @@ function AboutUs() {
               </p>
             </div>
             <div className="flex flex-col basis-[30%] gap-2 justify-center items-center text-center">
-              <img src={flag} alt="" />
+              <img src="assets/flag.svg" alt="" />
               <h2 className="font-[400] text-[20px] leading-[30px] text-[#101828]">
                 Do the impossible
               </h2>
@@ -145,7 +131,7 @@ function AboutUs() {
               </p>
             </div>
             <div className="flex flex-col basis-[30%] gap-2 justify-center items-center text-center">
-              <img src={bzzt} alt="" />
+              <img src="assets/bzzzt.svg" alt="" />
               <h2 className="font-[400] text-[20px] leading-[30px] text-[#101828]">
                 Sweat the small stuff
               </h2>
@@ -171,30 +157,38 @@ function AboutUs() {
           </div>
           <div className="team-container mt-[64px] flex flex-col flex-wrap gap-[24px] md:flex-row">
             {/* card component */}
-            <TeamCard img={vanessaAvt} name={"Vanessa"} position={"C.E.O"} />
             <TeamCard
-              img={hermanAvt}
+              img="assets/vanessa-Avt.svg"
+              name={"Vanessa"}
+              position={"C.E.O"}
+            />
+            <TeamCard
+              img="assets/hermanAvt.svg"
               name={"Hermann"}
               position={"Full Stack Developer"}
             />
-            <TeamCard img={davidAvt} name={"David"} position={"Design Lead"} />
             <TeamCard
-              img={fisayoAvt}
+              img="assets/davidAvt.svg"
+              name={"David"}
+              position={"Design Lead"}
+            />
+            <TeamCard
+              img="assets/fisayoAvt.svg"
               name={"Fisayo"}
               position={"Product Designer"}
             />
             <TeamCard
-              img={olanikeAvt}
+              img="assets/olanikeAvt.svg"
               name={"Olanike"}
               position={"Product Designer"}
             />
             <TeamCard
-              img={olanikeAvt}
+              img="assets/olanikeAvt.svg"
               name={"Maureen"}
               position={"UX Researcher"}
             />
             <TeamCard
-              img={joyAvt}
+              img="assets/joyAvt.svg"
               name={"Arinze Joy"}
               position={"Backend Developer"}
             />
@@ -206,7 +200,7 @@ function AboutUs() {
         <div className="get-started-container flex flex-col items-center max-w-[90%] mx-[auto] mb-[80px] md:flex-row md:justify-between">
           <div className="text-center md:text-left md:flex-1">
             <h2 className="font-medium text-[26px] leading-[32.4px] mb-[24px]">
-              We’re just getting started
+              We're just getting started
             </h2>
             <p className="font-normal text-[16px] leading-[24px] text-[#475467] md:pe-6 ">
               Our philosophy is simple - We are a team of diverse, passionate
@@ -218,7 +212,7 @@ function AboutUs() {
 
           <div className="md:flex-1 md:flex md:items-center md:justify-end">
             <img 
-            src={frame9727} 
+            src="assets/frame9727.svg"
             alt=""
             className="object-contain md:w-5/6 md:h-5/6"
             />

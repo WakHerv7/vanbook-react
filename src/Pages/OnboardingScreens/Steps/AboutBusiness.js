@@ -1,5 +1,4 @@
 import TextInput from "../../../Components/InputAndTitle/TextInput/textInput";
-import vbLogo from "../../../Assets/VBlogo.svg";
 
 const AboutBusiness = () => {
   return (
@@ -7,7 +6,7 @@ const AboutBusiness = () => {
       {/* AboutBusiness */}
       <div className="flex items-center">
         <div>
-          <img src={vbLogo} alt="" />
+          <img src="asets/VBlogo.svg" alt="" />
         </div>
         <p className="text-[20px] py-4 justify-self-center">Get Started</p>
       </div>

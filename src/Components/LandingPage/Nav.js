@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
-import logo from "../../Assets/tech64Logo.svg";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const Nav = () => {
+  const location = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
+  const isActive = false;
 
   const dropdownMenu = () => {
     setOpenMenu(!openMenu);
@@ -14,7 +15,7 @@ const Nav = () => {
       <div className="flex items-center w-[85%] h-full max-w-[1560px] mx-auto justify-between">
         {/* logo */}
         <div className="flex justify-between items-center h-full">
-          <img src={logo} alt="" className="mr-[8px] h-[38px] mt-[5px]" />
+          <img src="assets/tech64Logo.svg" alt="" className="mr-[8px] h-[38px] mt-[5px]" />
           <div className="flex flex-col">
             <span className="font-[400] text-[16px] leading-[20px] ">
               Tech 64 Africa
@@ -39,15 +40,26 @@ const Nav = () => {
 
         {/* menu */}
         <div className="hidden md:block">
-          <ul className="flex items-center text-[#101828] gap-11 text-[.9rem] font-medium">
-            <li>
-              <Link to="/">Home</Link>
+          <ul className="flex items-center text-[#101828] gap-2 text-[.9rem] font-medium">
+            <li className={`${location.pathname === '/' ? "border-b-4" : ""} p-2 lg:w-40 transition lg:text-center`}>
+              <NavLink
+                to="/"
+                className="text-center"
+              >
+                Home
+              </NavLink>
             </li>
-            <li>
-              <Link to="/about-us">About us</Link>
+            <li className={`${location.pathname === '/about-us' ? "border-b-4" : ""} lg:w-40 lg:text-center p-2`}>
+              <NavLink
+                to="/about-us"
+              >About us</NavLink>
             </li>
-            <li>
-              <Link to="/contact-us">Contact us</Link>
+            <li className={`${location.pathname === '/contact-us' ? "border-b-4" : ""} lg:w-40 lg: text-center p-2`}>
+              <NavLink
+                to="/contact-us"
+              >
+                Contact us
+              </NavLink>
             </li>
            
           </ul>
@@ -71,7 +83,12 @@ const Nav = () => {
           >
             <ul className="flex flex-col items-center text-[#101828] gap-7 text-[.9rem] font-medium">
               <li>
-                <Link to="/">Home</Link>
+                <NavLink
+                  to="/" 
+                  className={`${location.pathname === '' ? 'border' : ""}`}
+                >
+                  Home
+                </NavLink>
               </li>
               <li>
                 <Link to="/about-us">About us</Link>

@@ -313,5 +313,5 @@ tr.table_row_w:nth-child(odd) {
 }
 
 #mapBg-section {
-  background-image: url(./Assets/Mapwrap.png);
+  background-image: url("../public/assets/Mapwrap.png");
 }

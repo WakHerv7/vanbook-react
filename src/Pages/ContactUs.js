@@ -1,4 +1,3 @@
-import contactImg from "../Assets/contactImg.png";
 import Footer from "../Components/Footer";
 import TextArea from "../Components/InputAndTitle/TextArea/textArea";
 import TextInput from "../Components/InputAndTitle/TextInput/textInput";
@@ -85,7 +84,7 @@ function ContactUs() {
         <div className="hidden lg:flex flex-[1.2] ">
           <img 
             className="h-full w-full object-cover " 
-            src={contactImg} 
+            src="assets/contactImg.png"
             alt="" 
           />
         </div>

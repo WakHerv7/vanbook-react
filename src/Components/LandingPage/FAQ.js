@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import "./index.css";
-import group from "../../Assets/group.png";
 import { Link } from "react-router-dom";
 
 const FAQ = () => {
@@ -81,7 +80,7 @@ const FAQ = () => {
         </div>
 
         <div className="bg-[#F9FAFB] w-full h-[300px] rounded-xl text-center flex flex-col justify-center items-center gap-6">
-          <img src={group} alt="" width={120} height={150} />
+          <img src="assets/group.png" alt="" width={120} height={150} />
 
           <h3 className="text-[#101828] font-medium text-[1.2rem]">
             Still have questions?

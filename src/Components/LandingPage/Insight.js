@@ -1,31 +1,7 @@
-import React from 'react'
-import image from "../../Assets/insight_img.png"
+import React from 'react';
+import { insightsData as data } from '.././../constants';
 
 const Insight = () => {
-    const data = [
-        {
-            figure: "4000+",
-            details: "Global customers",
-            text: "We are passionate to help over 4,000 amazing global companies."
-        },
-        {
-            figure: "600%",
-            details: "Return on investment",
-            text: "Our customers should expect an average of ~600% ROI."
-        },
-        {
-            figure: "10k",
-            details: "Global downloads",
-            text: "Our app has been downloaded over 10k times."
-        },
-        {
-            figure: "200+",
-            details: "5-star reviews",
-            text: "We’re proud of our 5-star rating with over 200 reviews."
-        },
-    ]
-
-
     return (
         <section>
             <div className='w-[85%] mx-auto py-16'>
@@ -41,7 +17,6 @@ const Insight = () => {
                     <div className='grid grid-cols-2 gap-10'>
                         {data.map((data, index) => {
                             const { figure, details, text } = data;
-
                             return (
                                 <div className='flex flex-col text-center' key={index}>
                                     <span
@@ -68,14 +43,13 @@ const Insight = () => {
 
                     <div>
                         <img
-                            src={image}
+                            src="assets/insight_img.png"
                             alt=""
                             width={700}
                             height={600}
                         />
                     </div>
                 </div>
-
             </div>
         </section>
     )

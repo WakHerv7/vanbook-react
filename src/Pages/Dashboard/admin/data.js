@@ -1,39 +1,36 @@
-import avatar from "../../../Assets/Avatar.png"
-
-
 export const topDealUsers = [
     {
         id: 1,
         username: "Harry Potter",
-        img: avatar,
+        img: "assets/Avatar.png",
         amount: "2800",
         email: `chimaobi01@gmail.com`
     },
     {
         id: 2,
         username: "Campbell Oshea",
-        img: avatar,
+        img: "assets/Avatar.png",
         amount: "2800",
         email: `chimaobi01@gmail.com`
     },
     {
         id: 3,
         username: "Wyann Giggs",
-        img: avatar,
+        img: "assets/Avatar.png",
         amount: "2800",
         email: `chimaobi01@gmail.com`
     },
     {
         id: 4,
         username: "Chimamanda Adichie",
-        img: avatar,
+        img: "assets/Avatar.png",
         amount: "2800",
         email: `chimaobi01@gmail.com`
     },
     {
         id: 5,
         username: "Tom Jerry",
-        img: avatar,
+        img: "assets/Avatar.png",
         amount: "2800",
         email: `chimaobi01@gmail.com`
     },

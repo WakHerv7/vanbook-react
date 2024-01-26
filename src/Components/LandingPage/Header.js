@@ -1,5 +1,4 @@
 import React from "react";
-import heroImg from "../../Assets/Rectangle.png";
 import DemoCTA from "./DemoCTA";
 
 const Header = () => {
@@ -9,10 +8,10 @@ const Header = () => {
         <span className="text-[.9rem] text-[#2E2F5B] font-semibold mb-4">
           ACCOUNTING SOFTWARE | TECH 64 VANBOOK
         </span>
-        <span className="text-[3rem] sm:text-[2.5rem] text-[#101828] font-bold mb-4">
+        <span className="text-[2rem] md:text-[3rem] text-[#101828] font-bold mb-4">
           Smart Financial Management for schools
         </span>
-        <span className="text-[#475467] text-center font-light text-[1.12rem] sm:text-[1rem] w-[76%] sm:w-[100%] mx-auto sm:mx-0">
+        <span className="text-[#475467] text-center font-light md:text-[1.12rem] text-[1rem] w-[90%] mx-auto">
           Are you tired of using complex accounting software for your
           educational institution? <br /> Look no further! Our cutting edge
           accounting software is designed specifically for the education sector,
@@ -26,7 +25,7 @@ const Header = () => {
         </div>
 
         <div className="hidden md:block max-w-[1300px] mx-auto">
-          <img src={heroImg} alt="" className="w-full" />
+          <img src="assets/Rectangle.png" alt="" className="w-full" />
         </div>
       </div>
     </section>
