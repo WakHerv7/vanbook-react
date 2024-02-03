@@ -47,6 +47,7 @@ import JoinWaitList from "./Pages/JoinWaitList";
 import AdminDashboard from "./Pages/Dashboard/admin/AdminDashboard";
 import DashboardProfile from "./Pages/Dashboard/admin/profile/DashboardProfile";
 import DashboardReport from "./Pages/Dashboard/admin/report/DashboardReport";
+import Employees from "./Pages/Backoffice/Employees/Employees";
 
 function App() {
   
@@ -94,6 +95,7 @@ function App() {
             <Route exact path="invoice" element={<Invoice />}/>
             <Route exact path="cashbook" element={<Cashbook />}/>
             <Route exact path="receive_payment" element={<ReceivePayment />}/>
+            <Route exact path="employees" element={<Employees />}/>
             
             <Route exact path="creditors" element={<Creditors />}/>
             <Route exact path="debtors" element={<Debtors />}/>
