@@ -10,14 +10,17 @@ import { HiOutlineViewList } from "react-icons/hi";
 import { MdAttachment } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa6";
 
 // import react router dom
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Employees = () => {
   const [employeesData, setEmployees] = useState(employeesInfo);
   const [isClicked, setIsClicked] = useState(true);
+  const navigate = useNavigate();
   let view = isClicked ? 'Grid' : 'List';
 
   const handleViewChange = () => {
@@ -28,6 +31,10 @@ const Employees = () => {
     const newEmployees = employeesData.filter((employee) => employee.id !== id);
     setEmployees(newEmployees);
   }
+
+  const handleClick = (id) => {
+    navigate(`/dashboar/employees/${id}`);
+  };
 
   return (
     <div className='flex flex-col flex-1 px-10 py-3 gap-4'>
@@ -66,7 +73,7 @@ const Employees = () => {
           employeesData.map((employee, idx) => (
             <EmployeeCard
               key={idx}
-              id={Math.floor(Math.random() * 100) + 1}
+              id={employee.id}
               name={employee.name}
               role={employee.role}
               phone={employee.phone}
@@ -99,12 +106,12 @@ const Employees = () => {
               </thead>
               <tbody>
                 {employeesInfo.map((employee, idx) => (
-                  <tr key={idx} className='text-nowrap hover:bg-gray-100 hover:cursor-pointer'>
+                  <tr key={idx} className='text-nowrap hover:bg-gray-100 hover:cursor-pointer' onClick={() => handleClick(employee.id)}>
                     <td className='flex flex-row justify-between gap-1 items-center p-2'>
                       <img src="/assets/Michelle.jpg" alt="photo" className='h-7 w-7 rounded-full' />
                       <div className='flex flex-col justify-start'>
                         <p className='text-xs'>{employee.name}</p>
-                        <p className='text-xs text-gray-500 text-left'>ID: {Math.floor(Math.random() * 100) + 1}</p>
+                        <p className='text-xs text-gray-500 text-left'>ID: {employee.id}</p>
                         <p className='text-xs text-gray-500'>{employee.phone}</p>
                       </div>
                     </td>
@@ -118,7 +125,10 @@ const Employees = () => {
                     <td className='p-1 text-sm text-center'># {employee.salary}</td>
                     <td className='p-1 text-sm text-center'>{employee.address}</td>
                     <td>
-                      <RiDeleteBin5Line className='w-4 h-4 float-right' onClick={() => removeEmployee(employee.id)} />
+                      <RiDeleteBin5Line className='w-4 h-4 float-right' onClick={(e) => {
+                        e.stopPropagation();
+                        removeEmployee(employee.id);
+                      }}/>
                     </td>
                   </tr>
                 ))}
@@ -127,7 +137,25 @@ const Employees = () => {
           )
         }
       </div>
-      <div></div>
+      <div className='flex flex-row flex-1 bg-white p-3 justify-between items-center'>
+        <div className='border p-2 rounded-lg flex justify-between items-center gap-3'>
+          <FaArrowLeftLong />
+          <span>
+            Prev
+          </span>
+        </div>
+        <div className='flex flex-row justify-around items-center p-2'>
+          {[1, 2, 3, 4, 5].map((count) => {
+            return (
+              <div key={count} className='boarder rounded-lg px-3'>{count}</div>
+            )
+          })}
+        </div>
+        <div className='border p-2 rounded-lg flex justify-around items-center gap-3'>
+          <span>Next</span>
+          <FaArrowRight />
+        </div>
+      </div>
     </div>
   )
 }
