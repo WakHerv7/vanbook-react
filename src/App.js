@@ -48,6 +48,7 @@ import AdminDashboard from "./Pages/Dashboard/admin/AdminDashboard";
 import DashboardProfile from "./Pages/Dashboard/admin/profile/DashboardProfile";
 import DashboardReport from "./Pages/Dashboard/admin/report/DashboardReport";
 import Employees from "./Pages/Backoffice/Employees/Employees";
+import EmployeesDetail from "./Pages/Backoffice/Employees/EmployeesDetail";
 
 function App() {
   
@@ -96,6 +97,7 @@ function App() {
             <Route exact path="cashbook" element={<Cashbook />}/>
             <Route exact path="receive_payment" element={<ReceivePayment />}/>
             <Route exact path="employees" element={<Employees />}/>
+            <Route exact path="employees/:id" element={<EmployeesDetail />}/>
             
             <Route exact path="creditors" element={<Creditors />}/>
             <Route exact path="debtors" element={<Debtors />}/>

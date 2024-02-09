@@ -100,11 +100,6 @@ export const insightsData = [
   },
 ]
 
-const getID = () => {
-  const id = Math.floor(Math.random() * 1000) + 1;
-  return id;
-}
-
 export const employeesInfo = [
   {
     name: "John Doe",
@@ -117,7 +112,7 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: getID()
+    id: 1
   },
   {
     name: "John Doe",
@@ -130,7 +125,7 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: getID()
+    id: 2
   },
   {
     name: "John Doe",
@@ -143,7 +138,7 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: getID()
+    id: 3
   },
   {
     name: "John Doe",
@@ -156,7 +151,7 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: getID()
+    id: 4
   },
   {
     name: "John Doe",
@@ -169,7 +164,7 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: getID()
+    id: 5
   },
   {
     name: "John Doe",
@@ -182,7 +177,7 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: getID()
+    id: 6
   },
   {
     name: "John Doe",
@@ -195,6 +190,6 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: getID()
+    id: 7
   },
 ]
