@@ -35,7 +35,7 @@ const Employees = () => {
   }
 
   const handleClick = (id) => {
-    navigate(`/dashboar/employees/${id}`);
+    navigate(`/dashboard/employees/${id}`);
   };
 
   return (

@@ -49,6 +49,8 @@ import DashboardProfile from "./Pages/Dashboard/admin/profile/DashboardProfile";
 import DashboardReport from "./Pages/Dashboard/admin/report/DashboardReport";
 import Employees from "./Pages/Backoffice/Employees/Employees";
 import EmployeesDetail from "./Pages/Backoffice/Employees/EmployeesDetail";
+import IncomeReceipt from "./Pages/Backoffice/IncomeReceipt/IncomeReceipt.jsx";
+import FinancialReport from "./Pages/Backoffice/FinancizlReport/FinancialReport.jsx";
 
 function App() {
   
@@ -90,6 +92,8 @@ function App() {
             
             <Route exact path="create_receipt" element={<OneReceipt />}/>
             <Route exact path="receipts/:id" element={<OneReceipt />}/>
+            <Route exact path="income-statement" element={<IncomeReceipt />}/>
+            <Route exact path="financial-statement" element={<FinancialReport />}/>
 
             <Route exact path="deposit" element={<Deposit />}/>
             <Route exact path="bill" element={<Bill />}/>

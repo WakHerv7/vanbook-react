@@ -112,7 +112,10 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: 1
+    id: 1,
+    dob: '06/12/1998',
+    email: 'johndoe@gmail.com',
+    gender: 'Female'
   },
   {
     name: "John Doe",
@@ -125,7 +128,10 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: 2
+    id: 2,
+    dob: '06/12/1998',
+    email: 'johndoe@gmail.com',
+    gender: 'Female'
   },
   {
     name: "John Doe",
@@ -138,7 +144,10 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: 3
+    id: 3,
+    dob: '06/12/1998',
+    email: 'johndoe@gmail.com',
+    gender: 'Female'
   },
   {
     name: "John Doe",
@@ -151,7 +160,10 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: 4
+    id: 4,
+    dob: '06/12/1998',
+    email: 'johndoe@gmail.com',
+    gender: 'Female'
   },
   {
     name: "John Doe",
@@ -164,7 +176,10 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: 5
+    id: 5,
+    dob: '06/12/1998',
+    email: 'johndoe@gmail.com',
+    gender: 'Female'
   },
   {
     name: "John Doe",
@@ -177,7 +192,10 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: 6
+    id: 6,
+    dob: '06/12/1998',
+    email: 'johndoe@gmail.com',
+    gender: 'Female'
   },
   {
     name: "John Doe",
@@ -190,6 +208,9 @@ export const employeesInfo = [
     grade: "A",
     step: "1",
     salary: "200,000",
-    id: 7
+    id: 7,
+    dob: '06/12/1998',
+    email: 'johndoe@gmail.com',
+    gender: 'Female'
   },
 ]
