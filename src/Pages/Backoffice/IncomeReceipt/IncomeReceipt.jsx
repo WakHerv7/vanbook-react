@@ -11,10 +11,6 @@ const IncomeReceipt = () => {
   const navigate = useNavigate();
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
-  const [showIncome, setShowIncome] = useState(false);
-  const [showIncomeList, setShowIncomeList] = useState(false);
-  const [showExpenses, setShowExpenses] = useState(false);
-  const [showExpensesList, setShowExpensesList] = useState(false);
 
   const handleFromChange = (e) => {
     setFrom(e.target.value);
@@ -24,21 +20,6 @@ const IncomeReceipt = () => {
     setTo(e.target.value);
   }
 
-  const handleShowIncome = () => {
-    setShowIncome(!showIncome);
-  }
-
-  const handleShowIncomeList = () => {
-    setShowIncomeList(!showIncomeList);
-  }
-
-  const handleShowExpenses = () => {
-    setShowExpenses(!showExpenses);
-  }
-
-  const handleShowExpensesList = () => {
-    setShowExpensesList(!showExpensesList);
-  }
 
   return (
     <div className='w-full bg-gray-100 min-h-screen'>
@@ -95,12 +76,12 @@ const IncomeReceipt = () => {
         <ul className='my-10'>
           <li>
             <div className='flex justify-start items-center gap-1 w-full p-4 bg-gray-100'>
-              <IoIosArrowDown onClick={handleShowIncome} /> <span>Income</span>
+              <IoIosArrowDown /> <span>Income</span>
             </div>
-            <ul className={showIncome ? `` : `hidden`}>
+            <ul>
               <li>
                 <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowIncomeList} /> <span>200L Administrative</span>
+                  <IoIosArrowDown /> <span>200L Administrative</span>
                 </div>
                 <ul>
                   <li className={`w-full md:w-[60%] mx-auto`}>
@@ -123,12 +104,12 @@ const IncomeReceipt = () => {
           </li>
           <li>
             <div className='flex justify-start items-center gap-1 w-full p-4 bg-gray-100'>
-              <IoIosArrowDown onClick={handleShowExpenses} /> <span>Expenses</span>
+              <IoIosArrowDown /> <span>Expenses</span>
             </div>
-            <ul className={showExpenses ? `` : `hidden`}>
+            <ul>
               <li>
                 <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowExpensesList} /> <span>300L Revenue</span>
+                  <IoIosArrowDown /> <span>300L Revenue</span>
                 </div>
                 <ul>
                   <li className={`w-full md:w-[60%] mx-auto`}>
@@ -144,10 +125,10 @@ const IncomeReceipt = () => {
                 </ul>
               </li>
             </ul>
-            <ul className={showExpenses ? `` : `hidden`}>
+            <ul>
               <li>
                 <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowExpensesList} /> <span>400L Energy Supplies</span>
+                  <IoIosArrowDown /> <span>400L Energy Supplies</span>
                 </div>
                 <ul>
                   <li className={`w-full md:w-[60%] mx-auto`}>
@@ -167,10 +148,10 @@ const IncomeReceipt = () => {
                 </ul>
               </li>
             </ul>
-            <ul className={showExpenses ? `` : `hidden`}>
+            <ul>
               <li>
                 <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowExpensesList} /> <span>500L Payroll</span>
+                  <IoIosArrowDown /> <span>500L Payroll</span>
                 </div>
                 <ul>
                   <li className={`w-full md:w-[60%] mx-auto`}>
@@ -186,10 +167,10 @@ const IncomeReceipt = () => {
                 </ul>
               </li>
             </ul>
-            <ul className={showExpenses ? `` : `hidden`}>
+            <ul>
               <li>
                 <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowExpensesList} /> <span>600L Transport Expenses</span>
+                  <IoIosArrowDown /> <span>600L Transport Expenses</span>
                 </div>
                 <ul>
                   <li className={`w-full md:w-[60%] mx-auto`}>

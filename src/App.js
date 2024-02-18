@@ -51,6 +51,7 @@ import Employees from "./Pages/Backoffice/Employees/Employees";
 import EmployeesDetail from "./Pages/Backoffice/Employees/EmployeesDetail";
 import IncomeReceipt from "./Pages/Backoffice/IncomeReceipt/IncomeReceipt.jsx";
 import FinancialReport from "./Pages/Backoffice/FinancizlReport/FinancialReport.jsx";
+import CreateUsers from "./Pages/Backoffice/Users/CreateUsers.jsx";
 
 function App() {
   
@@ -106,6 +107,7 @@ function App() {
             <Route exact path="creditors" element={<Creditors />}/>
             <Route exact path="debtors" element={<Debtors />}/>
             <Route exact path="settings" element={<Settings />}/>
+            <Route exact path="create-users" element={<CreateUsers />} />
 
             <Route exact path="persons" element={<Persons/>}>
               <Route exact path="students" element={<Students />}/>

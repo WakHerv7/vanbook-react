@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { getDate } from '../Employees/utils';
@@ -11,10 +11,6 @@ const FinancialReport = () => {
   const navigate = useNavigate();
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
-  const [showIncome, setShowIncome] = useState(false);
-  const [showIncomeList, setShowIncomeList] = useState(false);
-  const [showExpenses, setShowExpenses] = useState(false);
-  const [showExpensesList, setShowExpensesList] = useState(false);
 
   const handleFromChange = (e) => {
     setFrom(e.target.value);
@@ -24,24 +20,8 @@ const FinancialReport = () => {
     setTo(e.target.value);
   }
 
-  const handleShowIncome = () => {
-    setShowIncome(!showIncome);
-  }
-
-  const handleShowIncomeList = () => {
-    setShowIncomeList(!showIncomeList);
-  }
-
-  const handleShowExpenses = () => {
-    setShowExpenses(!showExpenses);
-  }
-
-  const handleShowExpensesList = () => {
-    setShowExpensesList(!showExpensesList);
-  }
-
   return (
-    <div className='w-full bg-gray-100 min-h-screen'>
+    <div className='w-full pb-10 bg-gray-100 min-h-screen'>
       <div className='flex justify-between items-center gap-4 px-8 py-2 border-b-2'>
         <div className='flex justify-around items-center gap-2 px-4 py-2 cursor-pointer hover:bg-white hover:rounded-lg' onClick={() => navigate(-1)}>
           <FaArrowLeftLong className='w-3 h-3'/><span className='text-sm text-center font-thin'>Back</span>
@@ -85,7 +65,7 @@ const FinancialReport = () => {
           </div>
         </div>
       </div>
-      <div className='w-full md:w-[80%] mx-auto mt-6 bg-white py-6'>
+      <div className='w-full md:w-[80%] mx-auto rounded-lg mt-6 bg-white py-6'>
         <h3 className='text-lg font-thin text-center'>XYZ COMPANY</h3>
         <h2 className='text-lg font-semibold text-center'>FINANCIAL POSITION</h2>
         {from && to && (
@@ -95,12 +75,12 @@ const FinancialReport = () => {
         <ul className='my-10'>
           <li>
             <div className='flex justify-start items-center gap-1 w-full p-4 bg-gray-100'>
-              <IoIosArrowDown onClick={handleShowIncome} /> <span className='font-semibold'>Assets</span>
+              <IoIosArrowDown /> <span className='font-semibold'>Assets</span>
             </div>
-            <ul className={showIncome ? `` : `hidden`}>
+            <ul>
               <li>
                 <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowIncomeList} /> <span>11001. Current Assets</span>
+                  <IoIosArrowDown /> <span>11001. Current Assets</span>
                 </div>
                 <ul className={`w-full md:w-[60%] mx-auto`}>
                   <li>
@@ -139,7 +119,7 @@ const FinancialReport = () => {
                 <li>
                   <div className='flex justify-between items-center gap-1 w-full px-10 py-2 pr-[205px] bg-gray-100'>
                     <div className='flex justify-between items-center gap-2'>
-                      <IoIosArrowDown onClick={handleShowIncomeList} /> <span>12000. Fixed Assets</span>
+                      <IoIosArrowDown /> <span>12000. Fixed Assets</span>
                     </div>
                     <div className='flex justify-between items-center gap-10'>
                       <p>Cost</p>
@@ -173,7 +153,7 @@ const FinancialReport = () => {
                       </div>
                     </li>
                     <li>
-                      <div className='flex justify-between items-center gap-4 p-2 border-t-4 border-b-4'>
+                      <div className='flex justify-between items-center gap-4 p-2'>
                         <p className='font-normal text-sm basis-1/2'>12005. Others</p>
                         <p className='font-normal text-sm'>0.00</p>
                         <p className='font-normal text-sm'>0.00</p>
@@ -203,14 +183,14 @@ const FinancialReport = () => {
         <ul>
           <li>
             <div className='flex justify-start items-center gap-1 w-full p-4 bg-gray-100'>
-              <IoIosArrowDown onClick={handleShowIncome} /> <span className='font-semibold'>Liability and Equity</span>
+              <IoIosArrowDown /> <span className='font-semibold'>Liability and Equity</span>
             </div>
-            <ul>
+            <ul className='w-full mx-auto'>
               <li>
-                <div className='flex justify-start items-center gap-1 w-full p-4 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowIncome} /> <span className='font-semibold'>13001. Current Liabilities</span>
+                <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
+                  <IoIosArrowDown /> <span className='font-normal'>13001. Current Liabilities</span>
                 </div>
-                <ul>
+                <ul className={`w-full md:w-[60%] mx-auto`}>
                   <li>
                     <div className='flex justify-between items-center gap-4 w-full p-2'>
                       <p className='font-normal text-sm'>13002. Creditors</p>
@@ -231,19 +211,19 @@ const FinancialReport = () => {
                   </li>
                   <li>
                     <div className='flex justify-between items-center gap-4 w-full p-2'>
-                      <p className='font-normal text-sm'>Total Current liabilities</p>
-                      <p className='font-normal text-sm border-t-2 border-b-2'>0.00</p>
+                      <p className='font-semibold text-sm'>Total Current liabilities</p>
+                      <p className='font-semibold text-sm p-2 w-24 text-right border-t-4 border-b-4'>0.00</p>
                     </div>
                   </li>
                 </ul>
               </li>
             </ul>
-            <ul>
+            <ul className='w-full mx-auto'>
               <li>
-                <div className='flex justify-start items-center gap-1 w-full p-4 bg-gray-100'>
-                  <IoIosArrowDown onClick={handleShowIncome} /> <span className='font-semibold'>14001. Long-term Liabilities</span>
+                <div className='flex justify-start items-center gap-1 w-full px-10 py-2 bg-gray-100'>
+                  <IoIosArrowDown /> <span className='font-normal'>14001. Long-term Liabilities</span>
                 </div>
-                <ul>
+                <ul className={`w-full md:w-[60%] mx-auto`}>
                   <li>
                     <div className='flex justify-between items-center gap-4 w-full p-2'>
                       <p className='font-normal text-sm'>14002. Loan</p>
@@ -252,8 +232,8 @@ const FinancialReport = () => {
                   </li>
                   <li>
                     <div className='flex justify-between items-center gap-4 w-full p-2'>
-                      <p className='font-normal text-sm'>Total Long Term Liabilities</p>
-                      <p className='font-normal text-sm border-t-2 border-b-2'>0.00</p>
+                      <p className='font-semibold text-sm'>Total Long Term Liabilities</p>
+                      <p className='font-semibold text-sm p-2 border-t-2 w-24 text-right border-b-4 border-t-'>0.00</p>
                     </div>
                   </li>
                 </ul>
