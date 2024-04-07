@@ -30,7 +30,7 @@ const Header = () => {
                     <div className="user_infos flex gap-5">
                             <div className="photo flex items-center justify-center relative user_photo_container">
                                 <div className=" relative overflow-hidden rounded-full h-[40px] w-[40px] ">
-                                    <img className="object-cover w-full h-full" src='assets/reviewer2.png' alt="authenticated_user" />
+                                    <img className="object-cover w-full h-full" src='/assets/reviewer2.png' alt="authenticated_user" />
                                 </div>
                             </div>
                             <div className="flex flex-col">
