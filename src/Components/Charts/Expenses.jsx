@@ -82,7 +82,7 @@ const Expenses = () => {
         </div>
       </div>
       <ResponsiveContainer width='100%' height={300}>
-        <PieChart width={200} height={200}>
+        <PieChart width={100} height={100}>
           <Pie
             activeIndex={selected.activeIndex}
             activeShape={renderActiveShape}
