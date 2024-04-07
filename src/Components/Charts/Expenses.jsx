@@ -69,7 +69,7 @@ const Expenses = () => {
     <div className='flex flex-col justify-center items-start gap-4 p-6 bg-white rounded-md shadow-md'>
       <div className='flex justify-between items-center w-full'>
         <div className=''>
-          <h1 className='text-xl font-semibold'>Expenses</h1>
+          <h1 className='text-md font-semibold'>Expenses</h1>
           <p className='text-sm mt-2 font-thin text-gray-600'>N500,000</p>
         </div>
         <div className='px-4 py-3 border-gray-950'>
@@ -81,7 +81,7 @@ const Expenses = () => {
           </select>
         </div>
       </div>
-      <ResponsiveContainer width='100%' height={300}>
+      <ResponsiveContainer width='100%' height={200}>
         <PieChart width={100} height={100}>
           <Pie
             activeIndex={selected.activeIndex}

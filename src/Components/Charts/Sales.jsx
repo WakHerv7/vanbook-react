@@ -79,7 +79,7 @@ const data = [
 const Sales = () => {
   return (
     <div className='col-span-2 px-4 py-6 bg-white rounded-md shadow-md'>
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={300}>
         <BarChart width={150} height={40} data={data}>
           <Bar
             dataKey="uv"

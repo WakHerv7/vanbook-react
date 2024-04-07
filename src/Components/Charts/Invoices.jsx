@@ -22,7 +22,7 @@ const Invoices = () => {
       <div className='w-full px-10 py-6'>
         <h1 className='text-xl font-semibold'>Invoices</h1>
       </div>
-      <ResponsiveContainer width='100%' height={300}>
+      <ResponsiveContainer width='100%' height={200}>
         <BarChart data={data} barSize={40}>
           <Bar dataKey='pv' stackId="a" fill='#2E2F5B' />
           <Bar dataKey='pu' stackId="a" fill='#EBB376' />
