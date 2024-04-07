@@ -9,7 +9,7 @@ const Overview = () => {
   return (
     <section className='py-4 px-10'>
       <h1 className='text-xl text-left font-normal'>Business Overview</h1>
-      <section className='mt-3 w-full md:grid grid-cols-3 gap-4'>
+      <section className='my-3 w-full md:grid grid-cols-3 gap-4'>
         <Spending />
         <Expenses />
         <BankAcct />
