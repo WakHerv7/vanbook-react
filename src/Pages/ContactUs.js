@@ -11,7 +11,7 @@ function ContactUs() {
       <Alert />
       <Nav />
       <div className=" lg:py-24 px-8 lg:px-24 mx-auto flex gap-8 items-stretch ">
-        <div className="flex flex-col justify-between mt-10 lg:mt-0 flex-1 ">
+        <div className="flex flex-col gap-[30px] mt-10 lg:mt-0 flex-1 ">
           <div>
             <h1 className="font-[400] text-[36px] leading-[44px] text-[#181818] tracking-[-2%] ">
               Get in touch
@@ -23,7 +23,7 @@ function ContactUs() {
 
 
           <form action="https://formsubmit.co/vtech64@yahoo.com" method="POST">
-            <div className="flex flex-col justify-between gap-[30px] mt-[48px] mb-[80px] lg:mb-0 ">
+            <div className="flex flex-col gap-[20px] mb-[80px] lg:mb-0 ">
               <TextInput
                 noGrayBg={true}
                 typeText={"hidden"}
