@@ -55,11 +55,12 @@ const Nav = () => {
               >About us</NavLink>
             </li>
             <li className={`${location.pathname === '/contact-us' ? "border-b-4" : ""} lg:w-40 lg: text-center p-2`}>
-              <NavLink
-                to="/contact-us"
+              <a
+                href="https://forms.gle/eCVXWL87esnhqMK79"
+                target="_blank" rel="noreferrer"
               >
                 Contact us
-              </NavLink>
+              </a>
             </li>
            
           </ul>
