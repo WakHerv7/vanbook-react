@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
 
 const data = [
@@ -66,7 +66,7 @@ const Expenses = () => {
   }
 
   return (
-    <div className='flex flex-col justify-center items-start gap-4 p-6 bg-white rounded-md shadow-md'>
+    <div className='flex flex-col justify-center items-start gap-4 p-6 bg-white rounded-md shadow-md flex-1'>
       <div className='flex justify-between items-center w-full'>
         <div className=''>
           <h1 className='text-md font-semibold'>Expenses</h1>

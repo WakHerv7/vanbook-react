@@ -8,8 +8,14 @@ const BankAcct = () => {
         <p className='text-sm mt-2 font-thin text-[#2E2F5B]'>GTB - *********759</p>
       </div>
       <div className='w-full'>
-        <p className='text-sm text-[#2E2F5B]'>Bank account <span className='ml-10 font-thin'>N1,200,000</span></p>
-        <p className='text-sm text-[#2E2F5B]'>In vanbook <span className='ml-10 font-thin'>N1,200,000</span></p>
+        <div className='flex justify-between items-center w-64'>
+          <h2 className='text-md text-[#2E2F5B] text-right'>Bank account</h2>
+          <p className='ml-10 font-thin text-left'>N1,200,000</p>
+        </div>
+        <div className='flex justify-between items-center w-64'>
+          <h2 className='text-md text-[#2E2F5B] text-right'>In vanbook</h2>
+          <p className='ml-10 font-thin text-left'>N1,200,000</p>
+        </div>
       </div>
     </div>
   )
