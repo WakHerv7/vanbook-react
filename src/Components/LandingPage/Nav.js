@@ -57,9 +57,7 @@ const Nav = () => {
             <li className={`${location.pathname === '/contact-us' ? "border-b-4" : ""} lg:w-40 lg: text-center p-2`}>
               <NavLink
                 to="/contact-us"
-              >
-                Contact us
-              </NavLink>
+              >Contact us</NavLink>
             </li>
            
           </ul>
@@ -70,7 +68,13 @@ const Nav = () => {
             <Link to="/login">Login</Link>
           </button> */}
           <button className="bg-[#2E2F5B] text-white py-2 px-4 rounded-lg text-[.9rem] font-medium">
-            <Link to="/join-wait-list">Join wait-list</Link>
+            {/* <Link to="/join-wait-list">Join wait-list</Link> */}
+            <a
+                href="https://forms.gle/eCVXWL87esnhqMK79"
+                target="_blank" rel="noreferrer"
+              >
+                Join wait-list
+              </a>
           </button>
         </div>
       </div>
