@@ -195,7 +195,7 @@ function AboutUs() {
             />
             <TeamCard
               img="assets/joyAvt.svg"
-              name={"Arinze Joy"}
+              name={"Arinze Blessing"}
               position={"Backend Developer"}
             />
           </div>
